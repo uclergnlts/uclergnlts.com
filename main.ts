@@ -325,3 +325,39 @@ if (profileSlides.length > 0) {
         profileSlides[currentSlide].classList.add('active');
     }, 3000); // Change every 3 seconds
 }
+
+// Vibe Widget Audio Logic
+const vibeWidget = document.querySelector('.vibe-widget');
+const audioPlayer = document.getElementById('audio-player') as HTMLAudioElement;
+
+if (vibeWidget && audioPlayer) {
+    vibeWidget.addEventListener('click', () => {
+        if (audioPlayer.paused) {
+            audioPlayer.play().then(() => {
+                vibeWidget.classList.add('playing');
+                const label = vibeWidget.querySelector('.vibe-label');
+                if (label) label.textContent = 'Now Playing';
+            }).catch(e => {
+                alert("Please add a 'music.mp3' file to the public folder to play music!");
+                console.error("Audio playback failed:", e);
+            });
+        } else {
+            audioPlayer.pause();
+            vibeWidget.classList.remove('playing');
+            const label = vibeWidget.querySelector('.vibe-label');
+            if (label) label.textContent = 'Paused';
+        }
+    });
+
+    // Attempt auto-play with low volume
+    audioPlayer.volume = 0.5;
+    const playPromise = audioPlayer.play();
+    if (playPromise !== undefined) {
+        playPromise.then(_ => {
+            vibeWidget.classList.add('playing');
+        }).catch(error => {
+            // Auto-play was prevented
+            console.log("Auto-play prevented");
+        });
+    }
+}
