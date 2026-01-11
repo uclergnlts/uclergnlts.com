@@ -67,117 +67,120 @@ hoverElements.forEach(el => {
 
 // === CANVAS BACKGROUND ===
 const canvas = document.getElementById('webgl-canvas') as HTMLCanvasElement;
-const ctx = canvas.getContext('2d')!;
 
-let width = window.innerWidth;
-let height = window.innerHeight;
+if (canvas) {
+    const ctx = canvas.getContext('2d')!;
 
-canvas.width = width;
-canvas.height = height;
+    let width = window.innerWidth;
+    let height = window.innerHeight;
 
-const particles: Particle[] = [];
-const particleCount = 50; // Minimalist count
-
-class Particle {
-    x: number;
-    y: number;
-    size: number;
-    speedX: number;
-    speedY: number;
-    opacity: number;
-
-    constructor() {
-        this.x = Math.random() * width;
-        this.y = Math.random() * height;
-        this.size = Math.random() * 2;
-        this.speedX = (Math.random() - 0.5) * 0.5;
-        this.speedY = (Math.random() - 0.5) * 0.5;
-        this.opacity = Math.random() * 0.5 + 0.1;
-    }
-
-    update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-
-        // Mouse interaction
-        const dx = mouseX - this.x;
-        const dy = mouseY - this.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-
-        if (distance < 200) {
-            this.x -= dx * 0.01;
-            this.y -= dy * 0.01;
-        }
-
-        // Wrap around screen
-        if (this.x > width) this.x = 0;
-        else if (this.x < 0) this.x = width;
-        if (this.y > height) this.y = 0;
-        else if (this.y < 0) this.y = height;
-    }
-
-    draw() {
-        ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
-    }
-}
-
-// Grid lines
-function drawGrid() {
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.03)';
-    ctx.lineWidth = 1;
-
-    const gridSize = 100;
-
-    // Parallax grid offset based on mouse
-    const offsetX = (mouseX / width - 0.5) * 20;
-    const offsetY = (mouseY / height - 0.5) * 20;
-
-    for (let x = 0; x < width; x += gridSize) {
-        ctx.beginPath();
-        ctx.moveTo(x + offsetX, 0);
-        ctx.lineTo(x + offsetX, height);
-        ctx.stroke();
-    }
-
-    for (let y = 0; y < height; y += gridSize) {
-        ctx.beginPath();
-        ctx.moveTo(0, y + offsetY);
-        ctx.lineTo(width, y + offsetY);
-        ctx.stroke();
-    }
-}
-
-function initParticles() {
-    for (let i = 0; i < particleCount; i++) {
-        particles.push(new Particle());
-    }
-}
-
-function animateCanvas() {
-    ctx.clearRect(0, 0, width, height);
-
-    drawGrid();
-
-    particles.forEach(p => {
-        p.update();
-        p.draw();
-    });
-
-    requestAnimationFrame(animateCanvas);
-}
-
-initParticles();
-animateCanvas();
-
-window.addEventListener('resize', () => {
-    width = window.innerWidth;
-    height = window.innerHeight;
     canvas.width = width;
     canvas.height = height;
-});
+
+    const particles: Particle[] = [];
+    const particleCount = 50; // Minimalist count
+
+    class Particle {
+        x: number;
+        y: number;
+        size: number;
+        speedX: number;
+        speedY: number;
+        opacity: number;
+
+        constructor() {
+            this.x = Math.random() * width;
+            this.y = Math.random() * height;
+            this.size = Math.random() * 2;
+            this.speedX = (Math.random() - 0.5) * 0.5;
+            this.speedY = (Math.random() - 0.5) * 0.5;
+            this.opacity = Math.random() * 0.5 + 0.1;
+        }
+
+        update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+
+            // Mouse interaction
+            const dx = mouseX - this.x;
+            const dy = mouseY - this.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < 200) {
+                this.x -= dx * 0.01;
+                this.y -= dy * 0.01;
+            }
+
+            // Wrap around screen
+            if (this.x > width) this.x = 0;
+            else if (this.x < 0) this.x = width;
+            if (this.y > height) this.y = 0;
+            else if (this.y < 0) this.y = height;
+        }
+
+        draw() {
+            ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+
+    // Grid lines
+    function drawGrid() {
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.03)';
+        ctx.lineWidth = 1;
+
+        const gridSize = 100;
+
+        // Parallax grid offset based on mouse
+        const offsetX = (mouseX / width - 0.5) * 20;
+        const offsetY = (mouseY / height - 0.5) * 20;
+
+        for (let x = 0; x < width; x += gridSize) {
+            ctx.beginPath();
+            ctx.moveTo(x + offsetX, 0);
+            ctx.lineTo(x + offsetX, height);
+            ctx.stroke();
+        }
+
+        for (let y = 0; y < height; y += gridSize) {
+            ctx.beginPath();
+            ctx.moveTo(0, y + offsetY);
+            ctx.lineTo(width, y + offsetY);
+            ctx.stroke();
+        }
+    }
+
+    function initParticles() {
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+    }
+
+    function animateCanvas() {
+        ctx.clearRect(0, 0, width, height);
+
+        drawGrid();
+
+        particles.forEach(p => {
+            p.update();
+            p.draw();
+        });
+
+        requestAnimationFrame(animateCanvas);
+    }
+
+    initParticles();
+    animateCanvas();
+
+    window.addEventListener('resize', () => {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = width;
+        canvas.height = height;
+    });
+}
 
 // === GSAP ANIMATIONS ===
 
@@ -283,6 +286,34 @@ if (contactForm) {
                 }
             }, 3000);
         }, 1500);
+    });
+}
+
+        }, 1500);
+    });
+}
+
+// Vibe Widget Audio Logic
+const vibeWidget = document.querySelector('.vibe-widget');
+const audioPlayer = document.getElementById('audio-player') as HTMLAudioElement;
+
+if (vibeWidget && audioPlayer) {
+    vibeWidget.addEventListener('click', () => {
+        if (audioPlayer.paused) {
+            audioPlayer.play().then(() => {
+                vibeWidget.classList.add('playing');
+                const label = vibeWidget.querySelector('.vibe-label');
+                if (label) label.textContent = 'Now Playing';
+            }).catch(e => {
+                alert("Please add a 'music.mp3' file to the public folder to play music!");
+                console.error("Audio playback failed:", e);
+            });
+        } else {
+            audioPlayer.pause();
+            vibeWidget.classList.remove('playing');
+            const label = vibeWidget.querySelector('.vibe-label');
+            if (label) label.textContent = 'Paused';
+        }
     });
 }
 
