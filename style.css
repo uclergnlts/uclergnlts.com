@@ -722,27 +722,144 @@ body:hover .cursor-circle.hovered {
     color: var(--accent-lime);
 }
 
-/* === VIBE WIDGET (SPOTIFY) === */
-.vibe-widget-spotify {
+/* === VIBE WIDGET (CUSTOM) === */
+.vibe-widget {
     position: fixed;
     bottom: 2rem;
     left: 2rem;
-    width: 300px;
-    /* Width for standard Spotify compact embed */
-    height: 80px;
+    background: rgba(10, 10, 10, 0.85);
+    /* Darker glass */
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 10px 15px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
     z-index: 9999;
-    /* Ensure it's on top of everything */
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    transition: transform 0.3s ease;
-    background: #000;
-    /* Fallback */
+    transition: all 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
-.vibe-widget-spotify:hover {
-    transform: translateY(-5px);
+.vibe-widget:hover {
+    transform: scale(1.05) translateY(-2px);
+    border-color: var(--accent-lime);
     box-shadow: 0 15px 40px rgba(217, 255, 0, 0.1);
-    /* Lime glow */
+}
+
+.vibe-icon {
+    width: 32px;
+    height: 32px;
+    background: #111;
+    border-radius: 50%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.vibe-widget.playing .vibe-icon {
+    animation: spin 4s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.equalizer {
+    display: flex;
+    gap: 2px;
+    align-items: flex-end;
+    height: 12px;
+}
+
+.equalizer span {
+    width: 2px;
+    background: var(--accent-lime);
+    transform: scaleY(0.1);
+    transition: transform 0.2s;
+    border-radius: 1px;
+}
+
+.vibe-widget.playing .equalizer span {
+    animation: equalizer 1s ease-in-out infinite;
+}
+
+.vibe-widget.playing .equalizer span:nth-child(1) {
+    animation-delay: 0.1s;
+    height: 60%;
+}
+
+.vibe-widget.playing .equalizer span:nth-child(2) {
+    animation-delay: 0.2s;
+    height: 100%;
+}
+
+.vibe-widget.playing .equalizer span:nth-child(3) {
+    animation-delay: 0.3s;
+    height: 50%;
+}
+
+.vibe-widget.playing .equalizer span:nth-child(4) {
+    animation-delay: 0.4s;
+    height: 80%;
+}
+
+@keyframes equalizer {
+
+    0%,
+    100% {
+        transform: scaleY(0.3);
+    }
+
+    50% {
+        transform: scaleY(1);
+    }
+}
+
+.vibe-info {
+    display: flex;
+    flex-direction: column;
+    width: 130px;
+    overflow: hidden;
+}
+
+.vibe-label {
+    font-size: 0.6rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.vibe-track-marquee {
+    display: flex;
+    gap: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.track-text {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    animation: scroll-text 8s linear infinite;
+}
+
+@keyframes scroll-text {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-100%);
+    }
 }
 
 .vibe-widget:hover {
