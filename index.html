@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Üçler Gönültaş | Creative Developer</title>
+    <meta name="description" content="Creative Developer & Designer focused on crafting organic digital experiences.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <div class="loader-text">UCLER</div>
+    </div>
+
+    <script>
+        // Safety timeout: Hide loader if JS fails or takes too long
+        setTimeout(() => {
+            const loader = document.getElementById('loader');
+            if (loader) loader.style.display = 'none';
+        }, 3000);
+    </script>
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-circle"></div>
+
+    <!-- Interactive Background -->
+    <canvas id="webgl-canvas"></canvas>
+    <div class="noise-overlay"></div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="#" class="logo">UCLER<span class="accent-dot">.</span></a>
+            <div class="nav-links">
+                <a href="#about" class="nav-link">About</a>
+                <a href="#services" class="nav-link">Services</a>
+                <a href="#work" class="nav-link">Work</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+            <button class="menu-btn" aria-label="Menu">
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <main id="smooth-wrapper">
+        <div id="smooth-content">
+
+            <!-- Hero Section -->
+            <section class="hero">
+                <div class="container hero-container">
+                    <div class="hero-text-wrapper">
+                        <h1 class="hero-title">
+                            <span class="reveal-text">CREATIVE</span>
+                            <span class="reveal-text indent">DEVELOPER</span>
+                            <span class="reveal-text">& DESIGNER</span>
+                        </h1>
+                    </div>
+                    <div class="hero-image-wrapper">
+                        <div class="profile-frame">
+                            <div class="profile-slides">
+                                <img src="/profile-nano.png" alt="Üçler Gönültaş" class="profile-img active">
+                                <img src="/profile-nano-2.png" alt="Üçler Gönültaş" class="profile-img">
+                                <img src="/profile-nano-3.png" alt="Üçler Gönültaş" class="profile-img">
+                            </div>
+                            <div class="status-badge">
+                                <span class="status-dot"></span>
+                                Available for freelance
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scroll-indicator">
+                        <span>SCROLL</span>
+                        <div class="line"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About Section -->
+            <section id="about" class="section about">
+                <div class="container">
+                    <div class="section-header">
+                        <span class="section-number">01</span>
+                        <h2 class="section-title">Who I Am</h2>
+                    </div>
+                    <div class="about-grid">
+                        <div class="about-text">
+                            <p class="lead">
+                                Hey there! I'm Üçler. <br>
+                                I build digital experiences that <span class="highlight">actually stick</span>. Based in
+                                Ankara, blending code & design.
+                            </p>
+                            <p class="description">
+                                I'm not just a dev who pushes pixels, nor a designer who can't deploy. I sit right in
+                                the sweet spot—crafting products that feel organic, look expensive, and work flawlessly.
+                                Currently building cool stuff at <strong>Octopus-Team</strong> and running my own
+                                experiments.
+                            </p>
+                            <p class="description">
+                                Whether it's a complex SaaS platform or a high-end portfolio, I obsess over the tiny
+                                interaction details you probably won't notice (but your brain will love).
+                            </p>
+                            <div class="stats-row">
+                                <div class="stat-item">
+                                    <span class="stat-num">3+</span>
+                                    <span class="stat-label">Years Cooking</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-num">24+</span>
+                                    <span class="stat-label">Shipped Projects</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-num">∞</span>
+                                    <span class="stat-label">Coffee Consumed</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Services Section -->
+            <section id="services" class="section services">
+                <div class="container">
+                    <div class="section-header">
+                        <span class="section-number">02</span>
+                        <h2 class="section-title">What I Do</h2>
+                    </div>
+                    <div class="services-list">
+                        <!-- Service 1 -->
+                        <div class="service-item">
+                            <div class="service-header">
+                                <h3 class="service-name">Frontend Engineering</h3>
+                                <span class="service-icon">⚡</span>
+                            </div>
+                            <div class="service-content">
+                                <p>Building rock-solid applications with Next.js and React. Clean code, scalable
+                                    architecture, and performance that scores 100 on Lighthouse.</p>
+                                <ul class="service-tags">
+                                    <li>Next.js / React</li>
+                                    <li>TypeScript</li>
+                                    <li>Performance</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- Service 2 -->
+                        <div class="service-item">
+                            <div class="service-header">
+                                <h3 class="service-name">Creative Design</h3>
+                                <span class="service-icon">🎨</span>
+                            </div>
+                            <div class="service-content">
+                                <p>I don't do boring. I design interfaces that pop. Combining modern aesthetics with
+                                    intuitive UX to keep users glued to the screen.</p>
+                                <ul class="service-tags">
+                                    <li>UI/UX Design</li>
+                                    <li>Mobile App Design</li>
+                                    <li>Interactive Prototyping</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- Service 3 -->
+                        <div class="service-item">
+                            <div class="service-header">
+                                <h3 class="service-name">Animations & 3D</h3>
+                                <span class="service-icon">✨</span>
+                            </div>
+                            <div class="service-content">
+                                <p>Making the web feel alive with GSAP, Three.js, and WebGL. Smooth transitions,
+                                    micro-interactions, and that "premium" feel.</p>
+                                <ul class="service-tags">
+                                    <li>Three.js / WebGL</li>
+                                    <li>GSAP Motion</li>
+                                    <li>Immersive Web</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Work Section -->
+            <section id="work" class="section work">
+                <div class="container">
+                    <div class="section-header">
+                        <span class="section-number">03</span>
+                        <h2 class="section-title">Selected Work</h2>
+                    </div>
+                    <div class="projects-grid">
+
+                        <!-- Project 1: TilesCera -->
+                        <div class="project-card">
+                            <div class="project-image">
+                                <img src="/project1-nano.png" alt="TilesCera Marketplace">
+                                <div class="overlay"></div>
+                            </div>
+                            <div class="project-info">
+                                <div class="project-header">
+                                    <h3>TilesCera</h3>
+                                    <span class="year">2024</span>
+                                </div>
+                                <p class="project-category">Ceramic Marketplace Platform</p>
+                                <div class="tags">
+                                    <span>Next.js</span>
+                                    <span>E-Commerce</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Project 2: D4ily -->
+                        <div class="project-card offset">
+                            <div class="project-image">
+                                <img src="/project-d4ily-nano.png" alt="D4ily.com News Platform">
+                                <div class="overlay"></div>
+                            </div>
+                            <div class="project-info">
+                                <div class="project-header">
+                                    <h3>D4ily</h3>
+                                    <span class="year">2024</span>
+                                </div>
+                                <p class="project-category">AI-Powered News Aggregator</p>
+                                <div class="tags">
+                                    <span>AI Integration</span>
+                                    <span>Next.js</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Project 3: Appulse -->
+                        <div class="project-card">
+                            <div class="project-image">
+                                <img src="/project-appulse-nano.png" alt="Appulse Dashboard">
+                                <div class="overlay"></div>
+                            </div>
+                            <div class="project-info">
+                                <div class="project-header">
+                                    <h3>Appulse</h3>
+                                    <span class="year">2023</span>
+                                </div>
+                                <p class="project-category">SaaS Analytics Dashboard</p>
+                                <div class="tags">
+                                    <span>Dashboard</span>
+                                    <span>Data Viz</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Project 4: Clinic Check -->
+                        <div class="project-card offset">
+                            <div class="project-image">
+                                <img src="/project2-nano.png" alt="Clinic Check 24">
+                                <div class="overlay"></div>
+                            </div>
+                            <div class="project-info">
+                                <div class="project-header">
+                                    <h3>Clinic Check</h3>
+                                    <span class="year">2023</span>
+                                </div>
+                                <p class="project-category">Healthcare Mobile App</p>
+                                <div class="tags">
+                                    <span>React Native</span>
+                                    <span>HealthTech</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Project 5: NewsN24 -->
+                        <div class="project-card">
+                            <div class="project-image">
+                                <img src="/project-newsn24-nano.png" alt="NewsN24 Portal">
+                                <div class="overlay"></div>
+                            </div>
+                            <div class="project-info">
+                                <div class="project-header">
+                                    <h3>NewsN24</h3>
+                                    <span class="year">2022</span>
+                                </div>
+                                <p class="project-category">Global News Portal</p>
+                                <div class="tags">
+                                    <span>CMS Development</span>
+                                    <span>React</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="view-all">
+                        <a href="https://github.com/uclergnlts" target="_blank" class="btn-outline">
+                            Peek at my Github
+                            <span class="arrow">↗</span>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Section -->
+            <section id="contact" class="section contact">
+                <div class="container">
+                    <div class="contact-wrapper">
+                        <div class="contact-header">
+                            <h2 class="big-text">LET'S<br>WORK<br>TOGETHER</h2>
+                        </div>
+                        <div class="contact-form-wrapper">
+                            <form class="contact-form" id="contactForm">
+                                <div class="form-group">
+                                    <label>What's your name?</label>
+                                    <input type="text" placeholder="John Doe" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>What's your email?</label>
+                                    <input type="email" placeholder="john@example.com" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Tell me about your project</label>
+                                    <textarea placeholder="Hello, I have an idea..." rows="4" required></textarea>
+                                </div>
+                                <button type="submit" class="btn-primary">
+                                    Send Message
+                                    <span class="btn-glow"></span>
+                                </button>
+                            </form>
+                            <div class="socials">
+                                <a href="https://linkedin.com/in/uclergnlts" target="_blank">LinkedIn</a>
+                                <a href="https://dribbble.com/uclergnlts" target="_blank">Dribbble</a>
+                                <a href="https://github.com/uclergnlts" target="_blank">GitHub</a>
+                                <a href="https://instagram.com/uclergnlts" target="_blank">Instagram</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <div class="container">
+                    <div class="footer-content">
+                        <span class="copyright">© 2026 Üçler Gönültaş</span>
+                        <span class="location">Ankara, TR</span>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </main>
+
+    <script type="module" src="/main.ts"></script>
+</body>
+
+</html>
