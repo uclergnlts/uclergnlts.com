@@ -255,6 +255,37 @@ document.addEventListener('mousemove', (e) => {
     }
 });
 
+// Contact Form Submission (Mock)
+const contactForm = document.getElementById('contactForm') as HTMLFormElement;
+if (contactForm) {
+    contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const btn = contactForm.querySelector('button');
+        const originalText = btn?.innerText || 'Send';
+
+        if (btn) btn.innerText = 'Sending...';
+
+        // Simulate API call
+        setTimeout(() => {
+            if (btn) {
+                btn.innerText = 'Sent! 🚀';
+                btn.style.background = '#00ff88';
+                btn.style.color = '#000';
+            }
+            alert('Thanks for reaching out! This is a demo form, but in a real version, this would fly to my inbox.');
+            contactForm.reset();
+
+            setTimeout(() => {
+                if (btn) {
+                    btn.innerText = originalText;
+                    btn.style.background = '';
+                    btn.style.color = '';
+                }
+            }, 3000);
+        }, 1500);
+    });
+}
+
 // Mobile Menu
 const menuBtn = document.querySelector('.menu-btn');
 const navLinks = document.querySelector('.nav-links');
