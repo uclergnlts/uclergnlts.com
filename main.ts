@@ -289,34 +289,6 @@ if (contactForm) {
     });
 }
 
-        }, 1500);
-    });
-}
-
-// Vibe Widget Audio Logic
-const vibeWidget = document.querySelector('.vibe-widget');
-const audioPlayer = document.getElementById('audio-player') as HTMLAudioElement;
-
-if (vibeWidget && audioPlayer) {
-    vibeWidget.addEventListener('click', () => {
-        if (audioPlayer.paused) {
-            audioPlayer.play().then(() => {
-                vibeWidget.classList.add('playing');
-                const label = vibeWidget.querySelector('.vibe-label');
-                if (label) label.textContent = 'Now Playing';
-            }).catch(e => {
-                alert("Please add a 'music.mp3' file to the public folder to play music!");
-                console.error("Audio playback failed:", e);
-            });
-        } else {
-            audioPlayer.pause();
-            vibeWidget.classList.remove('playing');
-            const label = vibeWidget.querySelector('.vibe-label');
-            if (label) label.textContent = 'Paused';
-        }
-    });
-}
-
 // Mobile Menu
 const menuBtn = document.querySelector('.menu-btn');
 const navLinks = document.querySelector('.nav-links');
