@@ -722,22 +722,27 @@ body:hover .cursor-circle.hovered {
     color: var(--accent-lime);
 }
 
-/* === VIBE WIDGET === */
-.vibe-widget {
+/* === VIBE WIDGET (SPOTIFY) === */
+.vibe-widget-spotify {
     position: fixed;
     bottom: 2rem;
     left: 2rem;
-    background: rgba(10, 10, 10, 0.8);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 10px 15px;
-    border-radius: 50px;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    z-index: 1000;
-    transition: transform 0.3s;
-    cursor: default;
+    width: 300px;
+    /* Width for standard Spotify compact embed */
+    height: 80px;
+    z-index: 9999;
+    /* Ensure it's on top of everything */
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease;
+    background: #000;
+    /* Fallback */
+}
+
+.vibe-widget-spotify:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(217, 255, 0, 0.1);
+    /* Lime glow */
 }
 
 .vibe-widget:hover {
