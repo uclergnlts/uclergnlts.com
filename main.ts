@@ -336,26 +336,19 @@ if (contactForm) {
 // Mobile Menu
 const menuBtn = document.querySelector('.menu-btn');
 const navLinks = document.querySelector('.nav-links');
+const navLinkItems = document.querySelectorAll('.nav-link');
 
 menuBtn?.addEventListener('click', () => {
     navLinks?.classList.toggle('active');
-    // Simple toggle logic - in real project would animate
-    if (navLinks?.classList.contains('active')) {
-        (navLinks as HTMLElement).style.display = 'flex';
-        (navLinks as HTMLElement).style.flexDirection = 'column';
-        (navLinks as HTMLElement).style.position = 'fixed';
-        (navLinks as HTMLElement).style.top = '0';
-        (navLinks as HTMLElement).style.left = '0';
-        (navLinks as HTMLElement).style.width = '100%';
-        (navLinks as HTMLElement).style.height = '100vh';
-        (navLinks as HTMLElement).style.background = '#050505';
-        (navLinks as HTMLElement).style.justifyContent = 'center';
-        (navLinks as HTMLElement).style.alignItems = 'center';
-        (navLinks as HTMLElement).style.zIndex = '99';
-    } else {
-        // Reset styles or reload
-        (navLinks as HTMLElement).style.display = '';
-    }
+    menuBtn.classList.toggle('active');
+});
+
+// Close menu when clicking a link
+navLinkItems.forEach(link => {
+    link.addEventListener('click', () => {
+        navLinks?.classList.remove('active');
+        menuBtn?.classList.remove('active');
+    });
 });
 
 // Profile Slideshow

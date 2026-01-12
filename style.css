@@ -278,8 +278,15 @@ body:hover .cursor-circle.hovered {
 }
 
 @keyframes blink-cursor {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
 }
 
 .hero-image-wrapper {
@@ -1002,6 +1009,20 @@ body:hover .cursor-circle.hovered {
 
 /* === RESPONSIVE === */
 @media (max-width: 968px) {
+
+    /* Hide custom cursor on mobile/touch */
+    .cursor-dot,
+    .cursor-circle {
+        display: none !important;
+    }
+
+    /* Restore default cursor on mobile */
+    body,
+    a,
+    button {
+        cursor: auto !important;
+    }
+
     .hero-container {
         grid-template-columns: 1fr;
         text-align: center;
@@ -1010,6 +1031,16 @@ body:hover .cursor-circle.hovered {
 
     .hero-title {
         align-items: center;
+        font-size: clamp(2.5rem, 6vw, 4rem);
+    }
+
+    .reveal-text.indent {
+        margin-left: 0;
+    }
+
+    .profile-frame {
+        width: 250px;
+        height: 320px;
     }
 
     .about-grid,
@@ -1022,11 +1053,91 @@ body:hover .cursor-circle.hovered {
         margin-top: 0;
     }
 
+    .stats-row {
+        gap: 2rem;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .section {
+        padding: 60px 0;
+    }
+
+    /* Navigation - Hamburger Menu */
     .nav-links {
         display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: rgba(5, 5, 5, 0.98);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+        z-index: 999;
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .nav-links .nav-link {
+        font-size: 1.5rem;
+        opacity: 1;
     }
 
     .menu-btn {
         display: flex;
+        z-index: 1000;
+        position: relative;
+    }
+
+    .menu-btn.active span:first-child {
+        transform: rotate(45deg) translateY(5px);
+    }
+
+    .menu-btn.active span:last-child {
+        transform: rotate(-45deg) translateY(-5px);
+    }
+
+    /* Vibe widget mobile */
+    .vibe-widget {
+        bottom: 1rem;
+        left: 1rem;
+        padding: 8px 12px;
+    }
+
+    .vibe-info {
+        width: 100px;
+    }
+
+    /* Big text contact */
+    .big-text {
+        font-size: clamp(2rem, 5vw, 3rem);
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 1rem;
+    }
+
+    .hero-title {
+        font-size: clamp(2rem, 8vw, 3rem);
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .stat-num {
+        font-size: 2rem;
+    }
+
+    .service-name {
+        font-size: 1.5rem;
     }
 }
