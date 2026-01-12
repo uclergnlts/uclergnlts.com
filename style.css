@@ -258,6 +258,30 @@ body:hover .cursor-circle.hovered {
     font-style: italic;
 }
 
+/* Typewriter Animation */
+.typewriter {
+    position: relative;
+    display: inline-block;
+}
+
+.typewriter::after {
+    content: '|';
+    position: absolute;
+    right: -10px;
+    color: var(--accent-lime);
+    animation: blink-cursor 0.8s infinite;
+}
+
+.typewriter.finished::after {
+    animation: blink-cursor 1s infinite 3;
+    animation-fill-mode: forwards;
+}
+
+@keyframes blink-cursor {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
 .hero-image-wrapper {
     position: relative;
     display: flex;

@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infinite Tunnel | The Lab</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: #000;
+            color: #fff;
+            overflow: hidden;
+        }
+
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .header {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            z-index: 100;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+
+        .back-btn:hover {
+            opacity: 1;
+        }
+
+        .info-panel {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            z-index: 100;
+            max-width: 350px;
+        }
+
+        .info-panel h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, #4ecdc4, #44a08d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .info-panel p {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.6;
+        }
+
+        .controls {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 100;
+        }
+
+        .control-hint {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+            text-align: right;
+            margin-bottom: 0.3rem;
+        }
+
+        .control-hint span {
+            color: #4ecdc4;
+        }
+
+        .speed-indicator {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 100;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .speed-indicator span {
+            color: #4ecdc4;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="canvas-container"></div>
+
+    <div class="header">
+        <a href="lab.html" class="back-btn">← Back to Lab</a>
+    </div>
+
+    <div class="speed-indicator">
+        Speed: <span id="speed-value">1.0x</span>
+    </div>
+
+    <div class="info-panel">
+        <h1>Infinite Tunnel</h1>
+        <p>Fly through an endless procedural tunnel. The geometry regenerates infinitely as you travel forward through
+            cyberspace.</p>
+    </div>
+
+    <div class="controls">
+        <div class="control-hint"><span>Mouse</span> — Look around</div>
+        <div class="control-hint"><span>Scroll</span> — Speed</div>
+    </div>
+
+    <script type="module">
+        import * as THREE from 'three';
+
+        const container = document.getElementById('canvas-container');
+        const speedIndicator = document.getElementById('speed-value');
+
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x000000, 0.035);
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 5;
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
+
+        // Tunnel parameters
+        const tunnelLength = 100;
+        const tunnelRadius = 3;
+        const tunnelSegments = 200;
+        const radialSegments = 32;
+
+        // Create tunnel geometry
+        function createTunnel() {
+            const geometry = new THREE.CylinderGeometry(
+                tunnelRadius,
+                tunnelRadius,
+                tunnelLength,
+                radialSegments,
+                tunnelSegments,
+                true
+            );
+
+            // Flip normals to see inside
+            geometry.scale(-1, 1, 1);
+
+            const material = new THREE.ShaderMaterial({
+                uniforms: {
+                    time: { value: 0 },
+                    speed: { value: 1.0 }
+                },
+                vertexShader: `
+                    varying vec2 vUv;
+                    varying vec3 vPosition;
+                    uniform float time;
+                    
+                    void main() {
+                        vUv = uv;
+                        vPosition = position;
+                        
+                        // Add wavey distortion
+                        vec3 pos = position;
+                        float wave = sin(pos.y * 0.5 + time * 2.0) * 0.2;
+                        pos.x += wave * cos(pos.y * 2.0);
+                        pos.z += wave * sin(pos.y * 2.0);
+                        
+                        gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+                    }
+                `,
+                fragmentShader: `
+                    varying vec2 vUv;
+                    varying vec3 vPosition;
+                    uniform float time;
+                    uniform float speed;
+                    
+                    void main() {
+                        // Grid pattern
+                        float gridX = abs(sin(vUv.x * 32.0 * 3.14159));
+                        float gridY = abs(sin((vUv.y * 20.0 + time * speed) * 3.14159));
+                        
+                        float grid = max(
+                            smoothstep(0.9, 1.0, gridX),
+                            smoothstep(0.9, 1.0, gridY)
+                        );
+                        
+                        // Color gradient
+                        vec3 color1 = vec3(0.2, 0.8, 0.7); // Cyan
+                        vec3 color2 = vec3(0.1, 0.5, 0.4); // Dark teal
+                        vec3 color3 = vec3(0.8, 0.2, 0.8); // Magenta
+                        
+                        float gradient = sin(vUv.y * 3.14159 + time * 0.5) * 0.5 + 0.5;
+                        vec3 baseColor = mix(color1, color2, gradient);
+                        
+                        // Add pulse effect
+                        float pulse = sin(time * 3.0 - vUv.y * 10.0) * 0.5 + 0.5;
+                        baseColor = mix(baseColor, color3, pulse * 0.3);
+                        
+                        // Combine grid with color
+                        vec3 finalColor = baseColor * grid;
+                        
+                        // Add glow
+                        finalColor += baseColor * 0.1;
+                        
+                        // Distance fade
+                        float fade = 1.0 - vUv.y;
+                        finalColor *= fade;
+                        
+                        gl_FragColor = vec4(finalColor, 1.0);
+                    }
+                `,
+                side: THREE.BackSide,
+                transparent: true
+            });
+
+            return new THREE.Mesh(geometry, material);
+        }
+
+        // Create two tunnels for infinite scrolling
+        const tunnel1 = createTunnel();
+        const tunnel2 = createTunnel();
+
+        tunnel1.rotation.x = Math.PI / 2;
+        tunnel2.rotation.x = Math.PI / 2;
+
+        tunnel1.position.z = -tunnelLength / 2;
+        tunnel2.position.z = -tunnelLength / 2 - tunnelLength;
+
+        scene.add(tunnel1);
+        scene.add(tunnel2);
+
+        // Add particles
+        const particleCount = 1000;
+        const particleGeometry = new THREE.BufferGeometry();
+        const particlePositions = new Float32Array(particleCount * 3);
+
+        for (let i = 0; i < particleCount; i++) {
+            const i3 = i * 3;
+            const angle = Math.random() * Math.PI * 2;
+            const r = tunnelRadius * 0.8 * Math.random();
+
+            particlePositions[i3] = Math.cos(angle) * r;
+            particlePositions[i3 + 1] = Math.sin(angle) * r;
+            particlePositions[i3 + 2] = Math.random() * tunnelLength * 2 - tunnelLength;
+        }
+
+        particleGeometry.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+
+        const particleMaterial = new THREE.PointsMaterial({
+            size: 0.05,
+            color: 0x4ecdc4,
+            transparent: true,
+            opacity: 0.8,
+            blending: THREE.AdditiveBlending
+        });
+
+        const particles = new THREE.Points(particleGeometry, particleMaterial);
+        scene.add(particles);
+
+        // Mouse look
+        let mouseX = 0;
+        let mouseY = 0;
+        let speed = 1.0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+            mouseY = (e.clientY / window.innerHeight) * 2 - 1;
+        });
+
+        document.addEventListener('wheel', (e) => {
+            speed += e.deltaY * -0.001;
+            speed = Math.max(0.2, Math.min(3.0, speed));
+            speedIndicator.textContent = speed.toFixed(1) + 'x';
+        });
+
+        // Animation
+        const clock = new THREE.Clock();
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            const time = clock.getElapsedTime();
+            const delta = clock.getDelta();
+
+            // Update shader uniforms
+            tunnel1.material.uniforms.time.value = time;
+            tunnel1.material.uniforms.speed.value = speed;
+            tunnel2.material.uniforms.time.value = time;
+            tunnel2.material.uniforms.speed.value = speed;
+
+            // Move tunnels
+            const moveSpeed = speed * 0.5;
+            tunnel1.position.z += moveSpeed;
+            tunnel2.position.z += moveSpeed;
+
+            // Reset tunnel positions for infinite loop
+            if (tunnel1.position.z > tunnelLength / 2) {
+                tunnel1.position.z = tunnel2.position.z - tunnelLength;
+            }
+            if (tunnel2.position.z > tunnelLength / 2) {
+                tunnel2.position.z = tunnel1.position.z - tunnelLength;
+            }
+
+            // Move particles
+            const positions = particles.geometry.attributes.position.array;
+            for (let i = 0; i < particleCount; i++) {
+                positions[i * 3 + 2] += moveSpeed;
+                if (positions[i * 3 + 2] > tunnelLength / 2) {
+                    positions[i * 3 + 2] = -tunnelLength;
+                }
+            }
+            particles.geometry.attributes.position.needsUpdate = true;
+
+            // Camera follow mouse
+            camera.position.x += (mouseX * 1.5 - camera.position.x) * 0.05;
+            camera.position.y += (mouseY * 1.5 - camera.position.y) * 0.05;
+            camera.rotation.z = mouseX * 0.1;
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // Resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+
+</html>

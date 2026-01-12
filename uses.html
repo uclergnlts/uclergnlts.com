@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uses | Üçler Gönültaş</title>
+    <meta name="description" content="Tools, software, and hardware I use for development and design.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+    <style>
+        .uses-hero {
+            height: 50vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .uses-title {
+            font-size: clamp(3rem, 10vw, 8rem);
+            font-family: var(--font-heading);
+            color: transparent;
+            -webkit-text-stroke: 1px var(--text-primary);
+            opacity: 0.8;
+            letter-spacing: -2px;
+        }
+
+        .uses-subtitle {
+            font-size: 1.2rem;
+            color: var(--accent-lime);
+            margin-top: 1rem;
+            font-family: var(--font-heading);
+        }
+
+        .uses-section {
+            margin-bottom: 4rem;
+        }
+
+        .uses-category {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .category-icon {
+            font-size: 2rem;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(217, 255, 0, 0.1);
+            border-radius: 12px;
+            border: 1px solid var(--accent-lime);
+        }
+
+        .category-title {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .tool-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-lime), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-lime);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .tool-card:hover::before {
+            opacity: 1;
+        }
+
+        .tool-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .tool-logo {
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .tool-name {
+            font-family: var(--font-heading);
+            font-size: 1.2rem;
+            color: var(--text-primary);
+        }
+
+        .tool-type {
+            font-size: 0.75rem;
+            color: var(--accent-lime);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .tool-description {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .tool-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            color: var(--accent-lime);
+            font-size: 0.85rem;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .tool-link:hover {
+            opacity: 1;
+        }
+
+        /* Hardware Section Special Styling */
+        .hardware-card {
+            background: linear-gradient(135deg, rgba(217, 255, 0, 0.03), rgba(255, 255, 255, 0.02));
+        }
+
+        .spec-list {
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0 0 0;
+        }
+
+        .spec-list li {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            padding: 0.3rem 0;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .spec-list li span:last-child {
+            color: var(--text-primary);
+        }
+
+        /* Last Updated */
+        .last-updated {
+            text-align: center;
+            padding: 3rem 0 6rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .last-updated strong {
+            color: var(--accent-lime);
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="index.html" class="logo">UCLER<span class="accent-dot">.</span></a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="lab.html" class="nav-link">The Lab</a>
+                <a href="#" class="nav-link active" style="color:var(--accent-lime)">Uses</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="uses-hero">
+            <div>
+                <h1 class="uses-title">/USES</h1>
+                <p class="uses-subtitle">The tools behind the magic.</p>
+            </div>
+        </section>
+
+        <!-- Development Tools -->
+        <section class="uses-section">
+            <div class="uses-category">
+                <div class="category-icon">⚡</div>
+                <h2 class="category-title">Development</h2>
+            </div>
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-logo">💻</div>
+                        <div>
+                            <h3 class="tool-name">VS Code</h3>
+                            <span class="tool-type">Editor</span>
+                        </div>
+                    </div>
+                    <p class="tool-description">My daily driver for everything. Insiders build with GitHub Copilot and a
+                        custom theme.</p>
+                    <a href="https://code.visualstudio.com" target="_blank" class="tool-link">
+                        Get it ↗
+                    </a>
+                </div>
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-logo">🔺</div>
+                        <div>
+                            <h3 class="tool-name">Vercel</h3>
+                            <span class="tool-type">Deployment</span>
+                        </div>
+                    </div>
+                    <p class="tool-description">Deploy in seconds. Best DX for frontend projects, especially Next.js.
+                    </p>
+                    <a href="https://vercel.com" target="_blank" class="tool-link">
+                        Get it ↗
+                    </a>
+                </div>
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-logo">🐙</div>
+                        <div>
+                            <h3 class="tool-name">GitHub</h3>
+                            <span class="tool-type">Version Control</span>
+                        </div>
+                    </div>
+                    <p class="tool-description">Where all my code lives. Using GitHub Actions for CI/CD pipelines.</p>
+                    <a href="https://github.com" target="_blank" class="tool-link">
+                        Get it ↗
+                    </a>
+                </div>
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-logo">🤖</div>
+                        <div>
+                            <h3 class="tool-name">GitHub Copilot</h3>
+                            <span class="tool-type">AI Assistant</span>
+                        </div>
+                    </div>
+                    <p class="tool-description">AI pair programmer that actually gets it. Saves hours of boilerplate.
+                    </p>
+                    <a href="https://github.com/features/copilot" target="_blank" class="tool-link">
+                        Get it ↗
+                    </a>
+                </div>
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-logo">📦</div>
+                        <div>
+                            <h3 class="tool-name">pnpm</h3>
+                            <span class="tool-type">Package Manager</span>
+                        </div>
+                    </div>
+                    <p class="tool-description">Fast, disk space efficient package manager. No going back to npm.</p>
+                    <a href="https://pnpm.io" target="_blank" class="tool-link">
+                        Get it ↗
+                    </a>
+                </div>
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-logo">🔥</div>
+                        <div>
+                            <h3 class="tool-name">Warp</h3>
+                            <span class="tool-type">Terminal</span>
+                        </div>
+                    </div>
+                    <p class="tool-description">The terminal of the future. AI-powered, blazingly fast, beautiful.</p>
+                    <a href="https://warp.dev" target="_blank" class="tool-link">
+                        Get it ↗
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Design Tools -->
+        <section class="uses-section">
+            <div class="uses-category">
+                <div class="category-icon">🎨</div>
+                <h2 class="category-title">Design</h2>
+            </div>
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-logo">🎯</div>
+                        <div>
+                            <h3 class="tool-name">Figma</h3>
+                            <span class="tool-type">UI/UX Design</span>
+                        </div>
+                    </div>
+                    <p class="tool-description">The ultimate design tool. From wireframes to high-fidelity prototypes.
+                    </p>
+                    <a href="https://figma.com" target="_blank" class="tool-link">
+                        Get it ↗
+                    </a>
+                </div>
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-logo">🖼️</div>
+                        <div>
+                            <h3 class="tool-name">Photoshop</h3>
+                            <span class="tool-type">Image Editing</span>
+                        </div>
+                    </div>
+                    <p class="tool-description">For heavy image manipulation and creating those perfect mockups.</p>
+                    <a href="https://adobe.com/photoshop" target="_blank" class="tool-link">
+                        Get it ↗
+                    </a>
+                </div>
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-logo">✨</div>
+                        <div>
+                            <h3 class="tool-name">Spline</h3>
+                            <span class="tool-type">3D Design</span>
+                        </div>
+                    </div>
+                    <p class="tool-description">3D design made easy. Perfect for interactive web experiences.</p>
+                    <a href="https://spline.design" target="_blank" class="tool-link">
+                        Get it ↗
+                    </a>
+                </div>
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-logo">🌈</div>
+                        <div>
+                            <h3 class="tool-name">Coolors</h3>
+                            <span class="tool-type">Color Palette</span>
+                        </div>
+                    </div>
+                    <p class="tool-description">Generate stunning color palettes in seconds. A designer's best friend.
+                    </p>
+                    <a href="https://coolors.co" target="_blank" class="tool-link">
+                        Get it ↗
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Productivity -->
+        <section class="uses-section">
+            <div class="uses-category">
+                <div class="category-icon">📱</div>
+                <h2 class="category-title">Productivity</h2>
+            </div>
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-logo">📝</div>
+                        <div>
+                            <h3 class="tool-name">Notion</h3>
+                            <span class="tool-type">Note-taking</span>
+                        </div>
+                    </div>
+                    <p class="tool-description">My second brain. Everything from project management to personal wiki.
+                    </p>
+                    <a href="https://notion.so" target="_blank" class="tool-link">
+                        Get it ↗
+                    </a>
+                </div>
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-logo">🎵</div>
+                        <div>
+                            <h3 class="tool-name">Spotify</h3>
+                            <span class="tool-type">Music</span>
+                        </div>
+                    </div>
+                    <p class="tool-description">Can't code without music. Lo-fi beats and synthwave fuel my sessions.
+                    </p>
+                    <a href="https://spotify.com" target="_blank" class="tool-link">
+                        Get it ↗
+                    </a>
+                </div>
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-logo">💬</div>
+                        <div>
+                            <h3 class="tool-name">Discord</h3>
+                            <span class="tool-type">Communication</span>
+                        </div>
+                    </div>
+                    <p class="tool-description">For dev communities, team chats, and the occasional late-night coding
+                        calls.</p>
+                    <a href="https://discord.com" target="_blank" class="tool-link">
+                        Get it ↗
+                    </a>
+                </div>
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-logo">☁️</div>
+                        <div>
+                            <h3 class="tool-name">Arc Browser</h3>
+                            <span class="tool-type">Browser</span>
+                        </div>
+                    </div>
+                    <p class="tool-description">The browser reimagined. Spaces, split views, and beautiful UI.</p>
+                    <a href="https://arc.net" target="_blank" class="tool-link">
+                        Get it ↗
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hardware -->
+        <section class="uses-section">
+            <div class="uses-category">
+                <div class="category-icon">🖥️</div>
+                <h2 class="category-title">Hardware</h2>
+            </div>
+            <div class="tools-grid">
+                <div class="tool-card hardware-card">
+                    <div class="tool-header">
+                        <div class="tool-logo">💻</div>
+                        <div>
+                            <h3 class="tool-name">MacBook Pro 14"</h3>
+                            <span class="tool-type">Main Machine</span>
+                        </div>
+                    </div>
+                    <ul class="spec-list">
+                        <li><span>Chip</span><span>M3 Pro</span></li>
+                        <li><span>Memory</span><span>18GB</span></li>
+                        <li><span>Storage</span><span>512GB SSD</span></li>
+                    </ul>
+                </div>
+                <div class="tool-card hardware-card">
+                    <div class="tool-header">
+                        <div class="tool-logo">🖥️</div>
+                        <div>
+                            <h3 class="tool-name">LG UltraWide 34"</h3>
+                            <span class="tool-type">Monitor</span>
+                        </div>
+                    </div>
+                    <p class="tool-description">Curved ultrawide for that immersive coding experience. 21:9 changes
+                        everything.</p>
+                </div>
+                <div class="tool-card hardware-card">
+                    <div class="tool-header">
+                        <div class="tool-logo">⌨️</div>
+                        <div>
+                            <h3 class="tool-name">SteelSeries Apex Pro TKL</h3>
+                            <span class="tool-type">Keyboard</span>
+                        </div>
+                    </div>
+                    <p class="tool-description">OmniPoint adjustable mechanical switches. The fastest gaming keyboard
+                        with per-key actuation.</p>
+                </div>
+                <div class="tool-card hardware-card">
+                    <div class="tool-header">
+                        <div class="tool-logo">🖱️</div>
+                        <div>
+                            <h3 class="tool-name">Logitech G Pro X Superlight 2</h3>
+                            <span class="tool-type">Mouse</span>
+                        </div>
+                    </div>
+                    <p class="tool-description">Ultra-lightweight wireless gaming mouse. 60g of pure precision with HERO
+                        2 sensor.</p>
+                </div>
+                <div class="tool-card hardware-card">
+                    <div class="tool-header">
+                        <div class="tool-logo">🎧</div>
+                        <div>
+                            <h3 class="tool-name">Logitech G733 LIGHTSPEED</h3>
+                            <span class="tool-type">Headset</span>
+                        </div>
+                    </div>
+                    <p class="tool-description">Wireless gaming headset with RGB. LIGHTSPEED technology for lag-free
+                        audio.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="last-updated">
+            Last updated: <strong>January 2026</strong>
+        </div>
+    </main>
+
+    <div class="cursor-dot"></div>
+    <div class="cursor-circle"></div>
+    <script type="module" src="/main.ts"></script>
+</body>
+
+</html>

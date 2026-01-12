@@ -205,7 +205,11 @@ function startHeroAnimations() {
         opacity: 1,
         duration: 1.2,
         stagger: 0.2,
-        ease: 'power4.out'
+        ease: 'power4.out',
+        onComplete: () => {
+            // Start typewriter after reveal animations
+            startTypewriter();
+        }
     })
         .to('.profile-frame', {
             scale: 1,
@@ -213,6 +217,48 @@ function startHeroAnimations() {
             duration: 1,
             ease: 'back.out(1.7)'
         }, '-=0.8');
+}
+
+// Typewriter Animation for DEVELOPER - Looping
+function startTypewriter() {
+    const typewriterEl = document.querySelector('.typewriter') as HTMLElement;
+    if (!typewriterEl) return;
+
+    const text = typewriterEl.dataset.text || 'DEVELOPER';
+    let currentIndex = 0;
+    let isDeleting = false;
+
+    function type() {
+        if (!isDeleting) {
+            // Typing
+            if (currentIndex < text.length) {
+                typewriterEl.textContent = text.substring(0, currentIndex + 1);
+                currentIndex++;
+                setTimeout(type, 100);
+            } else {
+                // Finished typing, wait then start deleting
+                typewriterEl.classList.add('finished');
+                setTimeout(() => {
+                    isDeleting = true;
+                    typewriterEl.classList.remove('finished');
+                    type();
+                }, 2000); // Wait 2 seconds before deleting
+            }
+        } else {
+            // Deleting
+            if (currentIndex > 0) {
+                typewriterEl.textContent = text.substring(0, currentIndex - 1);
+                currentIndex--;
+                setTimeout(type, 50); // Delete faster
+            } else {
+                // Finished deleting, wait then start typing again
+                isDeleting = false;
+                setTimeout(type, 500); // Wait 0.5 seconds before typing again
+            }
+        }
+    }
+
+    type();
 }
 
 // Scroll Reveals
@@ -347,8 +393,8 @@ if (vibeWidget && audioPlayer) {
         }
     });
 
-    // Attempt auto-play with low volume
-    audioPlayer.volume = 0.5;
+    // Attempt auto-play with max volume
+    audioPlayer.volume = 1.0;
     const playPromise = audioPlayer.play();
     if (playPromise !== undefined) {
         playPromise.then(_ => {
