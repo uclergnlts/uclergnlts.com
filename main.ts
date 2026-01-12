@@ -186,15 +186,20 @@ if (canvas) {
 const loader = document.querySelector('.loader') as HTMLElement;
 
 window.addEventListener('load', () => {
-    gsap.to(loader, {
-        opacity: 0,
-        duration: 1,
-        delay: 0.5,
-        onComplete: () => {
-            loader.style.display = 'none';
-            startHeroAnimations();
-        }
-    });
+    if (loader) {
+        gsap.to(loader, {
+            opacity: 0,
+            duration: 1,
+            delay: 0.5,
+            onComplete: () => {
+                loader.style.display = 'none';
+                startHeroAnimations();
+            }
+        });
+    } else {
+        // If no loader, just start hero animations immediately (or check if hero exists)
+        startHeroAnimations();
+    }
 });
 
 function startHeroAnimations() {
