@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Experiment Loading... | The Lab</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        body {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .wip-container {
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .wip-title {
+            font-family: var(--font-heading);
+            font-size: clamp(2rem, 5vw, 4rem);
+            margin-bottom: 1rem;
+            color: transparent;
+            -webkit-text-stroke: 1px var(--text-primary);
+        }
+
+        .wip-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-family: var(--font-body);
+        }
+
+        .back-btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            border: 1px solid var(--accent-lime);
+            color: var(--accent-lime);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-radius: 50px;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .back-btn:hover {
+            background: var(--accent-lime);
+            color: #000;
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(217, 255, 0, 0.3);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="noise-overlay"></div>
+    <div class="cursor-dot"></div>
+    <div class="cursor-circle"></div>
+
+    <div class="wip-container">
+        <h1 class="wip-title">INITIALIZING...</h1>
+        <p class="wip-subtitle">This experiment is currently being brewed in the lab.</p>
+        <a href="../lab.html" class="back-btn">Return to Safety</a>
+    </div>
+
+    <script type="module" src="../main.ts"></script>
+</body>
+
+</html>
