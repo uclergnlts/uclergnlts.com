@@ -4,77 +4,289 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Experiment Loading... | The Lab</title>
-    <meta name="robots" content="noindex, follow">
+    <title>Audio Reactive | The Lab</title>
+    <meta name="description"
+        content="Audio Reactive is a Web Audio visualiser by Üçler Gönültaş. It plays a beat synthesised live in the browser, or listens to your microphone, and turns the spectrum into motion.">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://uclergnlts.com/demos/audio-reactive">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="../style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./lab-demo.css">
     <style>
-        body {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
-
-        .wip-container {
-            text-align: center;
-            position: relative;
-            z-index: 10;
-        }
-
-        .wip-title {
-            font-family: var(--font-heading);
-            font-size: clamp(2rem, 5vw, 4rem);
-            margin-bottom: 1rem;
-            color: transparent;
-            -webkit-text-stroke: 1px var(--text-primary);
-        }
-
-        .wip-subtitle {
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-            font-family: var(--font-body);
-        }
-
-        .back-btn {
-            display: inline-block;
-            padding: 1rem 2rem;
-            border: 1px solid var(--accent-lime);
-            color: var(--accent-lime);
+        .start {
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 50;
+            width: 132px;
+            height: 132px;
+            border-radius: 50%;
+            border: 1px solid var(--lab-accent);
+            background: rgba(5, 5, 5, 0.6);
+            color: var(--lab-accent);
+            font: 600 0.95rem 'Space Grotesk', system-ui, sans-serif;
+            letter-spacing: 0.12em;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            border-radius: 50px;
-            transition: all 0.3s;
-            font-size: 0.9rem;
+            cursor: pointer;
+            backdrop-filter: blur(6px);
+            transition: transform 0.2s, background 0.2s;
         }
 
-        .back-btn:hover {
-            background: var(--accent-lime);
-            color: #000;
-            transform: translateY(-2px);
-            box-shadow: 0 0 20px rgba(217, 255, 0, 0.3);
+        .start:hover,
+        .start:focus-visible {
+            transform: translate(-50%, -50%) scale(1.06);
+            background: rgba(217, 255, 0, 0.12);
+            outline: none;
+        }
+
+        .bpm {
+            font-variant-numeric: tabular-nums;
         }
     </style>
 </head>
 
 <body>
-    <div class="noise-overlay"></div>
-    <div class="cursor-dot"></div>
-    <div class="cursor-circle"></div>
+    <canvas class="stage" id="stage" aria-label="Audio visualiser"></canvas>
+    <button class="start" id="start" type="button">Play</button>
 
-    <div class="wip-container">
-        <h1 class="wip-title">INITIALIZING...</h1>
-        <p class="wip-subtitle">This experiment is currently being brewed in the lab.</p>
-        <a href="/lab" class="back-btn">Return to Safety</a>
+    <div class="lab-header">
+        <a href="/lab" class="back-btn">← Back to Lab</a>
+        <span class="lab-tag">Web Audio API · Canvas</span>
     </div>
 
-    <script type="module" src="../main.ts"></script>
+    <div class="info-panel">
+        <h1>Audio Reactive</h1>
+        <p>The beat is synthesised in your browser: kick, hats and a bassline built from oscillators and noise. An
+            analyser splits it into 128 frequency bands, and the bass, mids and highs each drive a different part of
+            the picture.</p>
+    </div>
+
+    <div class="controls">
+        <div class="lab-row">
+            <button class="lab-btn" id="beat" type="button" aria-pressed="false">Beat</button>
+            <button class="lab-btn" id="mic" type="button" aria-pressed="false">Microphone</button>
+        </div>
+        <div class="control-hint" id="status"><span>Press Play</span> — sound starts on your click</div>
+    </div>
+
+    <script type="module">
+        const canvas = document.getElementById('stage');
+        const ctx = canvas.getContext('2d');
+        const status = document.getElementById('status');
+        let W, H, dpr;
+        function resize() {
+            dpr = Math.min(devicePixelRatio || 1, 2);
+            W = innerWidth; H = innerHeight;
+            canvas.width = W * dpr; canvas.height = H * dpr;
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
+        resize(); addEventListener('resize', resize);
+
+        /* ---------------- audio ---------------- */
+        let ac, analyser, master, freq, wave, beatTimer, micStream, micNode, mode = 'idle';
+        const BPM = 112, STEP = 60 / BPM / 4;
+
+        function setupAudio() {
+            if (ac) return;
+            ac = new (window.AudioContext || window.webkitAudioContext)();
+            analyser = ac.createAnalyser();
+            analyser.fftSize = 256;
+            analyser.smoothingTimeConstant = 0.78;
+            freq = new Uint8Array(analyser.frequencyBinCount);
+            wave = new Uint8Array(analyser.fftSize);
+            master = ac.createGain();
+            master.gain.value = 0.55;
+            master.connect(analyser);
+            analyser.connect(ac.destination);
+        }
+
+        const noiseBuffer = () => {
+            const b = ac.createBuffer(1, ac.sampleRate * 0.5, ac.sampleRate), d = b.getChannelData(0);
+            for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+            return b;
+        };
+        let noise;
+        function kick(t) {
+            const o = ac.createOscillator(), g = ac.createGain();
+            o.frequency.setValueAtTime(150, t);
+            o.frequency.exponentialRampToValueAtTime(42, t + 0.12);
+            g.gain.setValueAtTime(1, t);
+            g.gain.exponentialRampToValueAtTime(0.001, t + 0.45);
+            o.connect(g).connect(master); o.start(t); o.stop(t + 0.5);
+        }
+        function hat(t, open) {
+            const s = ac.createBufferSource(), f = ac.createBiquadFilter(), g = ac.createGain();
+            s.buffer = noise; f.type = 'highpass'; f.frequency.value = 7000;
+            g.gain.setValueAtTime(open ? 0.22 : 0.12, t);
+            g.gain.exponentialRampToValueAtTime(0.001, t + (open ? 0.25 : 0.05));
+            s.connect(f).connect(g).connect(master); s.start(t); s.stop(t + 0.3);
+        }
+        function snare(t) {
+            const s = ac.createBufferSource(), f = ac.createBiquadFilter(), g = ac.createGain();
+            s.buffer = noise; f.type = 'bandpass'; f.frequency.value = 1800; f.Q.value = 0.8;
+            g.gain.setValueAtTime(0.45, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.18);
+            s.connect(f).connect(g).connect(master); s.start(t); s.stop(t + 0.2);
+        }
+        const BASS = [36, 36, 0, 36, 0, 39, 0, 36, 34, 0, 34, 0, 31, 0, 34, 0]; // MIDI notes, 0 = rest
+        const LEAD = [0, 0, 63, 0, 0, 0, 67, 0, 0, 70, 0, 0, 67, 0, 0, 0];
+        const midi = n => 440 * Math.pow(2, (n - 69) / 12);
+        function synth(t, note, type, dur, vol, cutoff) {
+            const o = ac.createOscillator(), f = ac.createBiquadFilter(), g = ac.createGain();
+            o.type = type; o.frequency.value = midi(note);
+            f.type = 'lowpass'; f.frequency.setValueAtTime(cutoff, t); f.frequency.exponentialRampToValueAtTime(200, t + dur);
+            g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+            o.connect(f).connect(g).connect(master); o.start(t); o.stop(t + dur + 0.05);
+        }
+
+        let step = 0, nextTime = 0;
+        function scheduler() {
+            while (nextTime < ac.currentTime + 0.12) {
+                const s = step % 16;
+                if (s % 4 === 0) kick(nextTime);
+                if (s === 4 || s === 12) snare(nextTime);
+                hat(nextTime, s % 4 === 2);
+                if (BASS[s]) synth(nextTime, BASS[s], 'sawtooth', STEP * 1.8, 0.28, 900);
+                if (LEAD[s] && step % 32 >= 16) synth(nextTime, LEAD[s], 'square', STEP * 2.5, 0.07, 3200);
+                nextTime += STEP; step++;
+            }
+        }
+        function startBeat() {
+            setupAudio(); stopMic();
+            noise = noise || noiseBuffer();
+            ac.resume();
+            nextTime = ac.currentTime + 0.05; step = 0;
+            clearInterval(beatTimer); beatTimer = setInterval(scheduler, 25);
+            mode = 'beat'; ui();
+        }
+        function stopBeat() { clearInterval(beatTimer); beatTimer = null; }
+        async function startMic() {
+            setupAudio(); stopBeat();
+            try {
+                micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                micNode = ac.createMediaStreamSource(micStream);
+                micNode.connect(analyser);
+                analyser.disconnect(); // don't play the mic back through the speakers
+                ac.resume();
+                mode = 'mic'; ui();
+            } catch (e) {
+                status.innerHTML = '<span>Microphone blocked</span> — allow access or use the beat';
+                mode = 'idle'; ui(false);
+            }
+        }
+        function stopMic() {
+            if (micStream) micStream.getTracks().forEach(t => t.stop());
+            if (micNode) micNode.disconnect();
+            micStream = micNode = null;
+            if (analyser) { try { analyser.disconnect(); } catch (_) { } analyser.connect(ac.destination); }
+        }
+        function stopAll() { stopBeat(); stopMic(); mode = 'idle'; ui(); }
+
+        const startBtn = document.getElementById('start');
+        function ui(updateStatus = true) {
+            document.getElementById('beat').setAttribute('aria-pressed', String(mode === 'beat'));
+            document.getElementById('mic').setAttribute('aria-pressed', String(mode === 'mic'));
+            startBtn.hidden = mode !== 'idle';
+            if (!updateStatus) return;
+            status.innerHTML = mode === 'beat' ? `<span class="bpm">${BPM} BPM</span> — synthesised live`
+                : mode === 'mic' ? '<span>Listening</span> — make some noise'
+                    : '<span>Press Play</span> — sound starts on your click';
+        }
+        startBtn.onclick = startBeat;
+        document.getElementById('beat').onclick = () => mode === 'beat' ? stopAll() : startBeat();
+        document.getElementById('mic').onclick = () => mode === 'mic' ? stopAll() : startMic();
+
+        /* ---------------- visuals ---------------- */
+        const sparks = [];
+        let bassPrev = 0, hueShift = 0;
+        function band(a, b) { let s = 0; for (let i = a; i < b; i++) s += freq[i]; return s / (b - a) / 255; }
+
+        function idleFill(t) {
+            // gentle synthetic spectrum so the piece is alive before sound starts
+            for (let i = 0; i < 128; i++) freq[i] = 90 + 60 * Math.sin(t * 1.3 + i * 0.18) * Math.exp(-i / 70) + 25 * Math.sin(t * 2.1 + i * 0.5);
+            for (let i = 0; i < 256; i++) wave[i] = 128 + 22 * Math.sin(t * 2 + i * 0.09) * Math.sin(t * 0.7);
+        }
+
+        function draw(now) {
+            const t = now / 1000;
+            if (!freq) { freq = new Uint8Array(128); wave = new Uint8Array(256); }
+            if (mode === 'idle') idleFill(t);
+            else { analyser.getByteFrequencyData(freq); analyser.getByteTimeDomainData(wave); }
+
+            const bass = band(1, 6), mid = band(8, 40), high = band(48, 110);
+            hueShift += 0.15 + high * 1.5;
+
+            ctx.fillStyle = `rgba(5,5,5,${0.22 + (1 - bass) * 0.12})`;
+            ctx.fillRect(0, 0, W, H);
+
+            const cx = W / 2, cy = H / 2, base = Math.min(W, H) * 0.18;
+
+            // kick detection → sparks
+            if (bass - bassPrev > 0.08 && bass > 0.55) {
+                for (let i = 0; i < 26; i++) {
+                    const a = Math.random() * Math.PI * 2, s = 3 + Math.random() * 7;
+                    sparks.push({ x: cx + Math.cos(a) * base, y: cy + Math.sin(a) * base, vx: Math.cos(a) * s, vy: Math.sin(a) * s, life: 1 });
+                }
+            }
+            bassPrev = bass;
+
+            // core orb
+            const r = base * (0.55 + bass * 0.5);
+            const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, r * 1.8);
+            g.addColorStop(0, `hsla(${72 + hueShift % 60},100%,60%,${0.14 + bass * 0.3})`);
+            g.addColorStop(1, 'rgba(5,5,5,0)');
+            ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cy, r * 1.8, 0, Math.PI * 2); ctx.fill();
+
+            // radial spectrum, mirrored
+            const N = 96;
+            ctx.lineCap = 'round';
+            for (let i = 0; i < N; i++) {
+                const v = freq[Math.floor(i * 1.2)] / 255;
+                const len = 6 + v * v * base * 1.6;
+                for (const side of [1, -1]) {
+                    const a = -Math.PI / 2 + side * (i / N) * Math.PI;
+                    const x1 = cx + Math.cos(a) * (base + 6), y1 = cy + Math.sin(a) * (base + 6);
+                    const x2 = cx + Math.cos(a) * (base + 6 + len), y2 = cy + Math.sin(a) * (base + 6 + len);
+                    ctx.strokeStyle = `hsl(${(72 + i * 2.2 + hueShift) % 360} 95% ${55 + v * 25}%)`;
+                    ctx.lineWidth = Math.max(1.5, (Math.PI * base / N) * 0.55);
+                    ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+                }
+            }
+
+            // waveform ring
+            ctx.beginPath();
+            for (let i = 0; i <= 256; i++) {
+                const a = (i / 256) * Math.PI * 2;
+                const v = (wave[i % 256] - 128) / 128;
+                const rr = base * 0.92 + v * base * 0.35 * (0.6 + mid);
+                const x = cx + Math.cos(a) * rr, y = cy + Math.sin(a) * rr;
+                i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+            }
+            ctx.strokeStyle = `rgba(255,255,255,${0.35 + mid * 0.6})`;
+            ctx.lineWidth = 1.5; ctx.stroke();
+
+            // sparks
+            for (let i = sparks.length - 1; i >= 0; i--) {
+                const s = sparks[i];
+                s.x += s.vx; s.y += s.vy; s.vx *= 0.97; s.vy *= 0.97; s.life -= 0.018;
+                if (s.life <= 0) { sparks.splice(i, 1); continue; }
+                ctx.fillStyle = `rgba(217,255,0,${s.life})`;
+                ctx.fillRect(s.x, s.y, 2.2, 2.2);
+            }
+
+            // floor bars: highs as a skyline along the bottom
+            const bw = W / 64;
+            for (let i = 0; i < 64; i++) {
+                const v = freq[40 + i] / 255;
+                ctx.fillStyle = `rgba(217,255,0,${0.05 + v * 0.35})`;
+                ctx.fillRect(i * bw, H - v * H * 0.07, bw - 2, v * H * 0.07);
+            }
+
+            requestAnimationFrame(draw);
+        }
+        requestAnimationFrame(draw);
+    </script>
 </body>
 
 </html>

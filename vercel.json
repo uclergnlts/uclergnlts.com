@@ -1,4 +1,56 @@
 {
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/demos/easing-visualizer",
+      "destination": "/demos/spring-lab",
+      "permanent": true
+    },
+    {
+      "source": "/demos/audio-spectrum",
+      "destination": "/demos/audio-reactive",
+      "permanent": true
+    },
+    {
+      "source": "/demos/aurora-borealis",
+      "destination": "/lab",
+      "permanent": true
+    },
+    {
+      "source": "/demos/digital-rain",
+      "destination": "/lab",
+      "permanent": true
+    },
+    {
+      "source": "/demos/gravity-field",
+      "destination": "/lab",
+      "permanent": true
+    },
+    {
+      "source": "/demos/holographic-ui",
+      "destination": "/lab",
+      "permanent": true
+    },
+    {
+      "source": "/demos/neural-interface",
+      "destination": "/lab",
+      "permanent": true
+    },
+    {
+      "source": "/demos/parallax-stars",
+      "destination": "/lab",
+      "permanent": true
+    },
+    {
+      "source": "/demos/shader-playground",
+      "destination": "/lab",
+      "permanent": true
+    },
+    {
+      "source": "/demos/template",
+      "destination": "/lab",
+      "permanent": true
+    }
+  ]
 }

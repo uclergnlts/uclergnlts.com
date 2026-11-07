@@ -4,77 +4,186 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Experiment Loading... | The Lab</title>
-    <meta name="robots" content="noindex, follow">
+    <title>Kinetic Type | The Lab</title>
+    <meta name="description"
+        content="Kinetic Type turns any word into thousands of spring-driven particles that scatter from your cursor and pull back into shape. A Lab experiment by Üçler Gönültaş.">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://uclergnlts.com/demos/kinetic-type">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="../style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./lab-demo.css">
     <style>
-        body {
-            height: 100vh;
+        .word-form {
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
+            gap: 0.5rem;
         }
 
-        .wip-container {
-            text-align: center;
-            position: relative;
-            z-index: 10;
-        }
-
-        .wip-title {
-            font-family: var(--font-heading);
-            font-size: clamp(2rem, 5vw, 4rem);
-            margin-bottom: 1rem;
-            color: transparent;
-            -webkit-text-stroke: 1px var(--text-primary);
-        }
-
-        .wip-subtitle {
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-            font-family: var(--font-body);
-        }
-
-        .back-btn {
-            display: inline-block;
-            padding: 1rem 2rem;
-            border: 1px solid var(--accent-lime);
-            color: var(--accent-lime);
+        .word-form input {
+            width: 12rem;
+            font: 500 0.9rem 'Space Grotesk', system-ui, sans-serif;
+            color: var(--lab-fg);
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--lab-faint);
+            border-radius: 999px;
+            padding: 0.55rem 1rem;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            border-radius: 50px;
-            transition: all 0.3s;
-            font-size: 0.9rem;
         }
 
-        .back-btn:hover {
-            background: var(--accent-lime);
-            color: #000;
-            transform: translateY(-2px);
-            box-shadow: 0 0 20px rgba(217, 255, 0, 0.3);
+        .word-form input:focus {
+            outline: none;
+            border-color: var(--lab-accent);
         }
     </style>
 </head>
 
 <body>
-    <div class="noise-overlay"></div>
-    <div class="cursor-dot"></div>
-    <div class="cursor-circle"></div>
+    <canvas class="stage" id="stage" aria-label="Particle typography. Move the pointer through the letters."></canvas>
 
-    <div class="wip-container">
-        <h1 class="wip-title">INITIALIZING...</h1>
-        <p class="wip-subtitle">This experiment is currently being brewed in the lab.</p>
-        <a href="/lab" class="back-btn">Return to Safety</a>
+    <div class="lab-header">
+        <a href="/lab" class="back-btn">← Back to Lab</a>
+        <span class="lab-tag">Canvas 2D · spring physics</span>
     </div>
 
-    <script type="module" src="../main.ts"></script>
+    <div class="info-panel">
+        <h1>Kinetic Type</h1>
+        <p>Each letter is sampled into a few thousand particles. Every particle is a damped spring pulled toward its
+            spot in the word, so the type scatters from your cursor and settles back on its own.</p>
+    </div>
+
+    <div class="controls">
+        <form class="word-form" id="form">
+            <label for="word" hidden>Word</label>
+            <input id="word" maxlength="10" placeholder="Type a word" autocomplete="off">
+            <button class="lab-btn" type="submit">Set</button>
+        </form>
+        <div class="control-hint"><span>Move</span> — push · <span>Click</span> — explode</div>
+    </div>
+
+    <script type="module">
+        const canvas = document.getElementById('stage');
+        const ctx = canvas.getContext('2d');
+        const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        const WORDS = ['ÜÇLER', 'DESIGN', 'CODE', 'MOTION', 'ANKARA'];
+        let wordIndex = 0, userWord = false, lastSwap = 0;
+
+        let W = 0, H = 0, dpr = 1, gap = 5;
+        let particles = [];
+        const pointer = { x: -9999, y: -9999, active: false };
+
+        function resize() {
+            dpr = Math.min(window.devicePixelRatio || 1, 2);
+            W = innerWidth; H = innerHeight;
+            canvas.width = W * dpr; canvas.height = H * dpr;
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            gap = W < 700 ? 4 : 5;
+            setWord(currentWord());
+        }
+
+        function currentWord() { return userWord ? document.getElementById('word').value.trim().toUpperCase() || WORDS[0] : WORDS[wordIndex]; }
+
+        /* Sample the word into target points */
+        function targetsFor(word) {
+            const off = document.createElement('canvas');
+            off.width = W; off.height = H;
+            const o = off.getContext('2d');
+            let size = Math.min(H * 0.42, (W * 0.86) / Math.max(word.length * 0.68, 1));
+            o.font = `700 ${size}px "Space Grotesk", system-ui, sans-serif`;
+            const measured = o.measureText(word).width;
+            if (measured > W * 0.88) { size *= (W * 0.88) / measured; o.font = `700 ${size}px "Space Grotesk", system-ui, sans-serif`; }
+            o.fillStyle = '#fff'; o.textAlign = 'center'; o.textBaseline = 'middle';
+            o.fillText(word, W / 2, H / 2);
+            const data = o.getImageData(0, 0, W, H).data;
+            const pts = [];
+            for (let y = 0; y < H; y += gap) for (let x = 0; x < W; x += gap) {
+                if (data[(y * W + x) * 4 + 3] > 128) pts.push([x + (Math.random() - .5), y + (Math.random() - .5)]);
+            }
+            for (let i = pts.length - 1; i > 0; i--) { const j = Math.random() * (i + 1) | 0; [pts[i], pts[j]] = [pts[j], pts[i]]; }
+            return pts;
+        }
+
+        function setWord(word) {
+            const pts = targetsFor(word);
+            // reuse existing particles so the old word morphs into the new one
+            while (particles.length < pts.length) {
+                const a = Math.random() * Math.PI * 2, r = Math.max(W, H);
+                particles.push({ x: W / 2 + Math.cos(a) * r, y: H / 2 + Math.sin(a) * r, vx: 0, vy: 0, tx: 0, ty: 0, k: 0, d: 0, size: 0, alive: true });
+            }
+            particles.forEach((p, i) => {
+                if (i < pts.length) {
+                    p.tx = pts[i][0]; p.ty = pts[i][1]; p.alive = true;
+                    p.k = 0.035 + Math.random() * 0.045;      // spring stiffness varies per particle
+                    p.d = 0.78 + Math.random() * 0.08;       // damping
+                    p.size = gap * (0.38 + Math.random() * 0.22);
+                } else {
+                    p.alive = false;
+                }
+            });
+            particles = particles.filter((p, i) => i < pts.length || p.alive);
+        }
+
+        function explode() {
+            particles.forEach(p => {
+                const a = Math.atan2(p.y - H / 2, p.x - W / 2) + (Math.random() - .5);
+                const s = 18 + Math.random() * 30;
+                p.vx += Math.cos(a) * s; p.vy += Math.sin(a) * s;
+            });
+        }
+
+        /* Pointer */
+        canvas.addEventListener('pointermove', e => { pointer.x = e.clientX; pointer.y = e.clientY; pointer.active = true; });
+        canvas.addEventListener('pointerleave', () => { pointer.active = false; pointer.x = pointer.y = -9999; });
+        canvas.addEventListener('pointerdown', e => { pointer.x = e.clientX; pointer.y = e.clientY; explode(); });
+        document.getElementById('form').addEventListener('submit', e => {
+            e.preventDefault();
+            userWord = !!document.getElementById('word').value.trim();
+            setWord(currentWord());
+        });
+
+        /* Loop */
+        function frame(t) {
+            if (!userWord && t - lastSwap > 4200) {
+                lastSwap = t;
+                if (t > 1000) { wordIndex = (wordIndex + 1) % WORDS.length; setWord(WORDS[wordIndex]); }
+            }
+
+            ctx.fillStyle = 'rgba(5,5,5,0.45)';
+            ctx.fillRect(0, 0, W, H);
+
+            const R = Math.min(W, H) * 0.16, R2 = R * R;
+            for (const p of particles) {
+                let ax = (p.tx - p.x) * p.k, ay = (p.ty - p.y) * p.k;
+                if (pointer.active) {
+                    const dx = p.x - pointer.x, dy = p.y - pointer.y, d2 = dx * dx + dy * dy;
+                    if (d2 < R2) {
+                        const f = (1 - d2 / R2) * 5.5, d = Math.sqrt(d2) || 1;
+                        ax += (dx / d) * f; ay += (dy / d) * f;
+                    }
+                }
+                p.vx = (p.vx + ax) * p.d; p.vy = (p.vy + ay) * p.d;
+                p.x += p.vx; p.y += p.vy;
+            }
+
+            // colour by speed: resting particles are lime, fast ones flare white
+            for (const p of particles) {
+                const speed = Math.min(Math.hypot(p.vx, p.vy) / 18, 1);
+                const l = 55 + speed * 40;
+                ctx.fillStyle = `hsl(${72 - speed * 40} 100% ${l}%)`;
+                const s = p.size * (1 + speed * 0.4);
+                ctx.fillRect(p.x - s / 2, p.y - s / 2, s, s);
+            }
+
+            requestAnimationFrame(frame);
+        }
+
+        document.fonts.ready.then(() => {
+            resize();
+            addEventListener('resize', resize);
+            if (!reduce) requestAnimationFrame(frame);
+            else { particles.forEach(p => { p.x = p.tx; p.y = p.ty; }); frame(0); }
+        });
+    </script>
 </body>
 
 </html>

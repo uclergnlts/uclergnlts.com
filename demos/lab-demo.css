@@ -1,0 +1,168 @@
+/* Shared chrome for Lab experiments: full-screen stage, back link, info panel, control hints. */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --lab-bg: #050505;
+    --lab-fg: #ffffff;
+    --lab-muted: rgba(255, 255, 255, 0.6);
+    --lab-faint: rgba(255, 255, 255, 0.12);
+    --lab-accent: #D9FF00;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    background: var(--lab-bg);
+    color: var(--lab-fg);
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+.stage {
+    position: fixed;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    touch-action: none;
+}
+
+.lab-header {
+    position: fixed;
+    top: 1.5rem;
+    left: 1.5rem;
+    right: 1.5rem;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    pointer-events: none;
+}
+
+.lab-header > * {
+    pointer-events: auto;
+}
+
+.back-btn {
+    color: var(--lab-fg);
+    text-decoration: none;
+    font-size: 0.9rem;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.back-btn:hover,
+.back-btn:focus-visible {
+    opacity: 1;
+}
+
+.lab-tag {
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--lab-accent);
+}
+
+.info-panel {
+    position: fixed;
+    left: 1.5rem;
+    bottom: 1.5rem;
+    z-index: 100;
+    max-width: 360px;
+    pointer-events: none;
+}
+
+.info-panel h1 {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 600;
+    line-height: 1;
+    margin-bottom: 0.6rem;
+}
+
+.info-panel p {
+    font-size: 0.9rem;
+    color: var(--lab-muted);
+    line-height: 1.6;
+}
+
+.controls {
+    position: fixed;
+    right: 1.5rem;
+    bottom: 1.5rem;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.6rem;
+}
+
+.control-hint {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-align: right;
+}
+
+.control-hint span {
+    color: var(--lab-accent);
+}
+
+.lab-btn {
+    font: 500 0.85rem 'Space Grotesk', system-ui, sans-serif;
+    color: var(--lab-fg);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--lab-faint);
+    border-radius: 999px;
+    padding: 0.55rem 1rem;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.lab-btn:hover,
+.lab-btn:focus-visible {
+    border-color: var(--lab-accent);
+    outline: none;
+}
+
+.lab-btn[aria-pressed="true"] {
+    background: var(--lab-accent);
+    border-color: var(--lab-accent);
+    color: #000;
+}
+
+.lab-row {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.lab-fallback {
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    padding: 2rem;
+    color: var(--lab-muted);
+}
+
+@media (max-width: 640px) {
+    .info-panel {
+        right: 1.5rem;
+        bottom: auto;
+        top: 4rem;
+    }
+
+    .info-panel p {
+        display: none;
+    }
+}
