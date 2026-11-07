@@ -307,36 +307,41 @@ document.addEventListener('mousemove', (e) => {
     }
 });
 
-// Contact Form Submission (Mock)
-const contactForm = document.getElementById('contactForm') as HTMLFormElement;
+// Contact Form Submission
+const contactForm = document.getElementById('contactForm') as HTMLFormElement | null;
 if (contactForm) {
+    // No backend: hand the message to WhatsApp, the same channel as the floating widget.
     contactForm.addEventListener('submit', (e) => {
         e.preventDefault();
+        const data = new FormData(contactForm);
+        const text = [
+            `Hi Üçler, I'm ${data.get('name')} (${data.get('email')}).`,
+            '',
+            String(data.get('message') || ''),
+        ].join('\n');
+        window.open(`https://wa.me/905448263533?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
         const btn = contactForm.querySelector('button');
-        const originalText = btn?.innerText || 'Send';
-
-        if (btn) btn.innerText = 'Sending...';
-
-        // Simulate API call
-        setTimeout(() => {
-            if (btn) {
-                btn.innerText = 'Sent! 🚀';
-                btn.style.background = '#00ff88';
-                btn.style.color = '#000';
-            }
-            alert('Thanks for reaching out! This is a demo form, but in a real version, this would fly to my inbox.');
-            contactForm.reset();
-
-            setTimeout(() => {
-                if (btn) {
-                    btn.innerText = originalText;
-                    btn.style.background = '';
-                    btn.style.color = '';
-                }
-            }, 3000);
-        }, 1500);
+        if (btn) {
+            const original = btn.innerHTML;
+            btn.textContent = 'Opening WhatsApp…';
+            setTimeout(() => { btn.innerHTML = original; }, 3000);
+        }
     });
 }
+
+// Projects without a screenshot yet get a styled placeholder instead of a broken image
+document.querySelectorAll<HTMLImageElement>('.project-image img').forEach((img) => {
+    const fallback = () => {
+        const box = img.parentElement;
+        if (!box) return;
+        const title = img.closest('.project-card')?.querySelector('h3')?.textContent ?? '';
+        box.classList.add('no-image');
+        box.setAttribute('data-title', title);
+        img.remove();
+    };
+    if (img.complete && img.naturalWidth === 0) fallback();
+    else img.addEventListener('error', fallback, { once: true });
+});
 
 // Mobile Menu
 const menuBtn = document.querySelector('.menu-btn');
@@ -370,7 +375,6 @@ if (vibeWidget && audioPlayer) {
                 const label = vibeWidget.querySelector('.vibe-label');
                 if (label) label.textContent = 'Now Playing';
             }).catch(e => {
-                alert("Please add a 'music.mp3' file to the public folder to play music!");
                 console.error("Audio playback failed:", e);
             });
         } else {
@@ -381,17 +385,7 @@ if (vibeWidget && audioPlayer) {
         }
     });
 
-    // Attempt auto-play with max volume
-    audioPlayer.volume = 1.0;
-    const playPromise = audioPlayer.play();
-    if (playPromise !== undefined) {
-        playPromise.then(_ => {
-            vibeWidget.classList.add('playing');
-        }).catch(error => {
-            // Auto-play was prevented
-            console.log("Auto-play prevented");
-        });
-    }
+    audioPlayer.volume = 0.5;
 }
 
 // === MAGNETIC BUTTONS ===
