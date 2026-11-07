@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spring Lab | The Lab</title>
+    <meta name="description"
+        content="Spring Lab is a motion tool by Üçler Gönültaş: tune stiffness, damping and mass, watch the spring, and copy it as a CSS linear() easing.">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://uclergnlts.com/demos/spring-lab">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./lab-demo.css">
+    <style>
+        body {
+            overflow: auto;
+        }
+
+        .page {
+            min-height: 100%;
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 5.5rem 1.5rem 3rem;
+            display: grid;
+            grid-template-columns: minmax(0, 340px) minmax(0, 1fr);
+            gap: 1.5rem;
+        }
+
+        .panel {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--lab-faint);
+            border-radius: 16px;
+            padding: 1.4rem;
+            min-width: 0;
+            align-self: start;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            line-height: 1;
+            margin-bottom: 0.6rem;
+        }
+
+        .lede {
+            color: var(--lab-muted);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 1.4rem;
+        }
+
+        .presets {
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.4rem;
+        }
+
+        .presets .lab-btn {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8rem;
+        }
+
+        .field {
+            display: grid;
+            gap: 0.4rem;
+            margin-bottom: 1.1rem;
+        }
+
+        .field-top {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+        }
+
+        .field-top output {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--lab-accent);
+            font-variant-numeric: tabular-nums;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 4px;
+            border-radius: 4px;
+            background: var(--lab-faint);
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--lab-accent);
+            cursor: pointer;
+            border: 3px solid #050505;
+            box-shadow: 0 0 0 1px var(--lab-accent);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--lab-accent);
+            cursor: pointer;
+            border: 3px solid #050505;
+        }
+
+        input[type="range"]:focus-visible::-webkit-slider-thumb {
+            box-shadow: 0 0 0 4px rgba(217, 255, 0, 0.35);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.6rem;
+            margin-top: 1.2rem;
+        }
+
+        .stat {
+            border: 1px solid var(--lab-faint);
+            border-radius: 10px;
+            padding: 0.6rem 0.7rem;
+        }
+
+        .stat b {
+            display: block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            font-weight: 500;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .stat span {
+            font-size: 0.7rem;
+            color: var(--lab-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .right {
+            display: grid;
+            gap: 1.5rem;
+            min-width: 0;
+        }
+
+        .preview {
+            position: relative;
+            height: 260px;
+            overflow: hidden;
+        }
+
+        .track {
+            position: absolute;
+            left: 8%;
+            right: 8%;
+            top: 50%;
+            height: 1px;
+            background: repeating-linear-gradient(90deg, var(--lab-faint) 0 6px, transparent 6px 12px);
+        }
+
+        .ghost,
+        .puck {
+            position: absolute;
+            top: 50%;
+            width: 76px;
+            height: 76px;
+            margin-top: -38px;
+            border-radius: 20px;
+        }
+
+        .ghost {
+            border: 1px dashed rgba(255, 255, 255, 0.25);
+        }
+
+        .puck {
+            background: var(--lab-accent);
+            box-shadow: 0 20px 40px -12px rgba(217, 255, 0, 0.45);
+            display: grid;
+            place-items: center;
+            color: #050505;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            will-change: transform;
+        }
+
+        .preview .lab-btn {
+            position: absolute;
+            right: 1rem;
+            bottom: 1rem;
+        }
+
+        .graph-wrap {
+            position: relative;
+        }
+
+        canvas#graph {
+            display: block;
+            width: 100%;
+            height: 240px;
+        }
+
+        .code-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0.4rem;
+        }
+
+        pre {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78rem;
+            line-height: 1.6;
+            color: #e6e6e6;
+            background: #0c0c0c;
+            border: 1px solid var(--lab-faint);
+            border-radius: 10px;
+            padding: 1rem;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+            max-height: 220px;
+        }
+
+        .label {
+            font-size: 0.75rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--lab-muted);
+            margin-bottom: 0.8rem;
+        }
+
+        @media (max-width: 860px) {
+            .page {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="lab-header">
+        <a href="/lab" class="back-btn">← Back to Lab</a>
+        <span class="lab-tag">Motion tool · CSS linear()</span>
+    </div>
+
+    <main class="page">
+        <section class="panel">
+            <h1>Spring Lab</h1>
+            <p class="lede">Real UI motion comes from physics, not bezier curves. Tune a spring, watch it settle, then
+                copy it as a plain CSS easing that works without any library.</p>
+
+            <div class="presets" id="presets"></div>
+
+            <div class="field">
+                <div class="field-top"><label for="stiffness">Stiffness</label><output id="o-stiffness"></output></div>
+                <input type="range" id="stiffness" min="20" max="600" step="1">
+            </div>
+            <div class="field">
+                <div class="field-top"><label for="damping">Damping</label><output id="o-damping"></output></div>
+                <input type="range" id="damping" min="2" max="60" step="0.5">
+            </div>
+            <div class="field">
+                <div class="field-top"><label for="mass">Mass</label><output id="o-mass"></output></div>
+                <input type="range" id="mass" min="0.2" max="4" step="0.1">
+            </div>
+
+            <div class="stats">
+                <div class="stat"><b id="s-duration">0</b><span>Duration</span></div>
+                <div class="stat"><b id="s-overshoot">0</b><span>Overshoot</span></div>
+                <div class="stat"><b id="s-ratio">0</b><span>Damping ratio</span></div>
+            </div>
+        </section>
+
+        <div class="right">
+            <section class="panel preview" aria-label="Preview">
+                <div class="track"></div>
+                <div class="ghost" id="ghostA"></div>
+                <div class="ghost" id="ghostB"></div>
+                <div class="puck" id="puck">UI</div>
+                <button class="lab-btn" id="play" type="button">Replay</button>
+            </section>
+
+            <section class="panel graph-wrap">
+                <div class="label">Position over time</div>
+                <canvas id="graph" aria-label="Spring curve"></canvas>
+            </section>
+
+            <section class="panel">
+                <div class="code-head">
+                    <div class="tabs" role="tablist">
+                        <button class="lab-btn" role="tab" data-tab="css" aria-pressed="true">CSS</button>
+                        <button class="lab-btn" role="tab" data-tab="js" aria-pressed="false">Motion / Framer</button>
+                    </div>
+                    <button class="lab-btn" id="copy" type="button">Copy</button>
+                </div>
+                <pre id="code"></pre>
+            </section>
+        </div>
+    </main>
+
+    <script type="module">
+        const $ = id => document.getElementById(id);
+        const PRESETS = {
+            Gentle: { stiffness: 120, damping: 14, mass: 1 },
+            Snappy: { stiffness: 400, damping: 30, mass: 1 },
+            Bouncy: { stiffness: 260, damping: 9, mass: 1 },
+            Wobbly: { stiffness: 180, damping: 6, mass: 1.4 },
+            Heavy: { stiffness: 90, damping: 22, mass: 3 },
+        };
+        const state = { ...PRESETS.Bouncy };
+        let tab = 'css';
+
+        /* Spring solver: integrate x'' = (-k(x-1) - c x') / m from x=0 until it settles */
+        function solve({ stiffness: k, damping: c, mass: m }) {
+            const dt = 1 / 600, samples = [];
+            let x = 0, v = 0, t = 0, peak = 0, settled = 0;
+            while (t < 6) {
+                const a = (-k * (x - 1) - c * v) / m;
+                v += a * dt; x += v * dt; t += dt;
+                peak = Math.max(peak, x);
+                if (Math.round(t * 600) % 10 === 0) samples.push([t, x]);
+                if (Math.abs(x - 1) < 0.001 && Math.abs(v) < 0.01) { if (!settled) settled = t; if (t - settled > 0.05) break; }
+                else settled = 0;
+            }
+            return { samples, duration: t, overshoot: Math.max(0, peak - 1), ratio: c / (2 * Math.sqrt(k * m)) };
+        }
+
+        function linearEasing(samples, duration) {
+            // keep points where the curve bends, so the string stays short but faithful
+            const pts = [[0, 0]];
+            for (let i = 1; i < samples.length - 1; i++) {
+                const [t0, x0] = pts[pts.length - 1], [t1, x1] = samples[i], [t2, x2] = samples[i + 1];
+                const predicted = x0 + (x2 - x0) * ((t1 - t0) / (t2 - t0));
+                if (Math.abs(predicted - x1) > 0.004 || t1 - t0 > duration / 12) pts.push([t1, x1]);
+            }
+            pts.push([duration, 1]);
+            return 'linear(' + pts.map(([t, x], i) => {
+                const pct = (t / duration * 100);
+                const val = +x.toFixed(4);
+                return (i === 0 || i === pts.length - 1) ? String(val) : `${val} ${pct.toFixed(1)}%`;
+            }).join(', ') + ')';
+        }
+
+        let result, easing;
+        function update() {
+            ['stiffness', 'damping', 'mass'].forEach(k => {
+                $(k).value = state[k];
+                $('o-' + k).textContent = state[k];
+            });
+            result = solve(state);
+            easing = linearEasing(result.samples, result.duration);
+            $('s-duration').textContent = Math.round(result.duration * 1000) + 'ms';
+            $('s-overshoot').textContent = Math.round(result.overshoot * 100) + '%';
+            $('s-ratio').textContent = result.ratio.toFixed(2);
+            document.querySelectorAll('#presets .lab-btn').forEach(b => {
+                const p = PRESETS[b.textContent];
+                b.setAttribute('aria-pressed', String(p.stiffness === state.stiffness && p.damping === state.damping && p.mass === state.mass));
+            });
+            renderCode();
+            drawGraph();
+            play();
+        }
+
+        function renderCode() {
+            const ms = Math.round(result.duration * 1000);
+            $('code').textContent = tab === 'css'
+                ? `:root {\n  --spring: ${easing};\n  --spring-duration: ${ms}ms;\n}\n\n.card {\n  transition: transform var(--spring-duration) var(--spring);\n}`
+                : `// Motion (framer-motion) or Motion One\n<motion.div\n  animate={{ x: 240 }}\n  transition={{\n    type: "spring",\n    stiffness: ${state.stiffness},\n    damping: ${state.damping},\n    mass: ${state.mass},\n  }}\n/>`;
+        }
+
+        /* Preview: animate the puck with the generated CSS itself, so what you see is what you copy */
+        const puck = $('puck'), preview = puck.parentElement;
+        let forward = true;
+        function positions() {
+            const w = preview.clientWidth, left = w * 0.08, right = w * 0.92 - 76;
+            $('ghostA').style.left = left + 'px'; $('ghostB').style.left = right + 'px';
+            return [left, right];
+        }
+        function play() {
+            const [a, b] = positions();
+            puck.style.transition = 'none';
+            puck.style.left = '0px';
+            puck.style.transform = `translateX(${forward ? a : b}px)`;
+            puck.getBoundingClientRect();
+            puck.style.transition = `transform ${Math.round(result.duration * 1000)}ms ${CSS.supports('transition-timing-function', easing) ? easing : 'cubic-bezier(.2,.8,.2,1.2)'}`;
+            puck.style.transform = `translateX(${forward ? b : a}px)`;
+            forward = !forward;
+        }
+        let loop;
+        function autoLoop() { clearInterval(loop); loop = setInterval(play, Math.max(1400, result.duration * 1000 + 700)); }
+
+        /* Graph */
+        const graph = $('graph'), g = graph.getContext('2d');
+        function drawGraph() {
+            const dpr = Math.min(devicePixelRatio || 1, 2), W = graph.clientWidth, H = graph.clientHeight;
+            graph.width = W * dpr; graph.height = H * dpr; g.setTransform(dpr, 0, 0, dpr, 0, 0);
+            g.clearRect(0, 0, W, H);
+            const pad = { l: 34, r: 12, t: 12, b: 24 };
+            const maxX = Math.max(1.05, 1 + result.overshoot + 0.08);
+            const sx = t => pad.l + (t / result.duration) * (W - pad.l - pad.r);
+            const sy = x => H - pad.b - (x / maxX) * (H - pad.t - pad.b);
+            g.font = '11px "JetBrains Mono", monospace'; g.fillStyle = 'rgba(255,255,255,0.45)';
+            g.strokeStyle = 'rgba(255,255,255,0.08)'; g.lineWidth = 1;
+            [0, 0.5, 1].forEach(v => { g.beginPath(); g.moveTo(pad.l, sy(v)); g.lineTo(W - pad.r, sy(v)); g.stroke(); g.fillText(v.toFixed(1), 4, sy(v) + 4); });
+            g.fillText('0ms', pad.l, H - 6);
+            const end = Math.round(result.duration * 1000) + 'ms';
+            g.fillText(end, W - pad.r - g.measureText(end).width, H - 6);
+            // target line
+            g.strokeStyle = 'rgba(217,255,0,0.35)'; g.setLineDash([4, 4]);
+            g.beginPath(); g.moveTo(pad.l, sy(1)); g.lineTo(W - pad.r, sy(1)); g.stroke(); g.setLineDash([]);
+            // curve with soft fill
+            g.beginPath(); g.moveTo(sx(0), sy(0));
+            result.samples.forEach(([t, x]) => g.lineTo(sx(t), sy(x)));
+            g.lineTo(sx(result.duration), sy(1));
+            const fill = g.createLinearGradient(0, pad.t, 0, H);
+            fill.addColorStop(0, 'rgba(217,255,0,0.18)'); fill.addColorStop(1, 'rgba(217,255,0,0)');
+            g.lineTo(sx(result.duration), sy(0)); g.closePath(); g.fillStyle = fill; g.fill();
+            g.beginPath(); g.moveTo(sx(0), sy(0));
+            result.samples.forEach(([t, x]) => g.lineTo(sx(t), sy(x)));
+            g.strokeStyle = '#D9FF00'; g.lineWidth = 2; g.stroke();
+            // endpoint
+            g.fillStyle = '#D9FF00'; g.beginPath(); g.arc(sx(result.duration), sy(1), 3.5, 0, Math.PI * 2); g.fill();
+        }
+
+        /* Wiring */
+        $('presets').innerHTML = Object.keys(PRESETS).map(n => `<button class="lab-btn" type="button">${n}</button>`).join('');
+        $('presets').addEventListener('click', e => {
+            const b = e.target.closest('.lab-btn'); if (!b) return;
+            Object.assign(state, PRESETS[b.textContent]); update(); autoLoop();
+        });
+        ['stiffness', 'damping', 'mass'].forEach(k => $(k).addEventListener('input', e => { state[k] = +e.target.value; update(); autoLoop(); }));
+        $('play').onclick = () => { play(); autoLoop(); };
+        document.querySelectorAll('[data-tab]').forEach(b => b.onclick = () => {
+            tab = b.dataset.tab;
+            document.querySelectorAll('[data-tab]').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+            renderCode();
+        });
+        $('copy').onclick = () => {
+            const done = () => { $('copy').textContent = 'Copied'; setTimeout(() => $('copy').textContent = 'Copy', 1400); };
+            navigator.clipboard?.writeText($('code').textContent).then(done, () => getSelection().selectAllChildren($('code')));
+        };
+        addEventListener('resize', () => { drawGraph(); positions(); });
+
+        document.fonts.ready.then(() => { update(); autoLoop(); });
+    </script>
+</body>
+
+</html>

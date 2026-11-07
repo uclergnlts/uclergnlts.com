@@ -10,10 +10,10 @@
     <meta name="author" content="Üçler Gönültaş">
     <meta name="robots" content="index, follow, max-image-preview:large">
     <meta name="theme-color" content="#0A0A0A">
-    <link rel="canonical" href="https://uclergnlts.com/lab.html">
+    <link rel="canonical" href="https://uclergnlts.com/lab">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Üçler Gönültaş">
-    <meta property="og:url" content="https://uclergnlts.com/lab.html">
+    <meta property="og:url" content="https://uclergnlts.com/lab">
     <meta property="og:title" content="The Lab | Interactive Web Experiments">
     <meta property="og:description"
         content="A collection of WebGL, Three.js, canvas, motion and creative frontend experiments by Üçler Gönültaş.">
@@ -29,7 +29,7 @@
       "@context": "https://schema.org",
       "@type": "CollectionPage",
       "name": "The Lab",
-      "url": "https://uclergnlts.com/lab.html",
+      "url": "https://uclergnlts.com/lab",
       "description": "Interactive frontend, animation, WebGL, Three.js, canvas and UI experiments by Üçler Gönültaş.",
       "creator": {
         "@type": "Person",
@@ -78,42 +78,80 @@
         }
 
         .experiment-card {
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+            color: inherit;
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid var(--border-light);
             border-radius: 12px;
             overflow: hidden;
-            transition: transform 0.3s;
-            cursor: pointer;
+            transition: transform 0.3s, border-color 0.3s;
         }
 
-        .experiment-card:hover {
+        .experiment-card:hover,
+        .experiment-card:focus-visible {
             transform: translateY(-5px);
             border-color: var(--accent-lime);
+            outline: none;
         }
 
         .exp-preview {
-            height: 200px;
+            aspect-ratio: 16 / 10;
             background: #111;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: monospace;
-            color: #333;
-            font-size: 0.8rem;
+            overflow: hidden;
+        }
+
+        .exp-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.6s;
+        }
+
+        .experiment-card:hover .exp-preview img {
+            transform: scale(1.04);
         }
 
         .exp-info {
-            padding: 1.5rem;
+            padding: 1.4rem 1.5rem 1.6rem;
+        }
+
+        .exp-num {
+            font-family: var(--font-heading);
+            font-size: 0.75rem;
+            color: var(--accent-lime);
+            letter-spacing: 0.12em;
+            margin-bottom: 0.4rem;
         }
 
         .exp-title {
             font-family: var(--font-heading);
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             margin-bottom: 0.5rem;
         }
 
-        .exp-date {
-            font-size: 0.8rem;
+        .exp-desc {
+            font-size: 0.9rem;
+            line-height: 1.55;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .exp-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .exp-tags span {
+            font-size: 0.7rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            padding: 0.25rem 0.6rem;
+            border: 1px solid var(--border-light);
+            border-radius: 999px;
             color: var(--text-secondary);
         }
     </style>
@@ -122,11 +160,11 @@
 <body>
     <nav class="nav">
         <div class="nav-container">
-            <a href="index.html" class="logo"><img src="/logo.png" alt="Üçler Gönültaş logo" class="nav-logo"></a>
+            <a href="/" class="logo"><img src="/logo.png" alt="Üçler Gönültaş logo" class="nav-logo"></a>
             <div class="nav-links">
-                <a href="index.html" class="nav-link">Home</a>
+                <a href="/" class="nav-link">Home</a>
                 <a href="#" class="nav-link active" style="color:var(--accent-lime)">The Lab</a>
-                <a href="uses.html" class="nav-link">Uses</a>
+                <a href="/uses" class="nav-link">Uses</a>
             </div>
         </div>
     </nav>
@@ -135,175 +173,72 @@
         <section class="lab-hero">
             <div>
                 <h1 class="lab-title">THE LAB</h1>
-                <p class="lab-subtitle">WebGL, Three.js, Canvas, motion and serendipity.</p>
+                <p class="lab-subtitle">Small, working experiments in WebGL, Canvas, Web Audio and motion. Every one is interactive.</p>
             </div>
         </section>
 
         <section class="experiments-grid">
-            <!-- Exp 01 -->
-            <a href="demos/audio-reactive.html" class="experiment-card" style="text-decoration: none; color: inherit;">
-                <div class="exp-preview"
-                    style="background: radial-gradient(circle, #D9FF00 0%, transparent 70%); opacity:0.2;">
-                    WebGL Visualizer
-                </div>
+            <a href="/demos/neon-fluid" class="experiment-card">
+                <div class="exp-preview"><img src="/lab/neon-fluid.webp" alt="Neon Fluid preview" width="960" height="600" loading="eager"></div>
                 <div class="exp-info">
-                    <h3 class="exp-title">Audio Reactive</h3>
-                    <p class="exp-date">Experiment 01</p>
-                </div>
-            </a>
-            <!-- Exp 02 -->
-            <a href="demos/neon-fluid.html" class="experiment-card" style="text-decoration: none; color: inherit;">
-                <div class="exp-preview" style="background: linear-gradient(45deg, #7c3aed, #2dd4bf); opacity:0.2;">
-                    Fluid Sim
-                </div>
-                <div class="exp-info">
+                    <p class="exp-num">01</p>
                     <h3 class="exp-title">Neon Fluid</h3>
-                    <p class="exp-date">Experiment 02</p>
+                    <p class="exp-desc">Real fluid dynamics on the GPU. Drag to stir glowing dye through a stable-fluids solver.</p>
+                    <div class="exp-tags"><span>WebGL2</span><span>GLSL</span><span>Navier–Stokes</span></div>
                 </div>
             </a>
-            <!-- Exp 03 -->
-            <a href="demos/kinetic-type.html" class="experiment-card" style="text-decoration: none; color: inherit;">
-                <div class="exp-preview" style="border: 1px dashed #333;">
-                    Typography Distortion
-                </div>
+            <a href="/demos/kinetic-type" class="experiment-card">
+                <div class="exp-preview"><img src="/lab/kinetic-type.webp" alt="Kinetic Type preview" width="960" height="600" loading="eager"></div>
                 <div class="exp-info">
+                    <p class="exp-num">02</p>
                     <h3 class="exp-title">Kinetic Type</h3>
-                    <p class="exp-date">Experiment 03</p>
+                    <p class="exp-desc">Words built from thousands of spring particles that scatter from your cursor and reassemble.</p>
+                    <div class="exp-tags"><span>Canvas 2D</span><span>Spring physics</span></div>
                 </div>
             </a>
-            <!-- Exp 04 (Existing) -->
-            <a href="demos/particle-storm.html" class="experiment-card" style="text-decoration: none; color: inherit;">
-                <div class="exp-preview"
-                    style="background: radial-gradient(ellipse at center, #ff6b6b 0%, #1a1a2e 70%); opacity:0.3;">
-                    Three.js Particles
-                </div>
+            <a href="/demos/audio-reactive" class="experiment-card">
+                <div class="exp-preview"><img src="/lab/audio-reactive.webp" alt="Audio Reactive preview" width="960" height="600" loading="eager"></div>
                 <div class="exp-info">
+                    <p class="exp-num">03</p>
+                    <h3 class="exp-title">Audio Reactive</h3>
+                    <p class="exp-desc">A synthesized drum machine and a visualizer that dances to it, or to your microphone.</p>
+                    <div class="exp-tags"><span>Web Audio</span><span>Canvas 2D</span><span>FFT</span></div>
+                </div>
+            </a>
+            <a href="/demos/spring-lab" class="experiment-card">
+                <div class="exp-preview"><img src="/lab/spring-lab.webp" alt="Spring Lab preview" width="960" height="600" loading="lazy"></div>
+                <div class="exp-info">
+                    <p class="exp-num">04</p>
+                    <h3 class="exp-title">Spring Lab</h3>
+                    <p class="exp-desc">Tune stiffness, damping and mass, then copy the spring as a CSS linear() easing.</p>
+                    <div class="exp-tags"><span>Motion</span><span>CSS</span><span>Tool</span></div>
+                </div>
+            </a>
+            <a href="/demos/particle-storm" class="experiment-card">
+                <div class="exp-preview"><img src="/lab/particle-storm.webp" alt="Particle Storm preview" width="960" height="600" loading="lazy"></div>
+                <div class="exp-info">
+                    <p class="exp-num">05</p>
                     <h3 class="exp-title">Particle Storm</h3>
-                    <p class="exp-date">Experiment 04 • 3D • Click to explore</p>
+                    <p class="exp-desc">10,000 particles swirling in 3D. Move to disturb the field, scroll to zoom.</p>
+                    <div class="exp-tags"><span>Three.js</span><span>WebGL</span></div>
                 </div>
             </a>
-            <!-- Exp 05 (Existing) -->
-            <a href="demos/infinite-tunnel.html" class="experiment-card" style="text-decoration: none; color: inherit;">
-                <div class="exp-preview"
-                    style="background: linear-gradient(180deg, #0f0f0f 0%, #4ecdc4 50%, #0f0f0f 100%); opacity:0.25;">
-                    WebGL Tunnel
-                </div>
+            <a href="/demos/infinite-tunnel" class="experiment-card">
+                <div class="exp-preview"><img src="/lab/infinite-tunnel.webp" alt="Infinite Tunnel preview" width="960" height="600" loading="lazy"></div>
                 <div class="exp-info">
+                    <p class="exp-num">06</p>
                     <h3 class="exp-title">Infinite Tunnel</h3>
-                    <p class="exp-date">Experiment 05 • 3D • Click to explore</p>
+                    <p class="exp-desc">Fly through an endless procedural tunnel. Look around with the mouse, scroll for speed.</p>
+                    <div class="exp-tags"><span>Three.js</span><span>WebGL</span></div>
                 </div>
             </a>
-            <!-- Exp 06 (Existing) -->
-            <a href="demos/morphing-sphere.html" class="experiment-card" style="text-decoration: none; color: inherit;">
-                <div class="exp-preview"
-                    style="background: radial-gradient(circle, #a855f7 0%, #1e1b4b 60%); opacity:0.3;">
-                    Morphing Geometry
-                </div>
+            <a href="/demos/morphing-sphere" class="experiment-card">
+                <div class="exp-preview"><img src="/lab/morphing-sphere.webp" alt="Morphing Sphere preview" width="960" height="600" loading="lazy"></div>
                 <div class="exp-info">
+                    <p class="exp-num">07</p>
                     <h3 class="exp-title">Morphing Sphere</h3>
-                    <p class="exp-date">Experiment 06 • 3D • Click to explore</p>
-                </div>
-            </a>
-            <!-- Exp 07 -->
-            <a href="demos/holographic-ui.html" class="experiment-card" style="text-decoration: none; color: inherit;">
-                <div class="exp-preview"
-                    style="background: linear-gradient(135deg, #00f5ff 0%, #0a0a0a 50%, #ff00ff 100%); opacity:0.2;">
-                    Glassmorphism 3D
-                </div>
-                <div class="exp-info">
-                    <h3 class="exp-title">Holographic UI</h3>
-                    <p class="exp-date">Experiment 07 • 3D</p>
-                </div>
-            </a>
-            <!-- Exp 08 -->
-            <a href="demos/shader-playground.html" class="experiment-card"
-                style="text-decoration: none; color: inherit;">
-                <div class="exp-preview"
-                    style="background: conic-gradient(from 0deg, #ff6b35, #f7c531, #88d498, #1d7af3, #ae2dc2, #ff6b35); opacity:0.15;">
-                    GLSL Shaders
-                </div>
-                <div class="exp-info">
-                    <h3 class="exp-title">Shader Playground</h3>
-                    <p class="exp-date">Experiment 08 • 3D</p>
-                </div>
-            </a>
-            <!-- Exp 09 -->
-            <a href="demos/gravity-field.html" class="experiment-card" style="text-decoration: none; color: inherit;">
-                <div class="exp-preview"
-                    style="background: radial-gradient(circle at 30% 30%, #fca311, transparent 40%), radial-gradient(circle at 70% 70%, #14213d, transparent 50%); opacity:0.25;">
-                    Physics Sim
-                </div>
-                <div class="exp-info">
-                    <h3 class="exp-title">Gravity Field</h3>
-                    <p class="exp-date">Experiment 09 • 3D</p>
-                </div>
-            </a>
-            <!-- Exp 10 -->
-            <a href="demos/digital-rain.html" class="experiment-card" style="text-decoration: none; color: inherit;">
-                <div class="exp-preview"
-                    style="background: linear-gradient(45deg, #0d1117 0%, #238636 50%, #0d1117 100%); opacity:0.3;">
-                    Matrix Rain
-                </div>
-                <div class="exp-info">
-                    <h3 class="exp-title">Digital Rain</h3>
-                    <p class="exp-date">Experiment 10 • Canvas</p>
-                </div>
-            </a>
-            <!-- Exp 11 -->
-            <a href="demos/parallax-stars.html" class="experiment-card" style="text-decoration: none; color: inherit;">
-                <div class="exp-preview"
-                    style="background: radial-gradient(ellipse at bottom, #1b2838 0%, #0a0a0a 100%); opacity:0.25;">
-                    Starfield
-                </div>
-                <div class="exp-info">
-                    <h3 class="exp-title">Parallax Stars</h3>
-                    <p class="exp-date">Experiment 11 • WebGL</p>
-                </div>
-            </a>
-            <!-- Exp 12 -->
-            <a href="demos/neural-interface.html" class="experiment-card"
-                style="text-decoration: none; color: inherit;">
-                <div class="exp-preview"
-                    style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); opacity:0.2;">
-                    AI Chat UI
-                </div>
-                <div class="exp-info">
-                    <h3 class="exp-title">Neural Interface</h3>
-                    <p class="exp-date">Experiment 12 • UI/UX</p>
-                </div>
-            </a>
-            <!-- Exp 13 -->
-            <a href="demos/aurora-borealis.html" class="experiment-card" style="text-decoration: none; color: inherit;">
-                <div class="exp-preview"
-                    style="background: conic-gradient(from 180deg, #f472b6, #8b5cf6, #06b6d4, #f472b6); opacity:0.2;">
-                    Gradient Mesh
-                </div>
-                <div class="exp-info">
-                    <h3 class="exp-title">Aurora Borealis</h3>
-                    <p class="exp-date">Experiment 13 • CSS Art</p>
-                </div>
-            </a>
-            <!-- Exp 14 -->
-            <a href="demos/audio-spectrum.html" class="experiment-card" style="text-decoration: none; color: inherit;">
-                <div class="exp-preview"
-                    style="background: radial-gradient(circle, #ef4444 0%, #0f0f0f 70%); opacity:0.25;">
-                    Sound Waves
-                </div>
-                <div class="exp-info">
-                    <h3 class="exp-title">Audio Spectrum</h3>
-                    <p class="exp-date">Experiment 14 • Web Audio API</p>
-                </div>
-            </a>
-            <!-- Exp 15 -->
-            <a href="demos/easing-visualizer.html" class="experiment-card"
-                style="text-decoration: none; color: inherit;">
-                <div class="exp-preview"
-                    style="background: linear-gradient(to right, #1e3a5f, #0f172a, #1e3a5f); opacity:0.3;">
-                    Cubic Bezier
-                </div>
-                <div class="exp-info">
-                    <h3 class="exp-title">Easing Visualizer</h3>
-                    <p class="exp-date">Experiment 15 • Animation</p>
+                    <p class="exp-desc">A sphere deformed by GLSL noise. The mouse sets how hard it morphs and how fast it spins.</p>
+                    <div class="exp-tags"><span>Three.js</span><span>Shaders</span></div>
                 </div>
             </a>
         </section>
