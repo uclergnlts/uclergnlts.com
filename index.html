@@ -115,10 +115,13 @@
           "@id": "https://uclergnlts.com/#selected-work",
           "name": "Selected frontend development and UI design work",
           "itemListElement": [
-            {"@type": "ListItem", "position": 1, "name": "D4ily", "url": "https://d4ily.com"},
-            {"@type": "ListItem", "position": 2, "name": "Appulse", "url": "https://appulse.de"},
-            {"@type": "ListItem", "position": 3, "name": "NewsN24", "url": "https://newsn24.de"},
-            {"@type": "ListItem", "position": 4, "name": "Tepkinne Web", "url": "https://www.tepkinne.com/"}
+            {"@type": "ListItem", "position": 1, "name": "Farket", "url": "https://farket-jade.vercel.app"},
+            {"@type": "ListItem", "position": 2, "name": "ucler.", "url": "https://ucler-app.vercel.app"},
+            {"@type": "ListItem", "position": 3, "name": "Tepkinne App", "url": "https://apps.apple.com/tr/app/tepkinne/id6773085724"},
+            {"@type": "ListItem", "position": 4, "name": "Tepkinne Web", "url": "https://www.tepkinne.com/"},
+            {"@type": "ListItem", "position": 5, "name": "D4ily", "url": "https://d4ily.com"},
+            {"@type": "ListItem", "position": 6, "name": "Appulse", "url": "https://appulse.de"},
+            {"@type": "ListItem", "position": 7, "name": "NewsN24", "url": "https://newsn24.de"}
           ]
         }
       ]
@@ -379,126 +382,56 @@
                         <h2 class="section-title">Selected Work</h2>
                     </div>
                     <div class="projects-grid">
-
-                        <!-- Project 1: D4ily -->
-                        <a href="https://d4ily.com" target="_blank" rel="noopener noreferrer" class="project-card">
+                        <!--
+                          Project card template: every project uses exactly this shape.
+                          image: /public/projects/<slug>.webp (a missing file falls back to a title card)
+                          header: name + year · category · exactly 3 tags
+                          footer: a.project-link (Live site / App Store) or span.project-link.is-static (In progress, etc.)
+                          Newest first; every second card gets the "offset" class.
+                        -->
+                        <article class="project-card">
                             <div class="project-image">
-                                <img src="/project-d4ily-nano.webp" loading="lazy" decoding="async" width="800" height="600" alt="D4ily AI-powered news platform interface by Üçler Gönültaş">
+                                <img src="/projects/farket.webp" alt="Farket AI-assisted early child development screening app" loading="lazy" decoding="async" width="800" height="600">
                                 <div class="overlay"></div>
                             </div>
                             <div class="project-info">
                                 <div class="project-header">
-                                    <h3>D4ily</h3>
-                                    <span class="year">2024</span>
+                                    <h3>Farket</h3>
+                                    <span class="year">2026</span>
                                 </div>
-                                <p class="project-category">AI-Powered News Aggregator</p>
-                                <div class="tags">
-                                    <span>AI Integration</span>
-                                    <span>Next.js</span>
-                                </div>
-                            </div>
-                        </a>
-
-                        <!-- Project 2: Appulse -->
-                        <a href="https://appulse.de" target="_blank" rel="noopener noreferrer" class="project-card offset">
-                            <div class="project-image">
-                                <img src="/project-appulse-nano.webp" loading="lazy" decoding="async" width="800" height="600" alt="Appulse SaaS analytics dashboard UI design and frontend">
-                                <div class="overlay"></div>
-                            </div>
-                            <div class="project-info">
-                                <div class="project-header">
-                                    <h3>Appulse</h3>
-                                    <span class="year">2024</span>
-                                </div>
-                                <p class="project-category">SaaS Analytics Dashboard</p>
-                                <div class="tags">
-                                    <span>Dashboard</span>
-                                    <span>Data Viz</span>
-                                </div>
-                            </div>
-                        </a>
-
-                        <!-- Project 3: NewsN24 -->
-                        <a href="https://newsn24.de" target="_blank" rel="noopener noreferrer" class="project-card">
-                            <div class="project-image">
-                                <img src="/project-newsn24-nano.webp" loading="lazy" decoding="async" width="800" height="600" alt="NewsN24 global news portal frontend and CMS interface">
-                                <div class="overlay"></div>
-                            </div>
-                            <div class="project-info">
-                                <div class="project-header">
-                                    <h3>NewsN24</h3>
-                                    <span class="year">2024</span>
-                                </div>
-                                <p class="project-category">Global News Portal</p>
-                                <div class="tags">
-                                    <span>CMS Development</span>
-                                    <span>React</span>
-                                </div>
-                            </div>
-                        </a>
-
-                        <!-- Project 4: TilesCera -->
-                        <div class="project-card offset">
-                            <div class="project-image">
-                                <img src="/project1-nano.webp" loading="lazy" decoding="async" width="800" height="600" alt="TilesCera ceramic marketplace platform built with Next.js">
-                                <div class="overlay"></div>
-                            </div>
-                            <div class="project-info">
-                                <div class="project-header">
-                                    <h3>TilesCera</h3>
-                                    <span class="year">2024</span>
-                                </div>
-                                <p class="project-category">Ceramic Marketplace Platform</p>
-                                <div class="tags">
-                                    <span>Next.js</span>
-                                    <span>E-Commerce</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Project 5: Doktorplanı -->
-                        <div class="project-card">
-                            <div class="project-image">
-                                <img src="/project-doktorplani-nano.webp" loading="lazy" decoding="async" width="800" height="600" alt="Doktorplanı healthcare mobile app UI design prototype">
-                                <div class="overlay"></div>
-                            </div>
-                            <div class="project-info">
-                                <div class="project-header">
-                                    <h3>Doktorplanı</h3>
-                                    <span class="year">2024</span>
-                                </div>
-                                <p class="project-category">Healthcare App Design</p>
-                                <div class="tags">
-                                    <span>Figma</span>
-                                    <span>UI/UX</span>
-                                    <span>Prototype</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Project 6: Clinic Check -->
-                        <div class="project-card offset">
-                            <div class="project-image">
-                                <img src="/project2-nano.webp" loading="lazy" decoding="async" width="800" height="600" alt="Clinic Check healthcare mobile app interface design">
-                                <div class="overlay"></div>
-                            </div>
-                            <div class="project-info">
-                                <div class="project-header">
-                                    <h3>Clinic Check</h3>
-                                    <span class="year">2023</span>
-                                </div>
-                                <p class="project-category">Healthcare Mobile App</p>
+                                <p class="project-category">AI Early Development Screening App</p>
                                 <div class="tags">
                                     <span>React Native</span>
-                                    <span>HealthTech</span>
+                                    <span>Supabase</span>
+                                    <span>Claude API</span>
                                 </div>
+                                <a class="project-link" href="https://farket-jade.vercel.app" target="_blank" rel="noopener noreferrer">Live site <span aria-hidden="true">↗</span></a>
                             </div>
-                        </div>
+                        </article>
 
-                        <!-- Project 7: Tepkinne App -->
-                        <a href="https://apps.apple.com/tr/app/tepkinne/id6773085724" target="_blank" rel="noopener noreferrer" class="project-card">
+                        <article class="project-card offset">
                             <div class="project-image">
-                                <img src="/project-tepkinne-app-nano.webp" loading="lazy" decoding="async" width="800" height="600" alt="Tepkinne mobile app interface with audio reactive animations">
+                                <img src="/projects/ucler.webp" alt="ucler. physics, chemistry and biology learning platform" loading="lazy" decoding="async" width="800" height="600">
+                                <div class="overlay"></div>
+                            </div>
+                            <div class="project-info">
+                                <div class="project-header">
+                                    <h3>ucler.</h3>
+                                    <span class="year">2026</span>
+                                </div>
+                                <p class="project-category">Science Learning Platform</p>
+                                <div class="tags">
+                                    <span>Next.js</span>
+                                    <span>EdTech</span>
+                                    <span>Mobile-first</span>
+                                </div>
+                                <a class="project-link" href="https://ucler-app.vercel.app" target="_blank" rel="noopener noreferrer">Live site <span aria-hidden="true">↗</span></a>
+                            </div>
+                        </article>
+
+                        <article class="project-card">
+                            <div class="project-image">
+                                <img src="/projects/tepkinne-app.webp" alt="Tepkinne mobile app interface with audio reactive animations" loading="lazy" decoding="async" width="800" height="600">
                                 <div class="overlay"></div>
                             </div>
                             <div class="project-info">
@@ -512,13 +445,13 @@
                                     <span>Web Audio API</span>
                                     <span>Animation</span>
                                 </div>
+                                <a class="project-link" href="https://apps.apple.com/tr/app/tepkinne/id6773085724" target="_blank" rel="noopener noreferrer">App Store <span aria-hidden="true">↗</span></a>
                             </div>
-                        </a>
+                        </article>
 
-                        <!-- Project 8: Tepkinne Web -->
-                        <a href="https://www.tepkinne.com/" target="_blank" rel="noopener noreferrer" class="project-card offset">
+                        <article class="project-card offset">
                             <div class="project-image">
-                                <img src="/project-tepkinne-web-nano.webp" loading="lazy" decoding="async" width="800" height="600" alt="Tepkinne interactive web platform built with React and Three.js">
+                                <img src="/projects/tepkinne-web.webp" alt="Tepkinne interactive web platform built with React and Three.js" loading="lazy" decoding="async" width="800" height="600">
                                 <div class="overlay"></div>
                             </div>
                             <div class="project-info">
@@ -532,9 +465,129 @@
                                     <span>Three.js</span>
                                     <span>Canvas</span>
                                 </div>
+                                <a class="project-link" href="https://www.tepkinne.com/" target="_blank" rel="noopener noreferrer">Live site <span aria-hidden="true">↗</span></a>
                             </div>
-                        </a>
+                        </article>
 
+                        <article class="project-card">
+                            <div class="project-image">
+                                <img src="/projects/d4ily.webp" alt="D4ily AI-powered news platform interface by Üçler Gönültaş" loading="lazy" decoding="async" width="800" height="600">
+                                <div class="overlay"></div>
+                            </div>
+                            <div class="project-info">
+                                <div class="project-header">
+                                    <h3>D4ily</h3>
+                                    <span class="year">2024</span>
+                                </div>
+                                <p class="project-category">AI-Powered News Aggregator</p>
+                                <div class="tags">
+                                    <span>AI Integration</span>
+                                    <span>Next.js</span>
+                                    <span>TypeScript</span>
+                                </div>
+                                <a class="project-link" href="https://d4ily.com" target="_blank" rel="noopener noreferrer">Live site <span aria-hidden="true">↗</span></a>
+                            </div>
+                        </article>
+
+                        <article class="project-card offset">
+                            <div class="project-image">
+                                <img src="/projects/appulse.webp" alt="Appulse SaaS analytics dashboard UI design and frontend" loading="lazy" decoding="async" width="800" height="600">
+                                <div class="overlay"></div>
+                            </div>
+                            <div class="project-info">
+                                <div class="project-header">
+                                    <h3>Appulse</h3>
+                                    <span class="year">2024</span>
+                                </div>
+                                <p class="project-category">SaaS Analytics Dashboard</p>
+                                <div class="tags">
+                                    <span>Dashboard</span>
+                                    <span>Data Viz</span>
+                                    <span>UI Design</span>
+                                </div>
+                                <a class="project-link" href="https://appulse.de" target="_blank" rel="noopener noreferrer">Live site <span aria-hidden="true">↗</span></a>
+                            </div>
+                        </article>
+
+                        <article class="project-card">
+                            <div class="project-image">
+                                <img src="/projects/newsn24.webp" alt="NewsN24 global news portal frontend and CMS interface" loading="lazy" decoding="async" width="800" height="600">
+                                <div class="overlay"></div>
+                            </div>
+                            <div class="project-info">
+                                <div class="project-header">
+                                    <h3>NewsN24</h3>
+                                    <span class="year">2024</span>
+                                </div>
+                                <p class="project-category">Global News Portal</p>
+                                <div class="tags">
+                                    <span>React</span>
+                                    <span>CMS Development</span>
+                                    <span>Responsive UI</span>
+                                </div>
+                                <a class="project-link" href="https://newsn24.de" target="_blank" rel="noopener noreferrer">Live site <span aria-hidden="true">↗</span></a>
+                            </div>
+                        </article>
+
+                        <article class="project-card offset">
+                            <div class="project-image">
+                                <img src="/projects/tilescera.webp" alt="TilesCera ceramic marketplace platform built with Next.js" loading="lazy" decoding="async" width="800" height="600">
+                                <div class="overlay"></div>
+                            </div>
+                            <div class="project-info">
+                                <div class="project-header">
+                                    <h3>TilesCera</h3>
+                                    <span class="year">2024</span>
+                                </div>
+                                <p class="project-category">Ceramic Marketplace Platform</p>
+                                <div class="tags">
+                                    <span>Next.js</span>
+                                    <span>E-Commerce</span>
+                                    <span>Marketplace</span>
+                                </div>
+                                <span class="project-link is-static">In progress</span>
+                            </div>
+                        </article>
+
+                        <article class="project-card">
+                            <div class="project-image">
+                                <img src="/projects/doktorplani.webp" alt="Doktorplanı healthcare mobile app UI design prototype" loading="lazy" decoding="async" width="800" height="600">
+                                <div class="overlay"></div>
+                            </div>
+                            <div class="project-info">
+                                <div class="project-header">
+                                    <h3>Doktorplanı</h3>
+                                    <span class="year">2024</span>
+                                </div>
+                                <p class="project-category">Healthcare App Design</p>
+                                <div class="tags">
+                                    <span>Figma</span>
+                                    <span>UI/UX</span>
+                                    <span>Prototype</span>
+                                </div>
+                                <span class="project-link is-static">Design prototype</span>
+                            </div>
+                        </article>
+
+                        <article class="project-card offset">
+                            <div class="project-image">
+                                <img src="/projects/clinic-check.webp" alt="Clinic Check healthcare mobile app interface design" loading="lazy" decoding="async" width="800" height="600">
+                                <div class="overlay"></div>
+                            </div>
+                            <div class="project-info">
+                                <div class="project-header">
+                                    <h3>Clinic Check</h3>
+                                    <span class="year">2023</span>
+                                </div>
+                                <p class="project-category">Healthcare Mobile App</p>
+                                <div class="tags">
+                                    <span>React Native</span>
+                                    <span>HealthTech</span>
+                                    <span>Mobile UI</span>
+                                </div>
+                                <span class="project-link is-static">Private project</span>
+                            </div>
+                        </article>
                     </div>
                     <div class="view-all">
                         <a href="https://github.com/uclergnlts" target="_blank" rel="noopener noreferrer" class="btn-outline">

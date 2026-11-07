@@ -684,6 +684,37 @@ body:hover .cursor-circle.hovered {
     margin-right: 1rem;
 }
 
+.project-card {
+    position: relative;
+}
+
+.project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 1rem;
+    font-family: var(--font-heading);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-primary, #fff);
+}
+
+/* The whole card is clickable when the project has a link */
+.project-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+}
+
+.project-link.is-static {
+    color: var(--text-secondary);
+}
+
+.project-link.is-static::after {
+    content: none;
+}
+
 .view-all {
     text-align: center;
 }
