@@ -472,11 +472,13 @@ function initPageTransitions() {
     });
 
     // 3. Intercept Links
-    const links = document.querySelectorAll('a:not([target="_blank"]):not([href^="#"])');
+    const links = document.querySelectorAll<HTMLAnchorElement>('a:not([target="_blank"]):not([href^="#"])');
     links.forEach(link => {
         link.addEventListener('click', (e) => {
             const href = link.getAttribute('href');
             if (!href) return;
+            // let the browser handle new-tab / download clicks
+            if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
 
             e.preventDefault();
 
@@ -492,11 +494,19 @@ function initPageTransitions() {
             });
         });
     });
+
+    // 4. Back/forward cache: the browser restores the page exactly as it was left,
+    // i.e. with the overlay covering everything. Uncover it again.
+    window.addEventListener('pageshow', (e) => {
+        if (!e.persisted) return;
+        gsap.killTweensOf(overlay);
+        gsap.set(overlay, { scaleY: 0, transformOrigin: 'bottom' });
+    });
 }
 
-// Initialize transitions on load
-window.addEventListener('DOMContentLoaded', initPageTransitions);
-// Also call if already loaded (vite hmr fix)
-if (document.readyState === 'complete' || document.readyState === 'interactive') {
+// Initialize transitions once the DOM is ready
+if (document.readyState === 'loading') {
+    window.addEventListener('DOMContentLoaded', initPageTransitions);
+} else {
     initPageTransitions();
 }
