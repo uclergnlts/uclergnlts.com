@@ -22,8 +22,52 @@ menuBtn?.addEventListener('click', () => setMenu(!document.body.classList.contai
 document.querySelectorAll('.nav a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
 
-// Gentle reveal on scroll
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+// Split headlines into words so each one can rise out of a mask
+const splitWords = (el: HTMLElement) => {
+    let i = 0;
+    const wrap = (node: Node) => {
+        const outer = document.createElement('span');
+        outer.className = 'w';
+        const inner = document.createElement('span');
+        inner.className = 'wi';
+        inner.style.setProperty('--i', String(i++));
+        inner.appendChild(node);
+        outer.appendChild(inner);
+        return outer;
+    };
+    Array.from(el.childNodes).forEach((node) => {
+        if (node.nodeType === Node.TEXT_NODE) {
+            const frag = document.createDocumentFragment();
+            (node.textContent ?? '').split(/(\s+)/).forEach((part) => {
+                if (!part) return;
+                frag.appendChild(/^\s+$/.test(part) ? document.createTextNode(' ') : wrap(document.createTextNode(part)));
+            });
+            el.replaceChild(frag, node);
+        } else {
+            const placeholder = document.createComment('');
+            el.replaceChild(placeholder, node);
+            el.replaceChild(wrap(node), placeholder);
+        }
+    });
+    el.classList.add('split');
+};
+const splitTargets = document.querySelectorAll<HTMLElement>('.hero h1, .intro h1, .nf h1, .head h2, .about-text h2, .contact h2');
+splitTargets.forEach(splitWords);
+
+// Stagger siblings that reveal together (cards in a row, list items)
 const reveals = document.querySelectorAll<HTMLElement>('.reveal');
+reveals.forEach((el) => {
+    const parent = el.parentElement;
+    if (!parent) return;
+    const siblings = Array.from(parent.children).filter((c) => c.classList.contains('reveal'));
+    if (siblings.length > 1) el.style.setProperty('--d', `${(siblings.indexOf(el) % 3) * 110}ms`);
+});
+
+// Reveal on scroll
+const observed = [...Array.from(reveals), ...Array.from(splitTargets).filter((h) => !h.closest('.hero, .intro, .nf'))];
 if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
@@ -32,11 +76,164 @@ if ('IntersectionObserver' in window) {
                 io.unobserve(entry.target);
             }
         });
-    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
-    reveals.forEach((el) => io.observe(el));
+    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.05 });
+    observed.forEach((el) => io.observe(el));
 } else {
-    reveals.forEach((el) => el.classList.add('in'));
+    observed.forEach((el) => el.classList.add('in'));
 }
+
+// Hero entrance once the first frame is painted
+const start = () => requestAnimationFrame(() => {
+    root.classList.add('loaded');
+    document.querySelectorAll('.hero h1, .intro h1, .nf h1').forEach((h) => h.classList.add('in'));
+});
+if (document.fonts?.ready) Promise.race([document.fonts.ready, new Promise((r) => setTimeout(r, 600))]).then(start);
+else start();
+
+// Stats count up
+const stats = document.querySelectorAll<HTMLElement>('.stat b');
+stats.forEach((b) => {
+    const text = b.textContent ?? '';
+    const match = text.match(/^(\d+)(.*)$/);
+    if (!match) { b.innerHTML = `<span class="inf">${text}</span>`; return; }
+    if (reduceMotion) return;
+    const target = Number(match[1]);
+    const suffix = match[2];
+    b.textContent = `0${suffix}`;
+    setTimeout(() => {
+        const t0 = performance.now();
+        const step = (now: number) => {
+            const p = Math.min((now - t0) / 1600, 1);
+            b.textContent = `${Math.round(target * (1 - Math.pow(1 - p, 4)))}${suffix}`;
+            if (p < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+    }, 1000);
+});
+
+// Scroll progress bar + marquee that reacts to scroll speed and direction
+const bar = document.createElement('div');
+bar.className = 'progress';
+bar.setAttribute('aria-hidden', 'true');
+document.body.appendChild(bar);
+const tickerAnim = document.querySelector<HTMLElement>('.ticker-track')?.getAnimations()[0];
+let lastY = window.scrollY;
+let speed = 1;
+let dir = 1;
+const heroImg = document.querySelector<HTMLElement>('.hero .fig');
+const frame = () => {
+    const y = window.scrollY;
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.transform = `scaleX(${max > 0 ? y / max : 0})`;
+    if (!reduceMotion) {
+        const v = y - lastY;
+        if (Math.abs(v) > 0.5) dir = v > 0 ? 1 : -1;
+        const targetSpeed = dir * (1 + Math.min(Math.abs(v) / 6, 5));
+        speed += (targetSpeed - speed) * 0.08;
+        if (tickerAnim) tickerAnim.playbackRate = speed;
+        if (heroImg && y < window.innerHeight * 1.2) heroImg.style.transform = `translateY(${y * 0.12}px)`;
+    }
+    lastY = y;
+    requestAnimationFrame(frame);
+};
+requestAnimationFrame(frame);
+
+if (!reduceMotion && finePointer) {
+    // Hero glow follows the pointer
+    const hero = document.querySelector<HTMLElement>('.hero');
+    hero?.addEventListener('pointerenter', () => hero.classList.add('glow'));
+    hero?.addEventListener('pointerleave', () => hero.classList.remove('glow'));
+    hero?.addEventListener('pointermove', (e) => {
+        hero.classList.add('glow');
+        const r = hero.getBoundingClientRect();
+        hero.style.setProperty('--gx', `${e.clientX - r.left}px`);
+        hero.style.setProperty('--gy', `${e.clientY - r.top}px`);
+    });
+
+    // Cards tilt towards the pointer, with a soft lime spotlight
+    document.querySelectorAll<HTMLElement>('.card, .exp, .rules li, .stack-col, .tool, .stat').forEach((el) => {
+        el.classList.add('spot');
+        const tilt = el.matches('.card, .exp') ? 5 : 3;
+        el.addEventListener('pointermove', (e) => {
+            const r = el.getBoundingClientRect();
+            const x = (e.clientX - r.left) / r.width;
+            const y = (e.clientY - r.top) / r.height;
+            el.style.setProperty('--mx', `${x * 100}%`);
+            el.style.setProperty('--my', `${y * 100}%`);
+            el.style.transform = `perspective(1000px) rotateX(${(0.5 - y) * tilt}deg) rotateY(${(x - 0.5) * tilt}deg) translateY(-4px)`;
+        });
+        el.addEventListener('pointerleave', () => { el.style.transform = ''; });
+    });
+
+    // Magnetic buttons
+    document.querySelectorAll<HTMLElement>('.btn, .card-go, .socials a').forEach((el) => {
+        el.addEventListener('pointermove', (e) => {
+            const r = el.getBoundingClientRect();
+            el.style.transform = `translate(${(e.clientX - r.left - r.width / 2) * 0.25}px, ${(e.clientY - r.top - r.height / 2) * 0.35}px)`;
+        });
+        el.addEventListener('pointerleave', () => { el.style.transform = ''; });
+    });
+
+    // Cursor: a lime dot plus a ring that grows over links and says "View" on projects
+    const ring = document.createElement('div');
+    ring.className = 'cursor hidden';
+    ring.innerHTML = '<span>View ↗</span>';
+    const dot = document.createElement('div');
+    dot.className = 'cursor-dot hidden';
+    ring.setAttribute('aria-hidden', 'true');
+    dot.setAttribute('aria-hidden', 'true');
+    document.body.append(ring, dot);
+    let mx = -100, my = -100, rx = -100, ry = -100;
+    window.addEventListener('pointermove', (e) => {
+        mx = e.clientX; my = e.clientY;
+        dot.style.transform = `translate(${mx}px, ${my}px)`;
+        ring.classList.remove('hidden'); dot.classList.remove('hidden');
+        const t = e.target as Element;
+        const onCard = !!t.closest?.('.card:has(.more), .exp');
+        ring.classList.toggle('view', onCard);
+        ring.classList.toggle('hover', !onCard && !!t.closest?.('a, button, input, textarea, label'));
+    });
+    document.addEventListener('pointerleave', () => { ring.classList.add('hidden'); dot.classList.add('hidden'); });
+    window.addEventListener('pointerdown', () => ring.classList.add('press'));
+    window.addEventListener('pointerup', () => ring.classList.remove('press'));
+    const follow = () => {
+        rx += (mx - rx) * 0.18; ry += (my - ry) * 0.18;
+        ring.style.transform = `translate(${rx}px, ${ry}px)`;
+        requestAnimationFrame(follow);
+    };
+    requestAnimationFrame(follow);
+
+    // Whole project card opens its link
+    document.querySelectorAll<HTMLElement>('.card').forEach((card) => {
+        const link = card.querySelector<HTMLAnchorElement>('a.more');
+        if (!link) return;
+        card.style.cursor = 'pointer';
+        card.addEventListener('click', (e) => {
+            if ((e.target as Element).closest('a')) return;
+            window.open(link.href, '_blank', 'noopener');
+        });
+    });
+}
+
+// Section labels type themselves in
+const glyphs = '01<>/{}_#*';
+document.querySelectorAll<HTMLElement>('.head .mono, .about-text > .mono, .contact-left > .mono').forEach((el) => {
+    if (reduceMotion) return;
+    const final = el.textContent ?? '';
+    const io2 = new IntersectionObserver(([entry]) => {
+        if (!entry.isIntersecting) return;
+        io2.disconnect();
+        let n = 0;
+        const run = () => {
+            n += 1;
+            el.textContent = final.split('').map((ch, k) => (k < n / 2 || ch === ' ' ? ch : glyphs[(k + n) % glyphs.length])).join('');
+            if (n / 2 < final.length) setTimeout(run, 22);
+            else el.textContent = final;
+        };
+        run();
+    });
+    io2.observe(el);
+});
 
 // Contact form: no backend, so the message is handed to WhatsApp ready to send.
 const WHATSAPP = '905448263533';
