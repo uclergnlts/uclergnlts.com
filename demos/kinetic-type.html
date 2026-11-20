@@ -9,9 +9,8 @@
         content="Kinetic Type turns any word into thousands of spring-driven particles that scatter from your cursor and pull back into shape. A Lab experiment by Üçler Gönültaş.">
     <meta name="robots" content="index, follow, max-image-preview:large">
     <link rel="canonical" href="https://uclergnlts.com/demos/kinetic-type">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="./lab-fonts.css">
     <link rel="stylesheet" href="./lab-demo.css">
     <style>
         .word-form {
@@ -21,7 +20,7 @@
 
         .word-form input {
             width: 12rem;
-            font: 500 0.9rem 'Space Grotesk', system-ui, sans-serif;
+            font: 500 0.9rem 'Bricolage Grotesque', system-ui, sans-serif;
             color: var(--lab-fg);
             background: rgba(255, 255, 255, 0.06);
             border: 1px solid var(--lab-faint);
@@ -89,9 +88,9 @@
             off.width = W; off.height = H;
             const o = off.getContext('2d');
             let size = Math.min(H * 0.42, (W * 0.86) / Math.max(word.length * 0.68, 1));
-            o.font = `700 ${size}px "Space Grotesk", system-ui, sans-serif`;
+            o.font = `700 ${size}px "Bricolage Grotesque", system-ui, sans-serif`;
             const measured = o.measureText(word).width;
-            if (measured > W * 0.88) { size *= (W * 0.88) / measured; o.font = `700 ${size}px "Space Grotesk", system-ui, sans-serif`; }
+            if (measured > W * 0.88) { size *= (W * 0.88) / measured; o.font = `700 ${size}px "Bricolage Grotesque", system-ui, sans-serif`; }
             o.fillStyle = '#fff'; o.textAlign = 'center'; o.textBaseline = 'middle';
             o.fillText(word, W / 2, H / 2);
             const data = o.getImageData(0, 0, W, H).data;

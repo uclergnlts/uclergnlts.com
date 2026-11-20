@@ -6,11 +6,11 @@
 }
 
 :root {
-    --lab-bg: #050505;
-    --lab-fg: #ffffff;
-    --lab-muted: rgba(255, 255, 255, 0.6);
-    --lab-faint: rgba(255, 255, 255, 0.12);
-    --lab-accent: #D9FF00;
+    --lab-bg: #070a12;
+    --lab-fg: #f1e9d8;
+    --lab-muted: rgba(241, 233, 216, 0.65);
+    --lab-faint: rgba(241, 233, 216, 0.14);
+    --lab-accent: #f5c518;
 }
 
 html,
@@ -19,7 +19,7 @@ body {
 }
 
 body {
-    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-family: 'Manrope', system-ui, sans-serif;
     background: var(--lab-bg);
     color: var(--lab-fg);
     overflow: hidden;
