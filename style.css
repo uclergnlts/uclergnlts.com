@@ -343,3 +343,74 @@ main{overflow-x:clip}
   .stat .inf,.ticker-track i{animation:none}
   .hero::before{display:none}
 }
+
+/* ───────── sound button ───────── */
+.sound-btn{display:inline-flex;align-items:center;gap:9px;height:38px;padding:0 14px 0 12px;margin-left:auto;margin-right:10px;border-radius:999px;border:1px solid var(--line-2);background:transparent;color:var(--muted);font:500 13.5px/1 var(--f-sans);cursor:pointer;transition:color .2s,border-color .2s,background .2s}
+@media (min-width:861px){.sound-btn{order:3;margin:0 0 0 10px}.top .nav{margin-left:auto}}
+.sound-btn:hover{color:var(--ink);border-color:var(--muted)}
+.sound-btn.on{color:var(--on-acc);background:var(--acc);border-color:var(--acc)}
+.sound-btn.pending{border-color:color-mix(in srgb,var(--acc) 60%,transparent)}
+.eq{display:inline-flex;align-items:flex-end;gap:2px;height:14px}
+.eq i{width:3px;height:14px;border-radius:2px;background:currentColor;transform:scaleY(.25);transform-origin:50% 100%;transition:transform .08s linear}
+.sound-btn:not(.on) .eq i:nth-child(2){transform:scaleY(.45)}
+.sound-btn:not(.on) .eq i:nth-child(3){transform:scaleY(.35)}
+@media (max-width:480px){.sound-label{display:none}.sound-btn{padding:0 12px}}
+
+/* ───────── hero WebGL lines ───────── */
+.has-gl{position:relative;isolation:isolate}
+.hero-gl{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;opacity:0;transition:opacity 2s ease .6s}
+.hero-gl.on{opacity:1}
+
+/* ───────── first-visit loader ───────── */
+.pre body::after,.tr body::after{content:"";position:fixed;inset:0;z-index:100}
+.pre body::after{background:var(--bg)}
+.tr body::after{background:var(--acc)}
+.loader{position:fixed;inset:0;z-index:101;background:var(--bg);display:grid;place-content:center;justify-items:center;gap:18px;transition:transform .9s cubic-bezier(.76,0,.24,1),border-radius .9s cubic-bezier(.76,0,.24,1)}
+.loader img{height:44px;width:auto;animation:loaderIn .8s var(--ease-out) both}
+.loader b{font:600 clamp(80px,16vw,180px)/1 var(--f-sans);letter-spacing:-.06em;font-variant-numeric:tabular-nums;color:var(--ink)}
+.loader-bar{width:min(260px,60vw);height:2px;background:var(--line-2);overflow:hidden;border-radius:2px}
+.loader-bar i{display:block;height:100%;background:var(--acc);transform:scaleX(0);transform-origin:0 50%}
+.loader em{font:italic 400 20px/1 var(--f-serif);color:var(--muted)}
+.loader.done{transform:translateY(-100%);border-radius:0 0 50% 50% / 0 0 18% 18%}
+@keyframes loaderIn{from{opacity:0;transform:translateY(12px)}}
+
+/* ───────── page transition curtain ───────── */
+.curtain{position:fixed;inset:0;z-index:99;background:var(--acc);color:var(--on-acc);display:grid;place-items:center;pointer-events:none;transform:translateY(100%);border-radius:50% 50% 0 0 / 14% 14% 0 0}
+.curtain span{font:italic 400 clamp(56px,10vw,120px)/1 var(--f-serif);letter-spacing:-.02em;opacity:0;transform:translateY(30px);transition:opacity .4s,transform .6s var(--ease-out)}
+.curtain.enter{transform:none;border-radius:0;transition:transform .65s cubic-bezier(.76,0,.24,1),border-radius .65s cubic-bezier(.76,0,.24,1)}
+.curtain.enter span,.curtain.cover-now span{opacity:1;transform:none;transition-delay:.25s}
+.curtain.cover-now{transform:none;border-radius:0;transition:none}
+.curtain.leave{transform:translateY(-100%);border-radius:0 0 50% 50% / 0 0 14% 14%;transition:transform .8s cubic-bezier(.76,0,.24,1) .1s,border-radius .8s cubic-bezier(.76,0,.24,1) .1s}
+.curtain.leave span{opacity:0;transform:translateY(-30px);transition:opacity .3s,transform .5s}
+
+/* ───────── live clock ───────── */
+.live{display:inline-flex;align-items:center;gap:8px;font-family:var(--f-mono);font-size:12.5px}
+.live b{width:7px;height:7px;border-radius:50%;background:var(--acc);animation:pulse 2.4s ease-in-out infinite}
+.foot .wrap{row-gap:12px}
+
+/* ───────── card previews ───────── */
+.card-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s;z-index:1}
+.card-img.playing .card-video{opacity:1}
+.card-img.pan img{object-position:50% 0%;transition:transform .6s cubic-bezier(.2,.7,.2,1),object-position 4s ease-in-out}
+.card:hover .card-img.pan img{object-position:50% 100%;transform:scale(1.12)}
+
+/* ───────── party mode ───────── */
+.toast{position:fixed;left:50%;bottom:28px;z-index:80;translate:-50% 20px;opacity:0;padding:12px 18px;border-radius:999px;background:var(--acc);color:var(--on-acc);font-weight:600;font-size:14.5px;pointer-events:none;transition:opacity .3s,translate .5s var(--ease-out);white-space:nowrap}
+.toast.show{opacity:1;translate:-50% 0}
+.confetti{position:fixed;inset:0;z-index:90;pointer-events:none}
+.party{--acc:#d9ff00;animation:partyHue 4s linear infinite}
+@keyframes partyHue{0%{--acc:#d9ff00}25%{--acc:#ff5ce1}50%{--acc:#4dd2ff}75%{--acc:#ffb020}100%{--acc:#d9ff00}}
+@property --acc{syntax:'<color>';inherits:true;initial-value:#d9ff00}
+.party .ticker-track{animation-duration:8s}
+.party .hero h1 .wi{animation:bounce .6s cubic-bezier(.34,1.56,.64,1) infinite alternate;animation-delay:calc(var(--i) * 80ms)}
+@keyframes bounce{to{transform:translateY(-10px) rotate(-3deg)}}
+.party .hero .fig{animation:wobble 1.2s ease-in-out infinite}
+@keyframes wobble{50%{rotate:2deg}}
+.logo.boing img{animation:boing .5s cubic-bezier(.34,1.56,.64,1)}
+@keyframes boing{40%{transform:scale(1.18) rotate(-6deg)}}
+
+@media (prefers-reduced-motion:reduce){
+  .party,.party .hero h1 .wi,.party .hero .fig,.live b{animation:none}
+  .hero-gl{transition:none}
+}
+.cursor.view + .cursor-dot{opacity:0}

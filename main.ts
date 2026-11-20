@@ -1,6 +1,9 @@
 // Shared script for the home, Lab and Uses pages. No framework, no heavy libraries:
 // the look comes from style.css, this file only adds small behaviours.
 
+import { initSound } from './sound';
+import { initTransitions, runLoader, initClock, initPreviews, initParty } from './extras';
+
 const root = document.documentElement;
 root.classList.remove('no-js');
 root.classList.add('js');
@@ -87,8 +90,14 @@ const start = () => requestAnimationFrame(() => {
     root.classList.add('loaded');
     document.querySelectorAll('.hero h1, .intro h1, .nf h1').forEach((h) => h.classList.add('in'));
 });
-if (document.fonts?.ready) Promise.race([document.fonts.ready, new Promise((r) => setTimeout(r, 600))]).then(start);
-else start();
+const fontsReady = document.fonts?.ready ? Promise.race([document.fonts.ready, new Promise((r) => setTimeout(r, 600))]) : Promise.resolve();
+fontsReady.then(() => runLoader(reduceMotion)).then(start);
+
+initSound();
+initTransitions(reduceMotion);
+initClock();
+initParty(reduceMotion);
+if (document.querySelector('.hero')) import('./heroGL').then((m) => m.initHeroGL(reduceMotion));
 
 // Stats count up
 const stats = document.querySelectorAll<HTMLElement>('.stat b');
@@ -267,3 +276,5 @@ document.querySelectorAll<HTMLImageElement>('.card-img img').forEach((img) => {
     if (img.complete && img.naturalWidth === 0) fallback();
     else img.addEventListener('error', fallback, { once: true });
 });
+
+initPreviews(finePointer, reduceMotion);
