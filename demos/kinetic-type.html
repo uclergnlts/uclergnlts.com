@@ -20,7 +20,7 @@
 
         .word-form input {
             width: 12rem;
-            font: 500 0.9rem 'Bricolage Grotesque', system-ui, sans-serif;
+            font: 500 0.9rem 'Geist', system-ui, sans-serif;
             color: var(--lab-fg);
             background: rgba(255, 255, 255, 0.06);
             border: 1px solid var(--lab-faint);
@@ -88,9 +88,9 @@
             off.width = W; off.height = H;
             const o = off.getContext('2d');
             let size = Math.min(H * 0.42, (W * 0.86) / Math.max(word.length * 0.68, 1));
-            o.font = `700 ${size}px "Bricolage Grotesque", system-ui, sans-serif`;
+            o.font = `700 ${size}px "Geist", system-ui, sans-serif`;
             const measured = o.measureText(word).width;
-            if (measured > W * 0.88) { size *= (W * 0.88) / measured; o.font = `700 ${size}px "Bricolage Grotesque", system-ui, sans-serif`; }
+            if (measured > W * 0.88) { size *= (W * 0.88) / measured; o.font = `700 ${size}px "Geist", system-ui, sans-serif`; }
             o.fillStyle = '#fff'; o.textAlign = 'center'; o.textBaseline = 'middle';
             o.fillText(word, W / 2, H / 2);
             const data = o.getImageData(0, 0, W, H).data;

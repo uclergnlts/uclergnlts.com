@@ -11,7 +11,7 @@
     <meta name="robots" content="index, follow, max-image-preview:large">
     <meta name="keywords"
         content="frontend developer, UI designer, React developer, Next.js developer, SaaS dashboard designer, product interface designer, freelance frontend developer">
-    <meta name="theme-color" content="#070a12">
+    <meta name="theme-color" content="#0c0c0d">
 
     <!-- Social & SEO -->
     <meta property="og:type" content="website">
@@ -127,8 +127,7 @@
     }
     </script>
 
-    <link rel="preload" href="/fonts/bricolage-grotesque-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="/fonts/manrope-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="./style.css">
 </head>
 
@@ -137,7 +136,7 @@
 
     <header class="top">
         <div class="wrap">
-            <a href="/" class="logo" aria-label="Üçler Gönültaş, home">üçler<i>.</i></a>
+            <a href="/" class="logo" aria-label="Üçler Gönültaş, home"><i aria-hidden="true"></i>Üçler Gönültaş</a>
             <button class="menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="nav"><span></span></button>
             <nav class="nav" id="nav" aria-label="Main">
                 <a href="#work">Work</a>
@@ -155,24 +154,22 @@
         <div class="cover">
             <section class="wrap hero">
                 <div class="hero-text">
-                    <p class="mono">Fig. 1 · Frontend developer &amp; UI designer · Ankara</p>
-                    <h1>Interfaces that actually <span class="pink">stick</span>..</h1>
+                    <p class="kicker">Frontend developer &amp; UI designer — Ankara</p>
+                    <h1>Interfaces that actually <span class="em">stick.</span></h1>
                     <p class="lead">I'm Üçler. I design and build fast web apps, SaaS dashboards and mobile products with React, Next.js and a lot of attention to the small details.</p>
                     <div class="btns">
                         <a href="#contact" class="btn main">Start a project</a>
                         <a href="#work" class="btn">See selected work</a>
                     </div>
-                    <p class="mono status">Available for freelance · replies within a day</p>
+                    <p class="note">Usually replies within a day.</p>
                 </div>
                 <figure class="fig blend">
                     <picture>
                         <source media="(max-width:600px)" srcset="/me/hero-sm.webp">
                         <img src="/me/hero.webp" alt="Üçler Gönültaş in a black t-shirt, arms crossed" width="1086" height="1448" fetchpriority="high">
                     </picture>
-                    <span class="hand" aria-hidden="true">that's me</span>
-                    <svg class="arrow" viewBox="0 0 120 90" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 80C40 82 84 66 104 22"/><path d="M80 30l25-10 6 27"/></svg>
-                    <figcaption class="mono">Fig. 1a · Üçler, Ankara</figcaption>
-                </figure>
+                    <span class="badge"><b></b>Available for freelance</span>
+                                    </figure>
             </section>
             <div class="wrap">
                 <div class="stats">
@@ -188,7 +185,7 @@
             <div class="wrap">
                 <div class="head-row">
                     <div class="head reveal">
-                        <p class="mono">02 · Selected work</p>
+                        <p class="mono">(01) Selected work</p>
                         <h2>Things I've designed, built and shipped.</h2>
                     </div>
                     <a href="https://github.com/uclergnlts" target="_blank" rel="noopener noreferrer" class="btn">Peek at my GitHub ↗</a>
@@ -308,22 +305,22 @@
         <section id="services" class="section band">
             <div class="wrap">
                 <div class="head reveal">
-                    <p class="mono">03 · What I do</p>
+                    <p class="mono">(02) What I do</p>
                     <h2>Three things I do well.</h2>
                 </div>
                 <ol class="rules">
                     <li class="reveal">
-                        <span class="mono">Service 1</span>
+                        <span class="num">01</span>
                         <b>React &amp; Next.js frontend</b>
                         <p>Web apps, landing pages and dashboards with clean, scalable code, responsive layouts and Lighthouse-level performance.</p>
                     </li>
                     <li class="reveal">
-                        <span class="mono">Service 2</span>
+                        <span class="num">02</span>
                         <b>UI design for products</b>
                         <p>SaaS dashboards, mobile app screens and product interfaces that look sharp and stay out of the user's way.</p>
                     </li>
                     <li class="reveal">
-                        <span class="mono">Service 3</span>
+                        <span class="num">03</span>
                         <b>Motion &amp; 3D on the web</b>
                         <p>GSAP, Three.js and WebGL for smooth transitions, micro-interactions and the odd immersive moment.</p>
                     </li>
@@ -335,7 +332,7 @@
         <section class="section">
             <div class="wrap">
                 <div class="head reveal">
-                    <p class="mono">04 · Stack</p>
+                    <p class="mono">(03) Stack</p>
                     <h2>The tools I actually ship with.</h2>
                 </div>
                 <div class="stack">
@@ -366,10 +363,9 @@
                         <source media="(max-width:600px)" srcset="/me/about-sm.webp">
                         <img src="/me/about.webp" alt="Portrait of Üçler Gönültaş smiling" width="1086" height="1448" loading="lazy">
                     </picture>
-                    <figcaption class="mono">Fig. 2 · Üçler Gönültaş</figcaption>
-                </figure>
+                                    </figure>
                 <div class="about-text reveal">
-                    <p class="mono">05 · Who I am</p>
+                    <p class="mono">(04) Who I am</p>
                     <h2>Not just a dev who pushes pixels, not a designer who can't ship.</h2>
                     <p>I sit right in between. I'm a product-minded frontend developer in Ankara: fast iterations, sharp taste, and an obsession with the tiny interaction details you probably won't notice (but your brain will).</p>
                     <p>Right now I'm building <strong>ucler.</strong>, a science learning app, and <strong>TilesCera</strong>, while working with a few corporate clients. There's still room in my calendar for new builds.</p>
@@ -386,7 +382,7 @@
             <div class="wrap">
                 <div class="head-row">
                     <div class="head reveal">
-                        <p class="mono">06 · The lab</p>
+                        <p class="mono">(05) The lab</p>
                         <h2>Small experiments. Every one is interactive.</h2>
                     </div>
                     <a href="/lab" class="btn">See all 7 experiments →</a>
@@ -412,8 +408,8 @@
         <section id="contact" class="cover section">
             <div class="wrap contact">
                 <div class="contact-left reveal">
-                    <p class="mono">07 · Contact</p>
-                    <h2>Let's build something <span class="pink">together</span>..</h2>
+                    <p class="mono">(06) Contact</p>
+                    <h2>Let's build something <span class="em">together.</span></h2>
                     <p class="lead">Tell me a little about the project. The form opens WhatsApp with your message ready to send, so you'll hear back from me directly.</p>
                     <div class="socials">
                         <a href="https://wa.me/905448263533" target="_blank" rel="noopener noreferrer">WhatsApp</a>
@@ -444,7 +440,7 @@
 
     <footer class="foot cover">
         <div class="wrap">
-            <a href="/" class="logo">üçler<i>.</i></a>
+            <a href="/" class="logo"><i aria-hidden="true"></i>Üçler Gönültaş</a>
             <nav aria-label="Footer">
                 <a href="/#work">Work</a>
                 <a href="/lab">Lab</a>
