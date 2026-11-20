@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 
 <head>
     <meta charset="UTF-8">
@@ -8,57 +8,54 @@
     <meta name="description" content="The requested page could not be found on Üçler Gönültaş's portfolio.">
     <meta name="robots" content="noindex, follow">
     <link rel="canonical" href="https://uclergnlts.com/404">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="preload" href="/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <script>try{var d=document.documentElement,r=matchMedia('(prefers-reduced-motion: reduce)').matches;if(!r&&sessionStorage.getItem('tr'))d.classList.add('tr');else if(!r&&!sessionStorage.getItem('seen'))d.classList.add('pre');setTimeout(function(){d.classList.remove('tr','pre')},3500)}catch(e){}</script>
     <link rel="stylesheet" href="./style.css">
-    <style>
-        body {
-            min-height: 100vh;
-            display: grid;
-            place-items: center;
-            text-align: center;
-            padding: 2rem;
-        }
-
-        .not-found {
-            max-width: 680px;
-        }
-
-        .not-found h1 {
-            font-family: var(--font-heading);
-            font-size: clamp(4rem, 18vw, 12rem);
-            line-height: 0.85;
-            color: transparent;
-            -webkit-text-stroke: 1px var(--text-primary);
-            margin-bottom: 1.5rem;
-        }
-
-        .not-found p {
-            color: var(--text-secondary);
-            line-height: 1.7;
-            margin-bottom: 2rem;
-        }
-
-        .not-found a {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 48px;
-            padding: 0 1.4rem;
-            border: 1px solid var(--accent-lime);
-            color: var(--accent-lime);
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            font-size: 0.85rem;
-        }
-    </style>
 </head>
 
 <body>
-    <main class="not-found">
-        <h1>404</h1>
-        <p>This page slipped out of the build. Head back to the portfolio, selected work and lab experiments.</p>
-        <a href="/">Back Home</a>
-    </main>
-</body>
+    <a class="sr-only" href="#main">Skip to content</a>
 
+    <header class="top">
+        <div class="wrap">
+            <a href="/" class="logo" aria-label="Üçler Gönültaş, home"><img src="/logo.png" alt="" width="210" height="79"></a>
+            <button class="menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="nav"><span></span></button>
+            <nav class="nav" id="nav" aria-label="Main">
+                <a href="/#work">Work</a>
+                <a href="/lab">Lab</a>
+                <a href="/uses">Uses</a>
+                <a href="/#contact" class="btn small">Let's talk</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main" class="cover">
+        <section class="wrap nf">
+            <p class="kicker">Error 404 — page not found</p>
+            <h1>Lost<span class="em">?</span></h1>
+            <p class="lead">This page slipped out of the build. Head back to the portfolio, the work or the lab.</p>
+            <div class="btns">
+                <a href="/" class="btn main">Back home</a>
+                <a href="/lab" class="btn">Open the lab</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="foot cover">
+        <div class="wrap">
+            <a href="/" class="logo" aria-label="Üçler Gönültaş, home"><img src="/logo.png" alt="" width="210" height="79" loading="lazy"></a>
+            <nav aria-label="Footer">
+                <a href="/#work">Work</a>
+                <a href="/lab">Lab</a>
+                <a href="/uses">Uses</a>
+                <a href="https://github.com/uclergnlts" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="https://instagram.com/uclergnlts" target="_blank" rel="noopener noreferrer">Instagram</a>
+            </nav>
+            <span>© 2026 Üçler Gönültaş · Ankara, TR</span>
+        </div>
+    </footer>
+
+    <script type="module" src="/main.ts"></script>
+</body>
 </html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 
 <head>
     <meta charset="UTF-8">
@@ -11,7 +11,7 @@
     <meta name="robots" content="index, follow, max-image-preview:large">
     <meta name="keywords"
         content="frontend developer, UI designer, React developer, Next.js developer, SaaS dashboard designer, product interface designer, freelance frontend developer">
-    <meta name="theme-color" content="#0A0A0A">
+    <meta name="theme-color" content="#0c0c0d">
 
     <!-- Social & SEO -->
     <meta property="og:type" content="website">
@@ -20,7 +20,7 @@
     <meta property="og:title" content="Üçler Gönültaş | Frontend Developer & UI Designer">
     <meta property="og:description"
         content="Frontend developer and UI designer building polished web apps, SaaS dashboards, mobile interfaces and interactive experiences.">
-    <meta property="og:image" content="https://uclergnlts.com/hero-profile-final.png">
+    <meta property="og:image" content="https://uclergnlts.com/og.jpg">
     <meta property="og:image:alt" content="Portrait of Üçler Gönültaş, frontend developer and UI designer">
     <meta property="og:locale" content="en_US">
 
@@ -29,15 +29,14 @@
     <meta name="twitter:title" content="Üçler Gönültaş | Frontend Developer & UI Designer">
     <meta name="twitter:description"
         content="Frontend developer and UI designer building fast, polished web apps and product interfaces.">
-    <meta name="twitter:image" content="https://uclergnlts.com/hero-profile-final.png">
+    <meta name="twitter:image" content="https://uclergnlts.com/og.jpg">
 
-    <link rel="icon" href="/logo.png" type="image/png">
-    <link rel="apple-touch-icon" href="/logo.png">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
     <link rel="canonical" href="https://uclergnlts.com/">
     <link rel="alternate" href="https://uclergnlts.com/" hreflang="en">
     <link rel="alternate" href="https://uclergnlts.com/" hreflang="x-default">
-    <link rel="preload" as="image" href="/hero-profile-update.jpeg" fetchpriority="high">
 
     <!-- Structured Data (JSON-LD) -->
     <script type="application/ld+json">
@@ -49,7 +48,7 @@
       "alternateName": "Ucler Gnlts",
       "jobTitle": "Frontend Developer & UI Designer",
       "url": "https://uclergnlts.com",
-      "image": "https://uclergnlts.com/hero-profile-final.png",
+      "image": "https://uclergnlts.com/og.jpg",
       "description": "Frontend developer and UI designer based in Ankara, building React, Next.js, SaaS dashboard, mobile interface and interactive web experiences.",
       "knowsAbout": [
         "Frontend Development",
@@ -93,7 +92,7 @@
           "@id": "https://uclergnlts.com/#service",
           "name": "Üçler Gönültaş - Frontend Development & UI Design",
           "url": "https://uclergnlts.com/",
-          "image": "https://uclergnlts.com/hero-profile-final.png",
+          "image": "https://uclergnlts.com/og.jpg",
           "description": "Frontend development and UI design for web apps, SaaS dashboards, mobile interfaces, landing pages and interactive web experiences.",
           "areaServed": ["TR", "Europe", "Worldwide"],
           "address": {
@@ -128,560 +127,338 @@
     }
     </script>
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
-
-    <!-- Styles -->
+    <link rel="preload" href="/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <script>try{var d=document.documentElement,r=matchMedia('(prefers-reduced-motion: reduce)').matches;if(!r&&sessionStorage.getItem('tr'))d.classList.add('tr');else if(!r&&!sessionStorage.getItem('seen'))d.classList.add('pre');setTimeout(function(){d.classList.remove('tr','pre')},3500)}catch(e){}</script>
     <link rel="stylesheet" href="./style.css">
 </head>
 
 <body>
-    <!-- Loader -->
-    <div class="loader" id="loader">
-        <img src="/logo.png" alt="3'S Logo" class="loader-logo">
-    </div>
+    <a class="sr-only" href="#main">Skip to content</a>
 
-    <script>
-        // Safety timeout: Hide loader if JS fails or takes too long
-        setTimeout(() => {
-            const loader = document.getElementById('loader');
-            if (loader) loader.style.display = 'none';
-        }, 3000);
-    </script>
+    <header class="top">
+        <div class="wrap">
+            <a href="/" class="logo" aria-label="Üçler Gönültaş, home"><img src="/logo.png" alt="" width="210" height="79"></a>
+            <button class="menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="nav"><span></span></button>
+            <nav class="nav" id="nav" aria-label="Main">
+                <a href="#work">Work</a>
+                <a href="#services">Services</a>
+                <a href="#about">About</a>
+                <a href="/lab">Lab</a>
+                <a href="/uses">Uses</a>
+                <a href="#contact" class="btn small">Let's talk</a>
+            </nav>
+        </div>
+    </header>
 
-    <!-- Custom Cursor -->
-    <div class="cursor-dot"></div>
-    <div class="cursor-circle"></div>
-
-    <!-- Interactive Background -->
-    <canvas id="webgl-canvas"></canvas>
-    <div class="noise-overlay"></div>
-
-    <!-- Navigation -->
-    <nav class="nav">
-        <div class="nav-container">
-            <a href="#" class="logo"><img src="/logo.png" alt="3'S Logo" class="nav-logo"></a>
-            <div class="nav-links">
-                <a href="#about" class="nav-link">About</a>
-                <a href="#services" class="nav-link">Services</a>
-                <a href="#work" class="nav-link">Work</a>
-                <a href="/lab" class="nav-link" style="color: var(--accent-lime); opacity:1;">The Lab</a>
-                <a href="/uses" class="nav-link">Uses</a>
-                <a href="#contact" class="nav-link">Contact</a>
+    <main id="main">
+        <!-- Cover -->
+        <div class="cover">
+            <section class="wrap hero">
+                <div class="hero-text">
+                    <p class="kicker">Frontend developer &amp; UI designer — Ankara</p>
+                    <h1>Interfaces that actually <span class="em">stick.</span></h1>
+                    <p class="lead">I'm Üçler. I design and build fast web apps, SaaS dashboards and mobile products with React, Next.js and a lot of attention to the small details.</p>
+                    <div class="btns">
+                        <a href="#contact" class="btn main">Start a project</a>
+                        <a href="#work" class="btn">See selected work</a>
+                    </div>
+                    <p class="note">Usually replies within a day.</p>
+                </div>
+                <figure class="fig blend">
+                    <picture>
+                        <source media="(max-width:600px)" srcset="/me/hero-sm.webp">
+                        <img src="/me/hero.webp" alt="Üçler Gönültaş in a black t-shirt, arms crossed" width="1086" height="1448" fetchpriority="high">
+                    </picture>
+                    <span class="badge"><b></b>Available for freelance</span>
+                                    </figure>
+            </section>
+            <div class="wrap">
+                <div class="stats">
+                    <div class="stat"><b>3+</b><span class="mono">Years shipping</span></div>
+                    <div class="stat"><b>24+</b><span class="mono">Projects shipped</span></div>
+                    <div class="stat"><b>∞</b><span class="mono">Coffee consumed</span></div>
+                </div>
             </div>
-            <button class="menu-btn" aria-label="Menu">
-                <span></span>
-                <span></span>
-            </button>
         </div>
-    </nav>
 
-    <main id="smooth-wrapper">
-        <div id="smooth-content">
 
-            <!-- Hero Section -->
-            <section class="hero">
-                <div class="container hero-container">
-                    <div class="hero-text-wrapper">
-                        <h1 class="hero-title">
-                            <span class="reveal-text">FRONTEND</span>
-                            <span class="reveal-text indent typewriter" data-text="DEVELOPER"></span>
-                            <span class="reveal-text">& UI DESIGNER</span>
-                        </h1>
-                    </div>
-                    <div class="hero-image-wrapper">
-                        <div class="profile-frame">
-                            <div class="hero-image-container">
-                                <img src="/hero-profile-update.jpeg" alt="Üçler Gönültaş" class="hero-img-monochrome"
-                                    width="450" height="650" fetchpriority="high" decoding="async">
-                            </div>
-                            <div class="status-badge">
-                                <span class="status-dot"></span>
-                                Available for freelance
-                            </div>
-                        </div>
-                    </div>
-                    <div class="scroll-indicator">
-                        <span>SCROLL</span>
-                        <div class="line"></div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- About Section -->
-            <section id="about" class="section about">
-                <div class="container">
-                    <div class="section-header">
-                        <span class="section-number">01</span>
-                        <h2 class="section-title">Who I Am</h2>
-                    </div>
-                    <div class="about-grid">
-                        <div class="about-text">
-                            <p class="lead">
-                                Hey there! I'm Üçler. <br>
-                                I build fast web apps and product interfaces that <span class="highlight">actually
-                                    stick</span>. Based in Ankara, blending React, Next.js, code & design.
-                            </p>
-                            <p class="description">
-                                I'm not just a dev who pushes pixels, nor a designer who can't ship. I sit right in
-                                the sweet spot—crafting SaaS dashboards, mobile interfaces and interactive products that
-                                feel organic, look expensive, and work flawlessly.
-                            </p>
-                            <p class="description">
-                                Right now I’m building <strong>Tilescera</strong> and collaborating with a few corporate
-                                clients.
-                                I still have plenty of free time—so I’m always open for new builds.
-                            </p>
-                            <p class="description">
-                                I’m a product-minded frontend developer: fast iterations, sharp taste, and obsessive attention
-                                to the tiny
-                                interaction details you probably won’t notice (but your brain will love).
-                            </p>
-                            <div class="stats-row">
-                                <div class="stat-item">
-                                    <span class="stat-num">3+</span>
-                                    <span class="stat-label">Years Cooking</span>
-                                </div>
-                                <div class="stat-item">
-                                    <span class="stat-num">24+</span>
-                                    <span class="stat-label">Shipped Projects</span>
-                                </div>
-                                <div class="stat-item">
-                                    <span class="stat-num">∞</span>
-                                    <span class="stat-label">Coffee Consumed</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Toolkit Section (Relocated) -->
-            <section class="section toolkit">
-                <div class="container">
-                    <div class="section-header">
-                        <span class="section-number">++</span>
-                        <h2 class="section-title">The Arsenal</h2>
-                    </div>
-                </div>
-                <!-- Skills Marquee -->
-                <div class="marquee-wrapper">
-                    <div class="marquee-content" aria-hidden="true">
-                        <span>UI DESIGN</span> <span class="dot"></span>
-                        <span>UX DESIGN</span> <span class="dot"></span>
-                        <span>WIREFRAMING</span> <span class="dot"></span>
-                        <span>PROTOTYPING</span> <span class="dot"></span>
-                        <span>USER RESEARCH</span> <span class="dot"></span>
-                        <span>DESIGN SYSTEMS</span> <span class="dot"></span>
-                        <span>ACCESSIBILITY</span> <span class="dot"></span>
-                        <span>RESPONSIVE DESIGN</span> <span class="dot"></span>
-                        <!-- Duplicate for loop -->
-                        <span>UI DESIGN</span> <span class="dot"></span>
-                        <span>UX DESIGN</span> <span class="dot"></span>
-                        <span>WIREFRAMING</span> <span class="dot"></span>
-                        <span>PROTOTYPING</span> <span class="dot"></span>
-                        <span>USER RESEARCH</span> <span class="dot"></span>
-                        <span>DESIGN SYSTEMS</span> <span class="dot"></span>
-                        <span>ACCESSIBILITY</span> <span class="dot"></span>
-                        <span>RESPONSIVE DESIGN</span> <span class="dot"></span>
-                    </div>
-                </div>
-                <!-- Tools Marquee (Reverse) -->
-                <div class="marquee-wrapper reverse">
-                    <div class="marquee-content" aria-hidden="true">
-                        <span>FIGMA</span> <span class="star">★</span>
-                        <span>REACT</span> <span class="star">★</span>
-                        <span>NEXT.JS</span> <span class="star">★</span>
-                        <span>TYPESCRIPT</span> <span class="star">★</span>
-                        <span>THREE.JS</span> <span class="star">★</span>
-                        <span>GSAP</span> <span class="star">★</span>
-                        <span>REACT NATIVE</span> <span class="star">★</span>
-                        <span>WEBGL</span> <span class="star">★</span>
-                        <!-- Duplicate for loop -->
-                        <span>FIGMA</span> <span class="star">★</span>
-                        <span>REACT</span> <span class="star">★</span>
-                        <span>NEXT.JS</span> <span class="star">★</span>
-                        <span>TYPESCRIPT</span> <span class="star">★</span>
-                        <span>THREE.JS</span> <span class="star">★</span>
-                        <span>GSAP</span> <span class="star">★</span>
-                        <span>REACT NATIVE</span> <span class="star">★</span>
-                        <span>WEBGL</span> <span class="star">★</span>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Services Section -->
-            <section id="services" class="section services">
-                <div class="container">
-                    <div class="section-header">
-                        <span class="section-number">02</span>
-                        <h2 class="section-title">What I Do</h2>
-                    </div>
-                    <div class="services-list">
-                        <!-- Service 1 -->
-                        <div class="service-item">
-                            <div class="service-header">
-                                <h3 class="service-name">React & Next.js Frontend Development</h3>
-                                <span class="service-icon">⚡</span>
-                            </div>
-                            <div class="service-content">
-                                <p>Building rock-solid web apps, landing pages and dashboards with Next.js and React.
-                                    Clean code, scalable architecture, responsive UI and Lighthouse-focused performance.</p>
-                                <ul class="service-tags">
-                                    <li>Next.js / React</li>
-                                    <li>TypeScript</li>
-                                    <li>Performance</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- Service 2 -->
-                        <div class="service-item">
-                            <div class="service-header">
-                                <h3 class="service-name">UI Design for Product Interfaces</h3>
-                                <span class="service-icon">🎨</span>
-                            </div>
-                            <div class="service-content">
-                                <p>I design SaaS dashboards, mobile app screens and product interfaces that feel premium
-                                    without getting in the user's way.</p>
-                                <ul class="service-tags">
-                                    <li>UI/UX Design</li>
-                                    <li>Mobile App Design</li>
-                                    <li>Interactive Prototyping</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- Service 3 -->
-                        <div class="service-item">
-                            <div class="service-header">
-                                <h3 class="service-name">Motion, Animation & 3D Web Experiences</h3>
-                                <span class="service-icon">✨</span>
-                            </div>
-                            <div class="service-content">
-                                <p>Making the web feel alive with GSAP, Three.js, and WebGL. Smooth transitions,
-                                    micro-interactions and immersive product moments.</p>
-                                <ul class="service-tags">
-                                    <li>Three.js / WebGL</li>
-                                    <li>GSAP Motion</li>
-                                    <li>Immersive Web</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Work Section -->
-            <section id="work" class="section work">
-                <div class="container">
-                    <div class="section-header">
-                        <span class="section-number">03</span>
-                        <h2 class="section-title">Selected Work</h2>
-                    </div>
-                    <div class="projects-grid">
-                        <!--
-                          Project card template: every project uses exactly this shape.
-                          image: /public/projects/<slug>.webp (a missing file falls back to a title card)
-                          header: name + year · category · exactly 3 tags
-                          footer: a.project-link (Live site / App Store) or span.project-link.is-static (In progress, etc.)
-                          Newest first; every second card gets the "offset" class.
-                        -->
-                        <article class="project-card">
-                            <div class="project-image">
-                                <img src="/projects/farket.webp" alt="Farket AI-assisted early child development screening app" loading="lazy" decoding="async" width="800" height="600">
-                                <div class="overlay"></div>
-                            </div>
-                            <div class="project-info">
-                                <div class="project-header">
-                                    <h3>Farket</h3>
-                                    <span class="year">2026</span>
-                                </div>
-                                <p class="project-category">AI Early Development Screening App</p>
-                                <div class="tags">
-                                    <span>React Native</span>
-                                    <span>Supabase</span>
-                                    <span>Claude API</span>
-                                </div>
-                                <a class="project-link" href="https://farket-jade.vercel.app" target="_blank" rel="noopener noreferrer">Live site <span aria-hidden="true">↗</span></a>
-                            </div>
-                        </article>
-
-                        <article class="project-card offset">
-                            <div class="project-image">
-                                <img src="/projects/ucler.webp" alt="ucler. physics, chemistry and biology learning platform" loading="lazy" decoding="async" width="800" height="600">
-                                <div class="overlay"></div>
-                            </div>
-                            <div class="project-info">
-                                <div class="project-header">
-                                    <h3>ucler.</h3>
-                                    <span class="year">2026</span>
-                                </div>
-                                <p class="project-category">Science Learning Platform</p>
-                                <div class="tags">
-                                    <span>Next.js</span>
-                                    <span>EdTech</span>
-                                    <span>Mobile-first</span>
-                                </div>
-                                <a class="project-link" href="https://ucler-app.vercel.app" target="_blank" rel="noopener noreferrer">Live site <span aria-hidden="true">↗</span></a>
-                            </div>
-                        </article>
-
-                        <article class="project-card">
-                            <div class="project-image">
-                                <img src="/projects/tepkinne-app.webp" alt="Tepkinne mobile app interface with audio reactive animations" loading="lazy" decoding="async" width="800" height="600">
-                                <div class="overlay"></div>
-                            </div>
-                            <div class="project-info">
-                                <div class="project-header">
-                                    <h3>Tepkinne App</h3>
-                                    <span class="year">2025</span>
-                                </div>
-                                <p class="project-category">Audio Reactive Mobile App</p>
-                                <div class="tags">
-                                    <span>React Native</span>
-                                    <span>Web Audio API</span>
-                                    <span>Animation</span>
-                                </div>
-                                <a class="project-link" href="https://apps.apple.com/tr/app/tepkinne/id6773085724" target="_blank" rel="noopener noreferrer">App Store <span aria-hidden="true">↗</span></a>
-                            </div>
-                        </article>
-
-                        <article class="project-card offset">
-                            <div class="project-image">
-                                <img src="/projects/tepkinne-web.webp" alt="Tepkinne interactive web platform built with React and Three.js" loading="lazy" decoding="async" width="800" height="600">
-                                <div class="overlay"></div>
-                            </div>
-                            <div class="project-info">
-                                <div class="project-header">
-                                    <h3>Tepkinne Web</h3>
-                                    <span class="year">2025</span>
-                                </div>
-                                <p class="project-category">Interactive Web Platform</p>
-                                <div class="tags">
-                                    <span>React</span>
-                                    <span>Three.js</span>
-                                    <span>Canvas</span>
-                                </div>
-                                <a class="project-link" href="https://www.tepkinne.com/" target="_blank" rel="noopener noreferrer">Live site <span aria-hidden="true">↗</span></a>
-                            </div>
-                        </article>
-
-                        <article class="project-card">
-                            <div class="project-image">
-                                <img src="/projects/d4ily.webp" alt="D4ily AI-powered news platform interface by Üçler Gönültaş" loading="lazy" decoding="async" width="800" height="600">
-                                <div class="overlay"></div>
-                            </div>
-                            <div class="project-info">
-                                <div class="project-header">
-                                    <h3>D4ily</h3>
-                                    <span class="year">2024</span>
-                                </div>
-                                <p class="project-category">AI-Powered News Aggregator</p>
-                                <div class="tags">
-                                    <span>AI Integration</span>
-                                    <span>Next.js</span>
-                                    <span>TypeScript</span>
-                                </div>
-                                <a class="project-link" href="https://d4ily.com" target="_blank" rel="noopener noreferrer">Live site <span aria-hidden="true">↗</span></a>
-                            </div>
-                        </article>
-
-                        <article class="project-card offset">
-                            <div class="project-image">
-                                <img src="/projects/appulse.webp" alt="Appulse SaaS analytics dashboard UI design and frontend" loading="lazy" decoding="async" width="800" height="600">
-                                <div class="overlay"></div>
-                            </div>
-                            <div class="project-info">
-                                <div class="project-header">
-                                    <h3>Appulse</h3>
-                                    <span class="year">2024</span>
-                                </div>
-                                <p class="project-category">SaaS Analytics Dashboard</p>
-                                <div class="tags">
-                                    <span>Dashboard</span>
-                                    <span>Data Viz</span>
-                                    <span>UI Design</span>
-                                </div>
-                                <a class="project-link" href="https://appulse.de" target="_blank" rel="noopener noreferrer">Live site <span aria-hidden="true">↗</span></a>
-                            </div>
-                        </article>
-
-                        <article class="project-card">
-                            <div class="project-image">
-                                <img src="/projects/newsn24.webp" alt="NewsN24 global news portal frontend and CMS interface" loading="lazy" decoding="async" width="800" height="600">
-                                <div class="overlay"></div>
-                            </div>
-                            <div class="project-info">
-                                <div class="project-header">
-                                    <h3>NewsN24</h3>
-                                    <span class="year">2024</span>
-                                </div>
-                                <p class="project-category">Global News Portal</p>
-                                <div class="tags">
-                                    <span>React</span>
-                                    <span>CMS Development</span>
-                                    <span>Responsive UI</span>
-                                </div>
-                                <a class="project-link" href="https://newsn24.de" target="_blank" rel="noopener noreferrer">Live site <span aria-hidden="true">↗</span></a>
-                            </div>
-                        </article>
-
-                        <article class="project-card offset">
-                            <div class="project-image">
-                                <img src="/projects/tilescera.webp" alt="TilesCera ceramic marketplace platform built with Next.js" loading="lazy" decoding="async" width="800" height="600">
-                                <div class="overlay"></div>
-                            </div>
-                            <div class="project-info">
-                                <div class="project-header">
-                                    <h3>TilesCera</h3>
-                                    <span class="year">2024</span>
-                                </div>
-                                <p class="project-category">Ceramic Marketplace Platform</p>
-                                <div class="tags">
-                                    <span>Next.js</span>
-                                    <span>E-Commerce</span>
-                                    <span>Marketplace</span>
-                                </div>
-                                <span class="project-link is-static">In progress</span>
-                            </div>
-                        </article>
-
-                        <article class="project-card">
-                            <div class="project-image">
-                                <img src="/projects/doktorplani.webp" alt="Doktorplanı healthcare mobile app UI design prototype" loading="lazy" decoding="async" width="800" height="600">
-                                <div class="overlay"></div>
-                            </div>
-                            <div class="project-info">
-                                <div class="project-header">
-                                    <h3>Doktorplanı</h3>
-                                    <span class="year">2024</span>
-                                </div>
-                                <p class="project-category">Healthcare App Design</p>
-                                <div class="tags">
-                                    <span>Figma</span>
-                                    <span>UI/UX</span>
-                                    <span>Prototype</span>
-                                </div>
-                                <span class="project-link is-static">Design prototype</span>
-                            </div>
-                        </article>
-
-                        <article class="project-card offset">
-                            <div class="project-image">
-                                <img src="/projects/clinic-check.webp" alt="Clinic Check healthcare mobile app interface design" loading="lazy" decoding="async" width="800" height="600">
-                                <div class="overlay"></div>
-                            </div>
-                            <div class="project-info">
-                                <div class="project-header">
-                                    <h3>Clinic Check</h3>
-                                    <span class="year">2023</span>
-                                </div>
-                                <p class="project-category">Healthcare Mobile App</p>
-                                <div class="tags">
-                                    <span>React Native</span>
-                                    <span>HealthTech</span>
-                                    <span>Mobile UI</span>
-                                </div>
-                                <span class="project-link is-static">Private project</span>
-                            </div>
-                        </article>
-                    </div>
-                    <div class="view-all">
-                        <a href="https://github.com/uclergnlts" target="_blank" rel="noopener noreferrer" class="btn-outline">
-                            Peek at my Github
-                            <span class="arrow">↗</span>
-                        </a>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Contact Section -->
-            <section id="contact" class="section contact">
-                <div class="container">
-                    <div class="contact-wrapper">
-                        <div class="contact-header">
-                            <h2 class="big-text">LET'S<br>WORK<br>TOGETHER</h2>
-                        </div>
-                        <div class="contact-form-wrapper">
-                            <form class="contact-form" id="contactForm">
-                                <div class="form-group">
-                                    <label for="cf-name">What's your name?</label>
-                                    <input id="cf-name" name="name" type="text" placeholder="John Doe" autocomplete="name" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="cf-email">What's your email?</label>
-                                    <input id="cf-email" name="email" type="email" placeholder="john@example.com" autocomplete="email" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="cf-message">Tell me about your project</label>
-                                    <textarea id="cf-message" name="message" placeholder="Hello, I have an idea..." rows="4" required></textarea>
-                                </div>
-                                <button type="submit" class="btn-primary">
-                                    Send via WhatsApp
-                                    <span class="btn-glow"></span>
-                                </button>
-                            </form>
-                            <div class="socials">
-                                <a href="https://linkedin.com/in/uclergnlts" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-                                <a href="https://dribbble.com/uclergnlts" target="_blank" rel="noopener noreferrer">Dribbble</a>
-                                <a href="https://github.com/uclergnlts" target="_blank" rel="noopener noreferrer">GitHub</a>
-                                <a href="https://instagram.com/uclergnlts" target="_blank" rel="noopener noreferrer">Instagram</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Footer -->
-            <footer class="footer">
-                <div class="container">
-                    <div class="footer-content">
-                        <span class="copyright">© 2026 Üçler Gönültaş</span>
-                        <span class="location">Ankara, TR</span>
-                    </div>
-                </div>
-            </footer>
+        <!-- Ticker -->
+        <div class="ticker" aria-label="Skills: React, Next.js, TypeScript, UI Design, React Native, Design Systems, Three.js, GSAP, Figma, Supabase">
+            <div class="ticker-track" aria-hidden="true"><span>React</span><i aria-hidden="true">✦</i><span>Next.js</span><i aria-hidden="true">✦</i><span>TypeScript</span><i aria-hidden="true">✦</i><span>UI Design</span><i aria-hidden="true">✦</i><span>React Native</span><i aria-hidden="true">✦</i><span>Design Systems</span><i aria-hidden="true">✦</i><span>Three.js</span><i aria-hidden="true">✦</i><span>GSAP</span><i aria-hidden="true">✦</i><span>Figma</span><i aria-hidden="true">✦</i><span>Supabase</span><i aria-hidden="true">✦</i><span>React</span><i aria-hidden="true">✦</i><span>Next.js</span><i aria-hidden="true">✦</i><span>TypeScript</span><i aria-hidden="true">✦</i><span>UI Design</span><i aria-hidden="true">✦</i><span>React Native</span><i aria-hidden="true">✦</i><span>Design Systems</span><i aria-hidden="true">✦</i><span>Three.js</span><i aria-hidden="true">✦</i><span>GSAP</span><i aria-hidden="true">✦</i><span>Figma</span><i aria-hidden="true">✦</i><span>Supabase</span><i aria-hidden="true">✦</i></div>
         </div>
+
+        <!-- Work -->
+        <section id="work" class="section">
+            <div class="wrap">
+                <div class="head-row">
+                    <div class="head reveal">
+                        <p class="mono">(01) Selected work</p>
+                        <h2>Things I've designed, built and <span class="em">shipped.</span></h2>
+                    </div>
+                    <a href="https://github.com/uclergnlts" target="_blank" rel="noopener noreferrer" class="btn">Peek at my GitHub ↗</a>
+                </div>
+                <!--
+                  Project card template: every project uses exactly this shape.
+                  image: /public/projects/<slug>.webp (a missing file falls back to a title card)
+                  body: "year · category" label, name, one line, exactly 3 tags,
+                  then a.more (Live site / App Store) or span.static (In progress, etc.). Newest first.
+                -->
+                <div class="grid-2">
+                    <article class="card reveal">
+                        <div class="card-img"><span class="card-go" aria-hidden="true">↗</span><img src="/projects/farket.webp" alt="Farket, an AI-assisted early child development screening app" loading="lazy" width="800" height="600"></div>
+                        <div class="card-body">
+                            <p class="mono">2026 · AI screening app</p>
+                            <h3>Farket</h3>
+                            <p>Early child development screening for parents, with AI-assisted guidance.</p>
+                            <div class="tags"><span>React Native</span><span>Supabase</span><span>Claude API</span></div>
+                            <a class="more" href="https://farket-jade.vercel.app" target="_blank" rel="noopener noreferrer">Live site ↗</a>
+                        </div>
+                    </article>
+                    <article class="card reveal">
+                        <div class="card-img"><span class="card-go" aria-hidden="true">↗</span><img src="/projects/ucler.webp" alt="ucler., a physics, chemistry and biology learning platform" loading="lazy" width="800" height="600"></div>
+                        <div class="card-body">
+                            <p class="mono">2026 · Science learning platform</p>
+                            <h3>ucler.</h3>
+                            <p>Short, visual science lessons in an app, plus long-form videos on YouTube.</p>
+                            <div class="tags"><span>Next.js</span><span>EdTech</span><span>Mobile-first</span></div>
+                            <a class="more" href="https://ucler.app" target="_blank" rel="noopener noreferrer">Live site ↗</a>
+                        </div>
+                    </article>
+                    <article class="card reveal">
+                        <div class="card-img"><span class="card-go" aria-hidden="true">↗</span><img src="/projects/tepkinne-app.webp" alt="Tepkinne mobile app" loading="lazy" width="800" height="600"></div>
+                        <div class="card-body">
+                            <p class="mono">2025 · Mobile app</p>
+                            <h3>Tepkinne App</h3>
+                            <p>Tepkinne on iOS: the same live reactions to the news, built for the phone.</p>
+                            <div class="tags"><span>React Native</span><span>Web Audio API</span><span>Animation</span></div>
+                            <a class="more" href="https://apps.apple.com/tr/app/tepkinne/id6773085724" target="_blank" rel="noopener noreferrer">App Store ↗</a>
+                        </div>
+                    </article>
+                    <article class="card reveal">
+                        <div class="card-img"><span class="card-go" aria-hidden="true">↗</span><img src="/projects/tepkinne-web.webp" alt="Tepkinne web platform showing live reactions to the news" loading="lazy" width="800" height="600"></div>
+                        <div class="card-body">
+                            <p class="mono">2025 · Interactive web platform</p>
+                            <h3>Tepkinne Web</h3>
+                            <p>Live reactions to Türkiye's news agenda, by topic and by the dominant mood.</p>
+                            <div class="tags"><span>React</span><span>Three.js</span><span>Canvas</span></div>
+                            <a class="more" href="https://www.tepkinne.com/" target="_blank" rel="noopener noreferrer">Live site ↗</a>
+                        </div>
+                    </article>
+                    <article class="card reveal">
+                        <div class="card-img"><span class="card-go" aria-hidden="true">↗</span><img src="/projects/d4ily.webp" alt="D4ily, an AI-powered news aggregator" loading="lazy" width="800" height="600"></div>
+                        <div class="card-body">
+                            <p class="mono">2024 · AI news aggregator</p>
+                            <h3>D4ily</h3>
+                            <p>The day's news gathered and summarised with AI, in one calm feed.</p>
+                            <div class="tags"><span>AI Integration</span><span>Next.js</span><span>TypeScript</span></div>
+                            <a class="more" href="https://d4ily.com" target="_blank" rel="noopener noreferrer">Live site ↗</a>
+                        </div>
+                    </article>
+                    <article class="card reveal">
+                        <div class="card-img"><span class="card-go" aria-hidden="true">↗</span><img src="/projects/appulse.webp" alt="Appulse SaaS analytics dashboard" loading="lazy" width="800" height="600"></div>
+                        <div class="card-body">
+                            <p class="mono">2024 · SaaS analytics dashboard</p>
+                            <h3>Appulse</h3>
+                            <p>Dashboard UI and frontend for an app analytics product.</p>
+                            <div class="tags"><span>Dashboard</span><span>Data Viz</span><span>UI Design</span></div>
+                            <a class="more" href="https://appulse.de" target="_blank" rel="noopener noreferrer">Live site ↗</a>
+                        </div>
+                    </article>
+                    <article class="card reveal">
+                        <div class="card-img"><span class="card-go" aria-hidden="true">↗</span><img src="/projects/newsn24.webp" alt="NewsN24 global news portal" loading="lazy" width="800" height="600"></div>
+                        <div class="card-body">
+                            <p class="mono">2024 · Global news portal</p>
+                            <h3>NewsN24</h3>
+                            <p>A responsive news portal with its own editorial CMS.</p>
+                            <div class="tags"><span>React</span><span>CMS Development</span><span>Responsive UI</span></div>
+                            <a class="more" href="https://newsn24.de" target="_blank" rel="noopener noreferrer">Live site ↗</a>
+                        </div>
+                    </article>
+                    <article class="card reveal">
+                        <div class="card-img"><span class="card-go" aria-hidden="true">↗</span><img src="/projects/tilescera.webp" alt="TilesCera ceramic marketplace" loading="lazy" width="800" height="600"></div>
+                        <div class="card-body">
+                            <p class="mono">2024 · Ceramic marketplace</p>
+                            <h3>TilesCera</h3>
+                            <p>A marketplace connecting ceramic and tile producers with buyers.</p>
+                            <div class="tags"><span>Next.js</span><span>E-Commerce</span><span>Marketplace</span></div>
+                            <span class="static">In progress</span>
+                        </div>
+                    </article>
+                    <article class="card reveal">
+                        <div class="card-img"><span class="card-go" aria-hidden="true">↗</span><img src="/projects/doktorplani.webp" alt="Doktorplanı healthcare app design" loading="lazy" width="800" height="600"></div>
+                        <div class="card-body">
+                            <p class="mono">2024 · Healthcare app design</p>
+                            <h3>Doktorplanı</h3>
+                            <p>Appointment and treatment planning, designed as a clickable prototype.</p>
+                            <div class="tags"><span>Figma</span><span>UI/UX</span><span>Prototype</span></div>
+                            <span class="static">Design prototype</span>
+                        </div>
+                    </article>
+                    <article class="card reveal">
+                        <div class="card-img"><span class="card-go" aria-hidden="true">↗</span><img src="/projects/clinic-check.webp" alt="Clinic Check healthcare mobile app" loading="lazy" width="800" height="600"></div>
+                        <div class="card-body">
+                            <p class="mono">2023 · Healthcare mobile app</p>
+                            <h3>Clinic Check</h3>
+                            <p>A mobile app for clinic check-ins and patient follow-up.</p>
+                            <div class="tags"><span>React Native</span><span>HealthTech</span><span>Mobile UI</span></div>
+                            <span class="static">Private project</span>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services -->
+        <section id="services" class="section band">
+            <div class="wrap">
+                <div class="head reveal">
+                    <p class="mono">(02) What I do</p>
+                    <h2>Three things I do <span class="em">well.</span></h2>
+                </div>
+                <ol class="rules">
+                    <li class="reveal">
+                        <span class="num">01</span>
+                        <b>React &amp; Next.js frontend</b>
+                        <p>Web apps, landing pages and dashboards with clean, scalable code, responsive layouts and Lighthouse-level performance.</p>
+                    </li>
+                    <li class="reveal">
+                        <span class="num">02</span>
+                        <b>UI design for products</b>
+                        <p>SaaS dashboards, mobile app screens and product interfaces that look sharp and stay out of the user's way.</p>
+                    </li>
+                    <li class="reveal">
+                        <span class="num">03</span>
+                        <b>Motion &amp; 3D on the web</b>
+                        <p>GSAP, Three.js and WebGL for smooth transitions, micro-interactions and the odd immersive moment.</p>
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- Stack -->
+        <section class="section">
+            <div class="wrap">
+                <div class="head reveal">
+                    <p class="mono">(03) Stack</p>
+                    <h2>The tools I actually ship with.</h2>
+                </div>
+                <div class="stack">
+                    <div class="stack-col reveal">
+                        <p class="mono">Build</p>
+                        <h3>Frontend</h3>
+                        <div class="chips"><span>React</span><span>Next.js</span><span>TypeScript</span><span>React Native</span><span>Tailwind CSS</span><span>Supabase</span><span>Vercel</span></div>
+                    </div>
+                    <div class="stack-col reveal">
+                        <p class="mono">Design</p>
+                        <h3>Interface</h3>
+                        <div class="chips"><span>Figma</span><span>Design systems</span><span>Prototyping</span><span>UX research</span><span>Accessibility</span><span>Responsive design</span></div>
+                    </div>
+                    <div class="stack-col reveal">
+                        <p class="mono">Motion</p>
+                        <h3>Interaction</h3>
+                        <div class="chips"><span>GSAP</span><span>Motion</span><span>Three.js</span><span>WebGL</span><span>Canvas</span><span>Web Audio</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About -->
+        <section id="about" class="section band">
+            <div class="wrap about">
+                <figure class="fig blend reveal">
+                    <picture>
+                        <source media="(max-width:600px)" srcset="/me/about-sm.webp">
+                        <img src="/me/about.webp" alt="Portrait of Üçler Gönültaş smiling" width="1086" height="1448" loading="lazy">
+                    </picture>
+                                    </figure>
+                <div class="about-text reveal">
+                    <p class="mono">(04) Who I am</p>
+                    <h2>Not just a dev who pushes pixels, not a designer who can't ship.</h2>
+                    <p>I sit right in between. I'm a product-minded frontend developer in Ankara: fast iterations, sharp taste, and an obsession with the tiny interaction details you probably won't notice (but your brain will).</p>
+                    <p>Right now I'm building <strong>ucler.</strong>, a science learning app, and <strong>TilesCera</strong>, while working with a few corporate clients. There's still room in my calendar for new builds.</p>
+                    <div class="btns">
+                        <a href="#contact" class="btn main">Work with me</a>
+                        <a href="/uses" class="btn">What I use</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lab teaser -->
+        <section class="section">
+            <div class="wrap">
+                <div class="head-row">
+                    <div class="head reveal">
+                        <p class="mono">(05) The lab</p>
+                        <h2>Small experiments. Every one is interactive.</h2>
+                    </div>
+                    <a href="/lab" class="btn">See all 7 experiments →</a>
+                </div>
+                <div class="lab-grid three">
+                    <a href="/demos/neon-fluid" class="exp reveal">
+                        <div class="exp-img"><img src="/lab/neon-fluid.webp" alt="" width="960" height="600" loading="lazy"></div>
+                        <div class="exp-body"><p class="mono">WebGL2 · GLSL</p><h3>Neon Fluid</h3><p>Drag to stir glowing dye through a real fluid solver.</p></div>
+                    </a>
+                    <a href="/demos/kinetic-type" class="exp reveal">
+                        <div class="exp-img"><img src="/lab/kinetic-type.webp" alt="" width="960" height="600" loading="lazy"></div>
+                        <div class="exp-body"><p class="mono">Canvas 2D · Springs</p><h3>Kinetic Type</h3><p>Words made of particles that scatter from your cursor.</p></div>
+                    </a>
+                    <a href="/demos/audio-reactive" class="exp reveal">
+                        <div class="exp-img"><img src="/lab/audio-reactive.webp" alt="" width="960" height="600" loading="lazy"></div>
+                        <div class="exp-body"><p class="mono">Web Audio · FFT</p><h3>Audio Reactive</h3><p>A tiny drum machine and a visualizer that dances to it.</p></div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact -->
+        <section id="contact" class="cover section">
+            <div class="wrap contact">
+                <div class="contact-left reveal">
+                    <p class="mono">(06) Contact</p>
+                    <h2>Let's build something <span class="em">together.</span></h2>
+                    <p class="lead">Tell me a little about the project. The form opens WhatsApp with your message ready to send, so you'll hear back from me directly.</p>
+                    <div class="socials">
+                        <a href="https://wa.me/905448263533" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+                        <a href="https://linkedin.com/in/uclergnlts" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                        <a href="https://github.com/uclergnlts" target="_blank" rel="noopener noreferrer">GitHub</a>
+                        <a href="https://dribbble.com/uclergnlts" target="_blank" rel="noopener noreferrer">Dribbble</a>
+                        <a href="https://instagram.com/uclergnlts" target="_blank" rel="noopener noreferrer">Instagram</a>
+                    </div>
+                </div>
+                <form class="form reveal" id="contactForm">
+                    <div class="field">
+                        <label for="cf-name">Your name</label>
+                        <input id="cf-name" name="name" type="text" placeholder="Jane Doe" autocomplete="name" required>
+                    </div>
+                    <div class="field">
+                        <label for="cf-email">Your email</label>
+                        <input id="cf-email" name="email" type="email" placeholder="jane@example.com" autocomplete="email" required>
+                    </div>
+                    <div class="field">
+                        <label for="cf-message">About the project</label>
+                        <textarea id="cf-message" name="message" placeholder="Hi Üçler, I have an idea…" rows="4" required></textarea>
+                    </div>
+                    <button type="submit" class="btn main">Send via WhatsApp</button>
+                </form>
+            </div>
+        </section>
     </main>
 
-    <!-- Vibe Widget (Custom) -->
-    <div class="vibe-widget">
-        <div class="vibe-icon">
-            <div class="vinyl-spin"></div>
-            <div class="equalizer">
-                <span></span><span></span><span></span><span></span>
-            </div>
+    <footer class="foot cover">
+        <div class="wrap">
+            <a href="/" class="logo" aria-label="Üçler Gönültaş, home"><img src="/logo.png" alt="" width="210" height="79" loading="lazy"></a>
+            <nav aria-label="Footer">
+                <a href="/#work">Work</a>
+                <a href="/lab">Lab</a>
+                <a href="/uses">Uses</a>
+                <a href="https://github.com/uclergnlts" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="https://instagram.com/uclergnlts" target="_blank" rel="noopener noreferrer">Instagram</a>
+            </nav>
+            <span>© 2026 Üçler Gönültaş · Ankara, TR</span>
         </div>
-        <div class="vibe-info">
-            <span class="vibe-label">Now Vibe</span>
-            <div class="vibe-track-marquee">
-                <span class="track-text">Ivy - akoYuno • Vibe Mode: ON • </span>
-                <span class="track-text">Ivy - akoYuno • Vibe Mode: ON • </span>
-            </div>
-        </div>
-    </div>
-
-    <!-- WhatsApp Widget -->
-    <a href="https://wa.me/905448263533" target="_blank" rel="noopener noreferrer" class="whatsapp-widget" aria-label="Chat on WhatsApp">
-        <div class="whatsapp-icon">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                    d="M17.472 14.382C17.112 14.202 15.344 13.332 15.013 13.203C14.682 13.074 14.436 13.011 14.19 13.382C13.945 13.753 13.245 14.57 13.033 14.81C12.822 15.05 12.61 15.081 12.25 14.901C11.89 14.721 10.729 14.341 9.352 13.113C8.286 12.162 7.566 10.99 7.355 10.63C7.144 10.27 7.333 10.075 7.513 9.895C7.674 9.734 7.872 9.476 8.052 9.266C8.232 9.056 8.293 8.876 8.413 8.636C8.533 8.396 8.473 8.186 8.383 8.006C8.293 7.826 7.573 6.056 7.273 5.336C6.98 4.634 6.685 4.729 6.476 4.729C6.284 4.724 6.064 4.724 5.844 4.724C5.624 4.724 5.264 4.807 4.964 5.137C4.664 5.467 3.814 6.262 3.814 7.882C3.814 9.502 4.994 11.062 5.164 11.292C5.334 11.522 7.42 14.735 10.615 16.115C13.335 17.29 13.886 17.056 14.477 17.001C15.068 16.946 16.38 16.246 16.65 15.486C16.92 14.726 16.92 14.076 16.84 13.936C16.76 13.796 16.53 13.726 16.17 13.546Z"
-                    fill="#25D366" />
-                <path fill-rule="evenodd" clip-rule="evenodd"
-                    d="M12 4C7.58172 4 4 7.58172 4 12C4 13.681 4.526 15.225 5.427 16.516L4.29 20.669L8.609 19.536C9.645 20.103 10.8 20.407 12 20.407C16.419 20.407 20 16.826 20 12.407C20 7.988 16.419 4.407 12 4V4ZM12 0C18.627 0 24 5.373 24 12C24 18.627 18.627 24 12 24C9.648 24 7.443 23.275 5.613 22.046L0 23.575L1.583 17.923C0.584 16.208 0 14.184 0 12C0 5.373 5.373 0 12 0Z"
-                    fill="#25D366" />
-            </svg>
-        </div>
-        <span class="whatsapp-label">WhatsApp</span>
-    </a>
-
-    <audio id="audio-player" src="/music.mp3" loop preload="none"></audio>
+    </footer>
 
     <script type="module" src="/main.ts"></script>
 </body>
-
 </html>

@@ -6,10 +6,10 @@
 }
 
 :root {
-    --lab-bg: #050505;
-    --lab-fg: #ffffff;
-    --lab-muted: rgba(255, 255, 255, 0.6);
-    --lab-faint: rgba(255, 255, 255, 0.12);
+    --lab-bg: #0c0c0d;
+    --lab-fg: #f2efe9;
+    --lab-muted: rgba(242, 239, 233, 0.65);
+    --lab-faint: rgba(242, 239, 233, 0.14);
     --lab-accent: #D9FF00;
 }
 
@@ -19,7 +19,7 @@ body {
 }
 
 body {
-    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-family: 'Geist', system-ui, sans-serif;
     background: var(--lab-bg);
     color: var(--lab-fg);
     overflow: hidden;
