@@ -414,3 +414,15 @@ main{overflow-x:clip}
   .hero-gl{transition:none}
 }
 .cursor.view + .cursor-dot{opacity:0}
+
+/* appati: product page. Reuses .intro, .tool and .uses-list; only the icon and screenshots are specific. */
+.appati-icon{width:72px;height:72px;border-radius:18px}
+.appati-intro h1{max-width:13ch}
+.appati-intro .mono{font-size:13px}
+.appati-shot{margin:0}
+.appati-shot img{width:100%;border-radius:22px;border:1px solid var(--line);background:var(--surface)}
+.appati-shot figcaption{margin-top:12px;font-size:13px}
+.appati-shot.notch{margin-block:56px;display:grid;justify-items:center}
+.appati-shot.notch img{max-width:560px}
+.appati-end{margin-top:56px}
+div.tool:hover{border-color:var(--line-2)}

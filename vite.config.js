@@ -11,6 +11,7 @@ export default defineConfig({
                 main: resolve(__dirname, 'index.html'),
                 lab: resolve(__dirname, 'lab.html'),
                 uses: resolve(__dirname, 'uses.html'),
+                appati: resolve(__dirname, 'appati.html'),
                 notFound: resolve(__dirname, '404.html'),
                 audioReactive: resolve(__dirname, 'demos/audio-reactive.html'),
                 particleStorm: resolve(__dirname, 'demos/particle-storm.html'),
