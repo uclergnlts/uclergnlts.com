@@ -97,7 +97,13 @@ initSound();
 initTransitions(reduceMotion);
 initClock();
 initParty(reduceMotion);
-if (document.querySelector('.hero')) import('./heroGL').then((m) => m.initHeroGL(reduceMotion));
+// The hero shader is decoration: start it once the page has loaded and the
+// main thread is idle, so it never competes with the first paint.
+if (document.querySelector('.hero')) {
+    const startGL = () => import('./heroGL').then((m) => m.initHeroGL(reduceMotion));
+    const idle = () => ('requestIdleCallback' in window ? requestIdleCallback(startGL, { timeout: 2000 }) : setTimeout(startGL, 300));
+    if (document.readyState === 'complete') idle(); else window.addEventListener('load', idle, { once: true });
+}
 
 // Stats count up
 const stats = document.querySelectorAll<HTMLElement>('.stat b');
