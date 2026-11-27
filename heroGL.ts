@@ -44,6 +44,11 @@ export function initHeroGL(reduceMotion: boolean) {
     host.prepend(canvas);
     const gl = canvas.getContext('webgl', { premultipliedAlpha: true, alpha: true, antialias: false });
     if (!gl) { canvas.remove(); return; }
+    // With no GPU the browser draws WebGL on the CPU (SwiftShader, llvmpipe),
+    // and this full-screen shader would block the main thread for seconds.
+    const info = gl.getExtension('WEBGL_debug_renderer_info');
+    const renderer = String(gl.getParameter(info ? info.UNMASKED_RENDERER_WEBGL : gl.RENDERER));
+    if (/swiftshader|llvmpipe|software|basic render/i.test(renderer)) { canvas.remove(); host.classList.remove('has-gl'); return; }
     gl.getExtension('OES_standard_derivatives');
     const frag = '#extension GL_OES_standard_derivatives : enable\n' + FRAG;
 
@@ -68,9 +73,14 @@ export function initHeroGL(reduceMotion: boolean) {
     const u = (name: string) => gl.getUniformLocation(prog, name);
     const uRes = u('res'), uT = u('t'), uM = u('m'), uAmp = u('amp'), uFig = u('fig'), uParty = u('party');
 
+    const coarse = matchMedia('(pointer: coarse)').matches;
+    const frameGap = coarse ? 1000 / 30 : 0; // 30 fps is plenty on touch screens
+    let lastDraw = 0;
     let dpr = 1;
     const resize = () => {
-        dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+        // Phones and tablets render the field at a lower resolution: it is soft
+        // contour lines, and a full-res shader every frame costs battery and INP.
+        dpr = coarse ? Math.min(window.devicePixelRatio || 1, 2) * 0.5 : Math.min(window.devicePixelRatio || 1, 1.5);
         canvas.width = Math.round(host.clientWidth * dpr);
         canvas.height = Math.round(host.clientHeight * dpr);
         gl.viewport(0, 0, canvas.width, canvas.height);
@@ -107,8 +117,8 @@ export function initHeroGL(reduceMotion: boolean) {
         } else gl.uniform4f(uFig, -1, -1, 0, 0);
         gl.drawArrays(gl.TRIANGLES, 0, 3);
     };
-    const loop = () => {
-        if (visible && !document.hidden) draw();
+    const loop = (now: number) => {
+        if (visible && !document.hidden && now - lastDraw >= frameGap) { lastDraw = now; draw(); }
         requestAnimationFrame(loop);
     };
     if (reduceMotion) { draw(); window.addEventListener('resize', () => requestAnimationFrame(draw)); }

@@ -1,69 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
     <url>
-        <loc>https://uclergnlts.com/</loc>
-        <lastmod>2026-11-20</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>1.0</priority>
+        <loc>https://www.uclergnlts.com/</loc>
+        <lastmod>2026-11-27</lastmod>
+        <image:image><image:loc>https://www.uclergnlts.com/og.jpg</image:loc></image:image>
+        <image:image><image:loc>https://www.uclergnlts.com/me/hero.webp</image:loc></image:image>
     </url>
     <url>
-        <loc>https://uclergnlts.com/lab</loc>
-        <lastmod>2026-11-20</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
+        <loc>https://www.uclergnlts.com/appati</loc>
+        <lastmod>2026-11-27</lastmod>
+        <image:image><image:loc>https://www.uclergnlts.com/appati/panel.webp</image:loc></image:image>
+        <image:image><image:loc>https://www.uclergnlts.com/appati/centik.webp</image:loc></image:image>
     </url>
     <url>
-        <loc>https://uclergnlts.com/uses</loc>
-        <lastmod>2026-11-20</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
+        <loc>https://www.uclergnlts.com/lab</loc>
+        <lastmod>2026-11-27</lastmod>
     </url>
     <url>
-        <loc>https://uclergnlts.com/appati</loc>
-        <lastmod>2026-11-26</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
+        <loc>https://www.uclergnlts.com/uses</loc>
+        <lastmod>2026-11-27</lastmod>
     </url>
     <url>
-        <loc>https://uclergnlts.com/demos/particle-storm</loc>
-        <lastmod>2026-11-20</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
+        <loc>https://www.uclergnlts.com/demos/neon-fluid</loc>
+        <lastmod>2026-11-27</lastmod>
+        <image:image><image:loc>https://www.uclergnlts.com/lab/neon-fluid.webp</image:loc></image:image>
     </url>
     <url>
-        <loc>https://uclergnlts.com/demos/infinite-tunnel</loc>
-        <lastmod>2026-11-20</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
+        <loc>https://www.uclergnlts.com/demos/kinetic-type</loc>
+        <lastmod>2026-11-27</lastmod>
+        <image:image><image:loc>https://www.uclergnlts.com/lab/kinetic-type.webp</image:loc></image:image>
     </url>
     <url>
-        <loc>https://uclergnlts.com/demos/morphing-sphere</loc>
-        <lastmod>2026-11-20</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
+        <loc>https://www.uclergnlts.com/demos/audio-reactive</loc>
+        <lastmod>2026-11-27</lastmod>
+        <image:image><image:loc>https://www.uclergnlts.com/lab/audio-reactive.webp</image:loc></image:image>
     </url>
     <url>
-        <loc>https://uclergnlts.com/demos/neon-fluid</loc>
-        <lastmod>2026-11-07</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
+        <loc>https://www.uclergnlts.com/demos/spring-lab</loc>
+        <lastmod>2026-11-27</lastmod>
+        <image:image><image:loc>https://www.uclergnlts.com/lab/spring-lab.webp</image:loc></image:image>
     </url>
     <url>
-        <loc>https://uclergnlts.com/demos/kinetic-type</loc>
-        <lastmod>2026-11-07</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
+        <loc>https://www.uclergnlts.com/demos/particle-storm</loc>
+        <lastmod>2026-11-27</lastmod>
+        <image:image><image:loc>https://www.uclergnlts.com/lab/particle-storm.webp</image:loc></image:image>
     </url>
     <url>
-        <loc>https://uclergnlts.com/demos/audio-reactive</loc>
-        <lastmod>2026-11-07</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
+        <loc>https://www.uclergnlts.com/demos/infinite-tunnel</loc>
+        <lastmod>2026-11-27</lastmod>
+        <image:image><image:loc>https://www.uclergnlts.com/lab/infinite-tunnel.webp</image:loc></image:image>
     </url>
     <url>
-        <loc>https://uclergnlts.com/demos/spring-lab</loc>
-        <lastmod>2026-11-07</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
+        <loc>https://www.uclergnlts.com/demos/morphing-sphere</loc>
+        <lastmod>2026-11-27</lastmod>
+        <image:image><image:loc>https://www.uclergnlts.com/lab/morphing-sphere.webp</image:loc></image:image>
     </url>
 </urlset>
